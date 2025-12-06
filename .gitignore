@@ -1,0 +1,86 @@
+## Windows
+# Windows thumbnail cache files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Dump file
+*.stackdump
+
+# Folder config file
+[Dd]esktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows shortcuts
+*.lnk
+
+### Java
+# Log file
+*.log
+
+## Gradle
+.gradle
+**/build/
+
+# Avoid ignore Gradle wrappper properties
+!gradle-wrapper.properties
+
+# Cache of project
+.gradletasknamecache
+
+# Java heap dump
+*.hprof
+
+## ForgeGradle
+# Minecraft client/server files
+run/
+# Files from Forge MDK
+test/
+forge*changelog.txt
+# Datagen
+**/run-data
+**/resources/.cache
+
+## Eclipse
+.settings
+.metadata
+.classpath
+.loadpath
+.recommenders
+# Typically, .project file would be tracked if it contains build/dependency configurations
+.project
+eclipse
+bin
+tmp
+*.launch
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+
+## Intellij Idea
+.idea/*
+!.idea/icon.svg
+classes
+out
+*.ipr
+*.iws
+*.iml
+
+## VisualStudioCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+## Libraries
+libs
+
+## Local History for Visual Studio Code
+.history/

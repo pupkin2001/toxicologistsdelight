@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.7",
+  "package": "pupkin.toxicologistsdelight.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "farmersrespite.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

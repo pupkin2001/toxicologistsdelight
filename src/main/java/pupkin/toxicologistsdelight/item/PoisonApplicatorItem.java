@@ -3,8 +3,7 @@ package pupkin.toxicologistsdelight.item;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import pupkin.toxicologistsdelight.utils.PoisonUtils;
@@ -30,17 +29,23 @@ public class PoisonApplicatorItem extends Item
 		ItemStack offhandItem = player.getOffhandItem();
 		
 		boolean isEdible = offhandItem.isEdible();
-		boolean isPotion = offhandItem.getItem() instanceof PotionItem;
+		boolean isDrinkablePotion = offhandItem.getItem() instanceof PotionItem &&
+				!(offhandItem.getItem() instanceof SplashPotionItem) &&
+				!(offhandItem.getItem() instanceof LingeringPotionItem);
 		
-		if (isEdible || isPotion) {
+		if (isEdible || isDrinkablePotion) {
 			ItemStack poisonedItem = PoisonUtils.poisonItem(offhandItem.copy(), 1);
 			
 			if (!PoisonUtils.isPoisoned(offhandItem)) {
+				player.getCooldowns().addCooldown(offhandItem.getItem(), 20);
+				player.getCooldowns().addCooldown(this, 10);
+				
 				if (!level.isClientSide()) {
 					applicator.shrink(1);
 					player.setItemInHand(InteractionHand.OFF_HAND, poisonedItem);
-					return InteractionResultHolder.success(applicator);
 				}
+				
+				return InteractionResultHolder.success(applicator);
 			}
 		}
 		

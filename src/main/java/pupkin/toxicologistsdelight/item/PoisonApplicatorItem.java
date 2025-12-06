@@ -32,9 +32,11 @@ public class PoisonApplicatorItem extends Item
 		if (offhandItem.isEdible()) {
 			ItemStack poisonedFood = PoisonUtils.poisonFood(offhandItem.copy(), 1);
 			if (!PoisonUtils.isPoisoned(player.getOffhandItem())) {
-				applicator.shrink(1);
-				player.setItemInHand(InteractionHand.OFF_HAND, poisonedFood);
-				return InteractionResultHolder.success(applicator);
+				if (!level.isClientSide()) { // Can I stop adding nested if's already?
+					applicator.shrink(1);
+					player.setItemInHand(InteractionHand.OFF_HAND, poisonedFood);
+					return InteractionResultHolder.success(applicator);
+				}
 			}
 		}
 		

@@ -34,6 +34,8 @@ public class PoisonApplicatorItem extends Item
 				!(offhandItem.getItem() instanceof LingeringPotionItem);
 		
 		if (isEdible || isDrinkablePotion) {
+			player.stopUsingItem();
+			
 			ItemStack poisonedItem = PoisonUtils.poisonItem(offhandItem.copy(), 1);
 			
 			if (!PoisonUtils.isPoisoned(offhandItem)) {

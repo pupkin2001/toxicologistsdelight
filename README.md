@@ -14,4 +14,4 @@ Licensed under the [MIT License](LICENSE.md).
 
 ### Acknowledgments
 
-Inspired by Amarite.
+Inspired by [Amarite](https://modrinth.com/mod/amarite) and [The Last Voyage of the Harpy Express](https://modrinth.com/modpack/harpy-express/version/5cJWyHka).

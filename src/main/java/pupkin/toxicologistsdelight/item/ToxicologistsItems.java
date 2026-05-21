@@ -15,6 +15,11 @@ public class ToxicologistsItems
 			PoisonApplicatorItem::new
 	                                                                           );
 	
+	public static final RegistryObject<Item> EMPTY_VIAL = ITEMS.register(
+			"empty_vial",
+			() -> new Item(new Item.Properties())
+	                                                                    );
+	
 	public static void register(IEventBus eventBus)
 	{
 		ITEMS.register(eventBus);

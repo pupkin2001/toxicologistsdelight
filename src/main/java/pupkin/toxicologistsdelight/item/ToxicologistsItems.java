@@ -22,7 +22,8 @@ public final class ToxicologistsItems
 	
 	ACID_VIAL = effectVial("acid_vial", ToxicologistsEffects.ACID, 1, 8),
 			POISON_VIAL = effectVial("poison_vial", () -> MobEffects.POISON, 1, 16),
-			//ROT_VIAL = effectVial("rot_vial", ToxicologistsEffects.ROT, 1, 8)
+			//ROT_VIAL = effectVial("rot_vial", ToxicologistsEffects.ROT, 1, 8),
+			//HEMOTOXIN_VIAL = effectVial("hemotoxin_vial", ToxicologistsEffects.HEMOTOXIN, 1, 8),
 	
 	CURE_VIAL = ITEMS.register("cure_vial", PoisonCureItem::new);
 	

@@ -2,14 +2,14 @@
   "item.toxicologistsdelight.empty_vial": "Стеклянный флакон",
   "item.toxicologistsdelight.poison_vial": "Флакон с ядом",
   "item.toxicologistsdelight.acid_vial": "Флакон с некротоксином",
-  "item.toxicologistsdelight.cure_vial": "Флакон с противоядием",
   "item.toxicologistsdelight.rot_vial": "Флакон с путресцином",
   "item.toxicologistsdelight.hemotoxin_vial":  "Флакон с гемотоксином",
+  "item.toxicologistsdelight.cure_vial": "Флакон с противоядием",
 
   "fluid_type.toxicologistsdelight.acid": "Некротоксин",
-  "fluid_type.toxicologistsdelight.cure": "Противоядие",
   "fluid_type.toxicologistsdelight.rot": "Путресцин",
   "fluid_type.toxicologistsdelight.hemotoxin": "Гемотоксин",
+  "fluid_type.toxicologistsdelight.cure": "Противоядие",
 
   "effect.toxicologistsdelight.acid": "Некроз",
   "effect.toxicologistsdelight.rot": "Разложение",
@@ -25,6 +25,6 @@
   "death.attack.toxicologistsdelight.toxic_crisis": "Тело %s забыло, что кровь не должна иметь консистенцию мармелада.",
   "death.attack.toxicologistsdelight.toxic_crisis.player": "Сердце %s не было дефибриллировано вовремя в бою с %s",
 
-  "gui.toxicologistsdelight.eternal": "Извечный",
-  "gui.toxicologistsdelight.poisoned": "Отравлено!"
+  "gui.toxicologistsdelight.poisoned": "Отравлено!",
+  "gui.toxicologistsdelight.eternal": "Извечный"
 }

@@ -2,14 +2,14 @@
   "item.toxicologistsdelight.empty_vial": "Glass Vial",
   "item.toxicologistsdelight.poison_vial": "Vial of Poison",
   "item.toxicologistsdelight.acid_vial": "Vial of Necrotoxin",
-  "item.toxicologistsdelight.cure_vial": "Vial of Antidote",
   "item.toxicologistsdelight.rot_vial":   "Vial of Putrescine",
   "item.toxicologistsdelight.hemotoxin_vial":  "Vial of Hemotoxin",
+  "item.toxicologistsdelight.cure_vial": "Vial of Antidote",
 
   "fluid_type.toxicologistsdelight.acid": "Necrotoxin",
-  "fluid_type.toxicologistsdelight.cure": "Antidote",
   "fluid_type.toxicologistsdelight.rot": "Putrescine",
   "fluid_type.toxicologistsdelight.hemotoxin": "Hemotoxin",
+  "fluid_type.toxicologistsdelight.cure": "Antidote",
 
   "effect.toxicologistsdelight.acid": "Necrosis",
   "effect.toxicologistsdelight.rot": "Putrefaction",
@@ -25,6 +25,6 @@
   "death.attack.toxicologistsdelight.toxic_crisis": "%s forgot that blood shouldn't have the consistency of marmalade",
   "death.attack.toxicologistsdelight.toxic_crisis.player": "%s was unable to defibrillate their heart in time while fighting %s",
 
-  "gui.toxicologistsdelight.eternal": "Eternal",
-  "gui.toxicologistsdelight.poisoned": "Poisoned!"
+  "gui.toxicologistsdelight.poisoned": "Poisoned!",
+  "gui.toxicologistsdelight.eternal": "Eternal"
 }

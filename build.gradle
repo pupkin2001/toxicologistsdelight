@@ -110,12 +110,13 @@ dependencies {
 	annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 	
 	// Hard dependencies
+	implementation fg.deobf("curse.maven:brewin-and-chewin-637808:${brewinandchewin_version}")
 	
 	// Soft dependencies
-	
 	runtimeOnly fg.deobf("curse.maven:farmers-delight-398521:${farmersdelight_version}")
 	runtimeOnly fg.deobf("curse.maven:jei-238222:${jei_version}")
 	runtimeOnly fg.deobf("curse.maven:appleskin-248787:${appleskin_version}")
+	runtimeOnly fg.deobf("libs:BrewersDelight-1.20.1-0.7.0:1.20.1")
 	//runtimeOnly fg.deobf("curse.maven:lmft-656346:4892299")
 	//runtimeOnly fg.deobf("libs:BetterTags:1.20.1")
 	
@@ -138,11 +139,11 @@ tasks.named('processResources', ProcessResources).configure {
 			mod_name                     : mod_name,
 			mod_displayName              : mod_displayName,
 			mod_license                  : mod_license,
-			mod_version                  : mod_version + "-" + minecraft_version,
+			mod_version                  : minecraft_version + "-" + mod_version,
 			mod_authors                  : mod_authors,
 			mod_url                      : mod_url,
 			mod_description              : mod_description,
-			mod_credits                  : mod_credits,
+			mod_credits                  : "",
 			farmersdelight_version_range : farmersdelight_version_range
 	]
 	inputs.properties replaceProperties

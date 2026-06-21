@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "toxicologistsdelight:item/poison_vial_overlay",
+    "layer1": "toxicologistsdelight:item/poison_vial"
+  }
+}

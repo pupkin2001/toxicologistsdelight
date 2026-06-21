@@ -21,5 +21,7 @@ public class DataGenerators
 		PackOutput packOutput = generator.getPackOutput();
 		CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+		
+		generator.addProvider(event.includeClient(), new TDItemModelProvider(packOutput, existingFileHelper));
 	}
 }

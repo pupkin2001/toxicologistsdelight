@@ -1,0 +1,23 @@
+{
+  "type": "brewinandchewin:fermenting",
+  "basefluid": {
+    "count": 1000,
+    "fluid": "minecraft:water"
+  },
+  "container": {
+    "item": "toxicologistsdelight:empty_vial"
+  },
+  "experience": 4.0,
+  "fermentingtime": 19200,
+  "ingredients": [
+      {
+        "item": "minecraft:spider_eye"
+      }
+  ],
+  "recipe_book_tab": "drinks",
+  "result": {
+    "count": 200,
+    "fluid": "toxicologistsdelight:poison_tincture"
+  },
+  "temperature": 5
+}

@@ -1,0 +1,21 @@
+{
+  "item.toxicologistsdelight.empty_vial": "Glass Vial",
+  "item.toxicologistsdelight.poison_vial": "Vial of Greater Poison",
+  "item.toxicologistsdelight.cure_vial": "Vial of Antidote",
+  "fluid_type.toxicologistsdelight.acid": "Greater Poison",
+  "fluid_type.toxicologistsdelight.cure": "Antidote",
+  "fluid_type.toxicologistsdelight.rot": "Rot",
+  "effect.toxicologistsdelight.acid": "Greater Poison",
+  "effect.toxicologistsdelight.rot": "Rot",
+  "effect.toxicologistsdelight.toxicosis": "Toxicosis",
+  "effect.toxicologistsdelight.toxic_crisis": "Toxic Crisis",
+  "death.attack.toxicologistsdelight.acid": "The brain of %s was unable to cope with severe cerebral hypoxia",
+  "death.attack.toxicologistsdelight.acid.player": "%s brain ceased function while fighting %s",
+  "death.attack.toxicologistsdelight.rot": "%s forfeit their shape due to rot",
+  "death.attack.toxicologistsdelight.rot.player": "%s succumbed to rot while fighting %s",
+  "death.attack.toxicologistsdelight.toxicosis": "%s had poison congealing in their veins instead of blood",
+  "death.attack.toxicologistsdelight.toxicosis.player": "Blood in the body of %s lost any ability to transport oxygen while fighting %s",
+  "death.attack.toxicologistsdelight.toxic_crisis": "%s forgot that blood shouldn't have the consistency of marmalade",
+  "death.attack.toxicologistsdelight.toxic_crisis.player": "%s was unable to defibrillate their heart in time while fighting %s",
+  "gui.toxicologistsdelight.eternal": "Eternal"
+}

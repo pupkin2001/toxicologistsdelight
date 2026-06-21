@@ -1,0 +1,21 @@
+{
+  "item.toxicologistsdelight.empty_vial": "Стеклянный флакон",
+  "item.toxicologistsdelight.poison_vial": "Флакон с Великим ядом",
+  "item.toxicologistsdelight.cure_vial": "Флакон с Противоядием",
+  "fluid_type.toxicologistsdelight.acid": "Великий яд",
+  "fluid_type.toxicologistsdelight.cure": "Противоядие",
+  "fluid_type.toxicologistsdelight.rot": "Rot",
+  "effect.toxicologistsdelight.acid": "Великий яд",
+  "effect.toxicologistsdelight.rot": "Гниение",
+  "effect.toxicologistsdelight.toxicosis": "Токсикоз",
+  "effect.toxicologistsdelight.toxic_crisis": "Токсический кризис",
+  "death.attack.toxicologistsdelight.acid": "Мозг %s не справился с серьёзной церебральной гипоксией.",
+  "death.attack.toxicologistsdelight.acid.player": "Мозг %s отказал в бою с %s",
+  "death.attack.toxicologistsdelight.rot": "Тело %s предало форму из-за гниения",
+  "death.attack.toxicologistsdelight.rot.player": "Гниение настигло %s в бою с %s",
+  "death.attack.toxicologistsdelight.toxicosis": "У %s вместо крови в жилах застыл яд.",
+  "death.attack.toxicologistsdelight.toxicosis.player": "Кровь в теле %s утратила способность переносить кислород в бою с %s",
+  "death.attack.toxicologistsdelight.toxic_crisis": "%s что кровь не должна иметь консистенцию мармелада.",
+  "death.attack.toxicologistsdelight.toxic_crisis.player": "Сердце %s не было дефибриллировано вовремя в бою с %s",
+  "gui.toxicologistsdelight.eternal": "Извечный"
+}

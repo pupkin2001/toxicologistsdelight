@@ -1,0 +1,29 @@
+{
+  "type": "brewinandchewin:fermenting",
+  "basefluid": {
+    "count": 500,
+    "fluid": "minecraft:milk"
+  },
+  "container": {
+    "item": "toxicologistsdelight:empty_vial"
+  },
+  "experience": 4.0,
+  "fermentingtime": 19200,
+  "ingredients": [
+      {
+        "item": "minecraft:echo_shard"
+      },
+      {
+        "item": "minecraft:fermented_spider_eye"
+      },
+      {
+        "item": "minecraft:pufferfish"
+      }
+  ],
+  "recipe_book_tab": "drinks",
+  "result": {
+    "count": 300,
+    "fluid": "toxicologistsdelight:acid"
+  },
+  "temperature": 4
+}

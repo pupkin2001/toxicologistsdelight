@@ -3,6 +3,7 @@ package pupkin.toxicologistsdelight;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import pupkin.toxicologistsdelight.effect.ToxicologistsEffects;
 import pupkin.toxicologistsdelight.item.ToxicologistsItems;
+import pupkin.toxicologistsdelight.misc.ToxicologistsFluids;
 
 import java.util.Random;
 
@@ -30,6 +32,7 @@ public class ToxicologistsDelight {
 		
 		ToxicologistsItems.register(eventBus);
 		ToxicologistsEffects.register(eventBus);
+		ToxicologistsFluids.register(eventBus);
 		
 		MinecraftForge.EVENT_BUS.register(this);
 	}
@@ -50,65 +53,63 @@ public class ToxicologistsDelight {
 		
 		@SubscribeEvent
 		public static void onRenderHealth(RenderGuiOverlayEvent.Pre event) {
-			// Check if this is the health overlay
 			if (!event.getOverlay().id().equals(HEALTH_OVERLAY)) return;
 			
 			Minecraft mc = Minecraft.getInstance();
-			if (mc.player == null || !mc.player.hasEffect(ToxicologistsEffects.ACID.get())) return;
+			LocalPlayer player = mc.player;
 			
-			// Cancel vanilla hearts
+			// Bail (WITHOUT cancelling) whenever vanilla itself wouldn't draw hearts.
+			// canHurtPlayer() is false in creative AND spectator — that's your "renders
+			// in creative" bug. hideGui covers F1. And because we don't set
+			// receiveCanceled, if another health-bar mod already cancelled this overlay
+			// we simply won't be called, so we won't fight it.
+			if (player == null || mc.gameMode == null || !mc.gameMode.canHurtPlayer()) return;
+			if (mc.options.hideGui) return;
+			if (!player.hasEffect(ToxicologistsEffects.ACID.get())) return;
+			
+			// Only now are we deliberately taking over — stop vanilla drawing its own.
 			event.setCanceled(true);
 			
-			// Start in the same spot as vanilla (same layout)
-			int screenWidth = event.getWindow().getGuiScaledWidth();
-			int screenHeight = event.getWindow().getGuiScaledHeight();
-			int x = screenWidth / 2 - 91;
-			int y = screenHeight - 39;
-			
-			drawJumpingHearts(event.getGuiGraphics(), mc.player, x, y);
+			int x = event.getWindow().getGuiScaledWidth() / 2 - 91;
+			int y = event.getWindow().getGuiScaledHeight() - 39;
+			drawJumpingHearts(event.getGuiGraphics(), player, x, y);
 		}
 		
 		private static void drawJumpingHearts(GuiGraphics graphics, Player player, int baseX, int baseY) {
-			int health = Mth.ceil(player.getHealth());
-			int maxHealth = Mth.ceil(player.getMaxHealth());
-			int absorption = Mth.ceil(player.getAbsorptionAmount());
+			int health       = Mth.ceil(player.getHealth());
+			int absorption   = Mth.ceil(player.getAbsorptionAmount());
+			int maxHealth    = Mth.ceil(player.getMaxHealth());
 			boolean hardcore = player.level().getLevelData().isHardcore();
-			long tick = player.level().getGameTime();
+			long tick        = player.level().getGameTime();
+			int v            = hardcore ? HARDCORE_V : NORMAL_V;
 			
-			int maxHearts = Math.max(maxHealth / 2, 10);
-			for (int i = 0; i < maxHearts; i++) {
+			int healthHearts = Mth.ceil(maxHealth / 2.0);   // empty containers + red fill
+			int absorbHearts = Mth.ceil(absorption / 2.0);  // gold hearts, appended after
+			int totalHearts  = healthHearts + absorbHearts;
+			
+			for (int i = 0; i < totalHearts; i++) {
 				int x = baseX + (i % 10) * 8;
-				
 				int y = baseY - (i / 10) * 10;
 				
-				// Jumping animation per heart
-				int seed = (int) (tick * 31 + i);
-				RANDOM.setSeed(seed);
-				int jumpX = RANDOM.nextInt(3) - 1;
-				int jumpY = RANDOM.nextInt(5) - 2;
-				if (player.getHealth() <= 8.0F) {
-					jumpX += RANDOM.nextInt(5) - 1;
-					jumpY += RANDOM.nextInt(7) - 3;
+				// Per-heart acid jitter. Seeded by tick so it holds for a tick then
+				// jumps; long math so tick * 31 doesn't overflow an int mid-multiply.
+				RANDOM.setSeed(tick * 31L + i);
+				x += RANDOM.nextInt(3) - 1;
+				y += RANDOM.nextInt(5) - 2;
+				if (health <= 8) {                  // extra thrashing at low health
+					x += RANDOM.nextInt(5) - 1;
+					y += RANDOM.nextInt(7) - 3;
 				}
-				int heartX = x + jumpX;
-				int heartY = y + jumpY;
 				
-				int healthRemaining = health - i * 2;
-				int absorptionRemaining = absorption - i * 2;
-				int v = hardcore ? HARDCORE_V : NORMAL_V;
-				
-				// Draw the container (empty) background
-				drawHeart(graphics, heartX, heartY, HEART_CONTAINER_U, v);
-				
-				// Overlay the filling
-				if (absorptionRemaining >= 2) {
-					drawHeart(graphics, heartX, heartY, HEART_ABSORB_FULL_U, NORMAL_V);
-				} else if (absorptionRemaining == 1) {
-					drawHeart(graphics, heartX, heartY, HEART_ABSORB_HALF_U, NORMAL_V);
-				} else if (healthRemaining >= 2) {
-					drawHeart(graphics, heartX, heartY, HEART_FULL_U, v);
-				} else if (healthRemaining == 1) {
-					drawHeart(graphics, heartX, heartY, HEART_HALF_U, v);
+				if (i < healthHearts) {
+					drawHeart(graphics, x, y, HEART_CONTAINER_U, v);
+					int rem = health - i * 2;
+					if (rem >= 2)      drawHeart(graphics, x, y, HEART_FULL_U, v);
+					else if (rem == 1) drawHeart(graphics, x, y, HEART_HALF_U, v);
+				} else {
+					int rem = absorption - (i - healthHearts) * 2;
+					if (rem >= 2)      drawHeart(graphics, x, y, HEART_ABSORB_FULL_U, v);
+					else if (rem == 1) drawHeart(graphics, x, y, HEART_ABSORB_HALF_U, v);
 				}
 			}
 		}

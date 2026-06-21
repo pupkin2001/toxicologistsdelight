@@ -23,7 +23,6 @@ public final class ToxicologistsItems
 	ACID_VIAL = effectVial("acid_vial", ToxicologistsEffects.ACID, 1, 8),
 			POISON_VIAL = effectVial("poison_vial", () -> MobEffects.POISON, 1, 16),
 			ROT_VIAL = effectVial("rot_vial", ToxicologistsEffects.ROT, 1, 8),
-			REGEN_VIAL = effectVial("regen_vial", () -> MobEffects.REGENERATION, 1, 4),
 	
 	CURE_VIAL = ITEMS.register("cure_vial", PoisonCureItem::new);
 	

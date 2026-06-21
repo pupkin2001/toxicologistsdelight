@@ -1,5 +1,8 @@
 package pupkin.toxicologistsdelight.item;
 
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -41,6 +44,26 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 	/** Transforms {@code base} (already sized to the batch) into the result stack. */
 	protected abstract ItemStack transform(ItemStack base);
 	
+	/**
+	 * Sound played server-side when the vial is successfully used.
+	 */
+	protected SoundEvent useSound()
+	{
+		return SoundEvents.BOTTLE_EMPTY;
+	}
+	
+	/** Volume of {@link #useSound()}. */
+	protected float useSoundVolume()
+	{
+		return 1.0F;
+	}
+	
+	/** Pitch of {@link #useSound()}. */
+	protected float useSoundPitch()
+	{
+		return 1.0F;
+	}
+	
 	@Override
 	public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand)
 	{
@@ -64,8 +87,20 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 		if (!level.isClientSide()) {
 			transformOffhand(player, target);
 			consumeVial(player, vial);
+			playUseSound(level, player);
 		}
 		return InteractionResultHolder.sidedSuccess(vial, level.isClientSide());
+	}
+	
+	private void playUseSound(Level level, Player player)
+	{
+		level.playSound(
+				null, // null -> server broadcasts to all nearby players, including the user
+				player.getX(), player.getY(), player.getZ(),
+				useSound(),
+				SoundSource.PLAYERS,
+				useSoundVolume(),
+				useSoundPitch());
 	}
 	
 	private void transformOffhand(Player player, ItemStack target)

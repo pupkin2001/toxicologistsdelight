@@ -20,6 +20,7 @@ public class ToxicologistsFluids
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, ToxicologistsDelight.MOD_ID);
 	
 	public static final FluidRegistryObject ACID = registerAlcoholFluid("acid", new Color(98, 25, 109, 255)),
+			//FluidRegistryObject ROT = registerAlcoholFluid("rot", new Color(75, 0, 130, 255)),
 			CURE = registerAlcoholFluid("cure", new Color(255, 255, 255, 255));
 	
 	// Overly complex code duplicate from brewers delight. Go look there for comments on how this contraption works.

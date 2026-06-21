@@ -12,12 +12,11 @@ public class ToxicologistsEffects
 	public static final DeferredRegister<MobEffect> MOB_EFFECTS =
 			DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, ToxicologistsDelight.MOD_ID);
 	
-	
 	public static final RegistryObject<MobEffect> ACID =
 			MOB_EFFECTS.register("acid", AcidPoisonEffect::new);
 	
 	public static final RegistryObject<MobEffect> ROT =
-		MOB_EFFECTS.register("rot", RotPoisonEffect::new);
+			MOB_EFFECTS.register("rot", RotPoisonEffect::new);
 	
 	public static final RegistryObject<MobEffect> TOXICOSIS =
 			MOB_EFFECTS.register("toxicosis", ToxicosisEffect::new);

@@ -14,22 +14,17 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.client.extensions.common.IClientMobEffectExtensions;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pupkin.toxicologistsdelight.ToxicologistsDelight;
 
 import java.util.function.Consumer;
 
 public class AcidPoisonEffect extends MobEffect
 {
-	public AcidPoisonEffect() { super(MobEffectCategory.HARMFUL, 0x62196d); }
-	
 	private static final ResourceKey<DamageType> ACID_DAMAGE_KEY =
 			ResourceKey.create(Registries.DAMAGE_TYPE,
 			                   new ResourceLocation(ToxicologistsDelight.MOD_ID, "acid"));
 	
-	@SubscribeEvent
-	public static void onEffectAdded(MobEffectEvent.Added event) {}
+	public AcidPoisonEffect() { super(MobEffectCategory.HARMFUL, 0x62196d); }
 	
 	@Override
 	public void applyEffectTick(LivingEntity entity, int amplifier)

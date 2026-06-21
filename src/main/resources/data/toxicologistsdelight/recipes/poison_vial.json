@@ -10,9 +10,9 @@
   "experience": 4.0,
   "fermentingtime": 19200,
   "ingredients": [
-      {
-        "item": "minecraft:spider_eye"
-      }
+    {
+      "item": "minecraft:spider_eye"
+    }
   ],
   "recipe_book_tab": "drinks",
   "result": {

@@ -12,10 +12,12 @@ import pupkin.toxicologistsdelight.item.ColoredVial;
 import pupkin.toxicologistsdelight.item.ToxicologistsItems;
 
 @Mod.EventBusSubscriber(modid = ToxicologistsDelight.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ToxicologistsColorHandlers {
+public class ToxicologistsColorHandlers
+{
 	
 	@SubscribeEvent
-	public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+	public static void registerItemColors(RegisterColorHandlersEvent.Item event)
+	{
 		ItemColor vialColor = (stack, tintIndex) ->
 				tintIndex > 0 ? -1
 						: (stack.getItem() instanceof ColoredVial v ? v.getVialColor(stack) : -1);

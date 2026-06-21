@@ -22,15 +22,14 @@ import java.util.function.Consumer;
 
 public class ToxicosisEffect extends MobEffect // ! Both toxicosis and toxic crisis effects live here.
 {
-	public ToxicosisEffect() { super(MobEffectCategory.HARMFUL, 0x4B0082); }
-	
 	private static final ResourceKey<DamageType> TOXICOSIS_DAMAGE_KEY =
 			ResourceKey.create(Registries.DAMAGE_TYPE,
 			                   new ResourceLocation(ToxicologistsDelight.MOD_ID, "toxicosis"));
-	
 	private static final ResourceKey<DamageType> TOXIC_CRISIS_DAMAGE_KEY =
 			ResourceKey.create(Registries.DAMAGE_TYPE,
 			                   new ResourceLocation(ToxicologistsDelight.MOD_ID, "toxic_crisis"));
+	
+	public ToxicosisEffect() { super(MobEffectCategory.HARMFUL, 0x4B0082); }
 	
 	@Override
 	public boolean isDurationEffectTick(int duration, int amplifier) { return false; }
@@ -69,11 +68,12 @@ public class ToxicosisEffect extends MobEffect // ! Both toxicosis and toxic cri
 	{
 		// Flag entities about to naturally regen
 		@SubscribeEvent
-		public static void onLivingTick(LivingEvent.LivingTickEvent event) {
+		public static void onLivingTick(LivingEvent.LivingTickEvent event)
+		{
 			LivingEntity entity = event.getEntity();
 			if (!(entity instanceof Player player)) return;
 			if (!player.hasEffect(ToxicologistsEffects.TOXICOSIS.get()) ||
-					!player.hasEffect(ToxicologistsEffects.TOXIC_CRISIS.get())) return;
+					!player.hasEffect(ToxicologistsEffects.TOXIC_CRISIS.get())) { return; }
 			
 			// Mirror vanilla's regen condition (from Player.java)
 			boolean saturatedRegen = player.getFoodData().getSaturationLevel() > 0
@@ -90,10 +90,11 @@ public class ToxicosisEffect extends MobEffect // ! Both toxicosis and toxic cri
 		}
 		
 		@SubscribeEvent
-		public static void onLivingHeal(LivingHealEvent event) {
+		public static void onLivingHeal(LivingHealEvent event)
+		{
 			LivingEntity entity = event.getEntity();
 			if (!entity.hasEffect(ToxicologistsEffects.TOXICOSIS.get()) ||
-					!entity.hasEffect(ToxicologistsEffects.TOXIC_CRISIS.get())) return;
+					!entity.hasEffect(ToxicologistsEffects.TOXIC_CRISIS.get())) { return; }
 			
 			if (entity.getPersistentData().getBoolean("pending_natural_regen")) {
 				entity.getPersistentData().remove("pending_natural_regen");

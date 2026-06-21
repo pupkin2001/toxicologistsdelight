@@ -1,6 +1,6 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "toxicologistsdelight:item/poison_vial"
-    }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "toxicologistsdelight:item/poison_vial"
+  }
 }

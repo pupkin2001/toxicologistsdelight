@@ -10,15 +10,15 @@
   "experience": 4.0,
   "fermentingtime": 19200,
   "ingredients": [
-      {
-        "item": "minecraft:echo_shard"
-      },
-      {
-        "item": "minecraft:fermented_spider_eye"
-      },
-      {
-        "item": "minecraft:pufferfish"
-      }
+    {
+      "item": "minecraft:echo_shard"
+    },
+    {
+      "item": "minecraft:fermented_spider_eye"
+    },
+    {
+      "item": "minecraft:pufferfish"
+    }
   ],
   "recipe_book_tab": "drinks",
   "result": {

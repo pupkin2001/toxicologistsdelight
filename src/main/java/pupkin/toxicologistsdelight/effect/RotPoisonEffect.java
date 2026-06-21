@@ -16,15 +16,14 @@ import pupkin.toxicologistsdelight.ToxicologistsDelight;
 
 public class RotPoisonEffect extends MobEffect
 {
-	public RotPoisonEffect()
-	{
-		super(MobEffectCategory.HARMFUL, 0x4B0082);
-	}
-	
 	private static final ResourceKey<DamageType> ROT_DAMAGE_KEY =
 			ResourceKey.create(Registries.DAMAGE_TYPE,
 			                   new ResourceLocation(ToxicologistsDelight.MOD_ID, "rot"));
 	
+	public RotPoisonEffect()
+	{
+		super(MobEffectCategory.HARMFUL, 0x4B0082);
+	}
 	
 	@Mod.EventBusSubscriber(modid = ToxicologistsDelight.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 	public static class ReverseHealingHandler

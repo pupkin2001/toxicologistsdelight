@@ -14,15 +14,15 @@ import pupkin.toxicologistsdelight.utils.PoisonUtils;
 public class ItemUsedEventHandler
 {
 	@SubscribeEvent
-	public static void onItemUsed(LivingEntityUseItemEvent.Finish event) {
+	public static void onItemUsed(LivingEntityUseItemEvent.Finish event)
+	{
 		ItemStack used = event.getItem();
-		if (used.isEdible() || used.getItem() instanceof PotionItem)
-			PoisonUtils.applyPoison(event.getEntity(), used);
+		if (used.isEdible() || used.getItem() instanceof PotionItem) { PoisonUtils.applyPoison(event.getEntity(), used); }
 	}
 	
 	@SubscribeEvent
-	public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
-		if (event.getTarget() instanceof Animal animal && animal.isFood(event.getItemStack()))
-			PoisonUtils.applyPoison(animal, event.getItemStack());
+	public static void onEntityInteract(PlayerInteractEvent.EntityInteract event)
+	{
+		if (event.getTarget() instanceof Animal animal && animal.isFood(event.getItemStack())) { PoisonUtils.applyPoison(animal, event.getItemStack()); }
 	}
 }

@@ -18,7 +18,7 @@ public class TooltipHandler
 		Player player = event.getEntity();
 		if (player != null && !player.getAbilities().instabuild) return;
 		if (PoisonUtils.isPoisoned(event.getItemStack())) {
-			event.getToolTip().add(Component.literal("§cPoisoned!"));
+			event.getToolTip().add(Component.literal("§c" + net.minecraft.client.resources.language.I18n.get("gui.toxicologistsdelight.poisoned")));
 		}
 	}
 }

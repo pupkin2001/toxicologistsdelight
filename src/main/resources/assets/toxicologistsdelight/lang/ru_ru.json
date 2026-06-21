@@ -23,5 +23,6 @@
   "death.attack.toxicologistsdelight.toxic_crisis": "%s что кровь не должна иметь консистенцию мармелада.",
   "death.attack.toxicologistsdelight.toxic_crisis.player": "Сердце %s не было дефибриллировано вовремя в бою с %s",
 
-  "gui.toxicologistsdelight.eternal": "Извечный"
+  "gui.toxicologistsdelight.eternal": "Извечный",
+  "gui.toxicologistsdelight.poisoned": "Отравлено!"
 }

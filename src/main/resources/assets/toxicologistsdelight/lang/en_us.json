@@ -23,5 +23,6 @@
   "death.attack.toxicologistsdelight.toxic_crisis": "%s forgot that blood shouldn't have the consistency of marmalade",
   "death.attack.toxicologistsdelight.toxic_crisis.player": "%s was unable to defibrillate their heart in time while fighting %s",
 
-  "gui.toxicologistsdelight.eternal": "Eternal"
+  "gui.toxicologistsdelight.eternal": "Eternal",
+  "gui.toxicologistsdelight.poisoned": "Poisoned!"
 }

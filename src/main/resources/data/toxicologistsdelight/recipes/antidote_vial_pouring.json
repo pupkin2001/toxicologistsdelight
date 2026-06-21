@@ -5,9 +5,9 @@
     "item": "toxicologistsdelight:empty_vial"
   },
   "filling": true,
-  "fluid": "toxicologistsdelight:cure",
+  "fluid": "toxicologistsdelight:antidote",
   "output": {
-    "item": "toxicologistsdelight:cure_vial"
+    "item": "toxicologistsdelight:antidote_vial"
   },
   "strict": false
 }

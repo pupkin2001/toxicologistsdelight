@@ -4,12 +4,12 @@
   "item.toxicologistsdelight.necrotoxin_vial": "Флакон с некротоксином",
   "item.toxicologistsdelight.rot_vial": "Флакон с путресцином",
   "item.toxicologistsdelight.hemotoxin_vial": "Флакон с гемотоксином",
-  "item.toxicologistsdelight.cure_vial": "Флакон с противоядием",
+  "item.toxicologistsdelight.antidote_vial": "Флакон с противоядием",
 
   "fluid_type.toxicologistsdelight.necrotoxin": "Некротоксин",
   "fluid_type.toxicologistsdelight.rot": "Путресцин",
   "fluid_type.toxicologistsdelight.hemotoxin": "Гемотоксин",
-  "fluid_type.toxicologistsdelight.cure": "Противоядие",
+  "fluid_type.toxicologistsdelight.antidote": "Противоядие",
 
   "effect.toxicologistsdelight.necrotoxin": "Некроз",
   "effect.toxicologistsdelight.rot": "Разложение",

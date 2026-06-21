@@ -3,12 +3,11 @@ package pupkin.toxicologistsdelight.item;
 import net.minecraft.world.item.ItemStack;
 import pupkin.toxicologistsdelight.utils.PoisonUtils;
 
-public class PoisonCureItem extends AbstractVialItem
+public class PoisonAntidoteItem extends AbstractVialItem
 {
-	
 	private static final int BATCH_SIZE = 8;
 	
-	public PoisonCureItem()
+	public PoisonAntidoteItem()
 	{
 		super(new Properties().stacksTo(16));
 	}

@@ -4,12 +4,12 @@
   "item.toxicologistsdelight.necrotoxin_vial": "Vial of Necrotoxin",
   "item.toxicologistsdelight.rot_vial": "Vial of Putrescine",
   "item.toxicologistsdelight.hemotoxin_vial": "Vial of Hemotoxin",
-  "item.toxicologistsdelight.cure_vial": "Vial of Antidote",
+  "item.toxicologistsdelight.antidote_vial": "Vial of Antidote",
 
   "fluid_type.toxicologistsdelight.necrotoxin": "Necrotoxin",
   "fluid_type.toxicologistsdelight.rot": "Putrescine",
   "fluid_type.toxicologistsdelight.hemotoxin": "Hemotoxin",
-  "fluid_type.toxicologistsdelight.cure": "Antidote",
+  "fluid_type.toxicologistsdelight.antidote": "Antidote",
 
   "effect.toxicologistsdelight.necrotoxin": "Necrosis",
   "effect.toxicologistsdelight.rot": "Putrefaction",

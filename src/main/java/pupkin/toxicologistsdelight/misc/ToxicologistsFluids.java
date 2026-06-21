@@ -24,7 +24,7 @@ public class ToxicologistsFluids
 			NECROTOXIN = registerAlcoholFluid("necrotoxin", new Color(112, 58, 118, 255)),
 			//FluidRegistryObject ROT = registerAlcoholFluid("rot", new Color(75, 0, 130, 255)),
 			//FluidRegistryObject HEMOTOXIN = registerAlcoholFluid("hemotoxin", new Color(84, 140, 45, 255)),
-			CURE = registerAlcoholFluid("cure", new Color(152, 152, 152, 255));
+			ANTIDOTE = registerAlcoholFluid("antidote", new Color(152, 152, 152, 255));
 	
 	// Overly complex code duplicate from brewers delight. Go look there for comments on how this contraption works.
 	private static FluidRegistryObject registerAlcoholFluid(String name, Color tintColor)

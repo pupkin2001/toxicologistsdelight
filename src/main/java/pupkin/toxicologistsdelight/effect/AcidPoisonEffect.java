@@ -24,7 +24,7 @@ public class AcidPoisonEffect extends MobEffect
 			ResourceKey.create(Registries.DAMAGE_TYPE,
 			                   new ResourceLocation(ToxicologistsDelight.MOD_ID, "acid"));
 	
-	public AcidPoisonEffect() { super(MobEffectCategory.HARMFUL, 0x62196d); }
+	public AcidPoisonEffect() { super(MobEffectCategory.HARMFUL, 0x703a76); }
 	
 	@Override
 	public void applyEffectTick(LivingEntity entity, int amplifier)

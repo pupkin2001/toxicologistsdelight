@@ -19,7 +19,7 @@ public class ToxicologistsFluids
 	public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(Keys.FLUID_TYPES, ToxicologistsDelight.MOD_ID);
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, ToxicologistsDelight.MOD_ID);
 	
-	public static final FluidRegistryObject ACID = registerAlcoholFluid("acid", new Color(98, 25, 109, 255)),
+	public static final FluidRegistryObject ACID = registerAlcoholFluid("acid", new Color(112, 58, 118, 255)),
 			//FluidRegistryObject ROT = registerAlcoholFluid("rot", new Color(75, 0, 130, 255)),
 			//FluidRegistryObject HEMOTOXIN = registerAlcoholFluid("hemotoxin", new Color(84, 140, 45, 255)),
 			CURE = registerAlcoholFluid("cure", new Color(152, 152, 152, 255));

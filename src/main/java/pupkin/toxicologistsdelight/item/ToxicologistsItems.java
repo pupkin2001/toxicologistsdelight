@@ -20,7 +20,7 @@ public final class ToxicologistsItems
 	public static final RegistryObject<Item>
 			EMPTY_VIAL = ITEMS.register("empty_vial", () -> new Item(new Item.Properties())),
 	
-	ACID_VIAL = effectVial("acid_vial", ToxicologistsEffects.ACID, 1, 8),
+	NECROTOXIN_VIAL = effectVial("necrotoxin_vial", ToxicologistsEffects.NECROTOXIN, 1, 8),
 			POISON_VIAL = effectVial("poison_vial", () -> MobEffects.POISON, 1, 16),
 			//ROT_VIAL = effectVial("rot_vial", ToxicologistsEffects.ROT, 1, 8),
 			//HEMOTOXIN_VIAL = effectVial("hemotoxin_vial", ToxicologistsEffects.HEMOTOXIN, 1, 8),

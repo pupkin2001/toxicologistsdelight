@@ -12,8 +12,8 @@ public class ToxicologistsEffects
 	public static final DeferredRegister<MobEffect> MOB_EFFECTS =
 			DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, ToxicologistsDelight.MOD_ID);
 	
-	public static final RegistryObject<MobEffect> ACID =
-			MOB_EFFECTS.register("acid", AcidPoisonEffect::new);
+	public static final RegistryObject<MobEffect> NECROTOXIN =
+			MOB_EFFECTS.register("necrotoxin", NecrotoxinPoisonEffect::new);
 	
 	public static final RegistryObject<MobEffect> ROT =
 			MOB_EFFECTS.register("rot", RotPoisonEffect::new);

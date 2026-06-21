@@ -18,13 +18,13 @@ import pupkin.toxicologistsdelight.ToxicologistsDelight;
 
 import java.util.function.Consumer;
 
-public class AcidPoisonEffect extends MobEffect
+public class NecrotoxinPoisonEffect extends MobEffect
 {
-	private static final ResourceKey<DamageType> ACID_DAMAGE_KEY =
+	private static final ResourceKey<DamageType> NECROTOXIN_DAMAGE_KEY =
 			ResourceKey.create(Registries.DAMAGE_TYPE,
-			                   new ResourceLocation(ToxicologistsDelight.MOD_ID, "acid"));
+			                   new ResourceLocation(ToxicologistsDelight.MOD_ID, "necrotoxin"));
 	
-	public AcidPoisonEffect() { super(MobEffectCategory.HARMFUL, 0x703a76); }
+	public NecrotoxinPoisonEffect() { super(MobEffectCategory.HARMFUL, 0x703a76); }
 	
 	@Override
 	public void applyEffectTick(LivingEntity entity, int amplifier)
@@ -33,13 +33,13 @@ public class AcidPoisonEffect extends MobEffect
 			float damage = 2 * amplifier;
 			
 			// Get the registered DamageType holder
-			Holder<DamageType> acidType = entity.level().registryAccess()
-			                                    .registryOrThrow(Registries.DAMAGE_TYPE)
-			                                    .getHolderOrThrow(ACID_DAMAGE_KEY);
+			Holder<DamageType> necrotoxinType = entity.level().registryAccess()
+			                                          .registryOrThrow(Registries.DAMAGE_TYPE)
+			                                          .getHolderOrThrow(NECROTOXIN_DAMAGE_KEY);
 			
 			// Public constructor: DamageSource(Holder<DamageType>, @Nullable Entity directEntity, @Nullable Entity causingEntity)
-			DamageSource acidSource = new DamageSource(acidType, null, null);
-			entity.hurt(acidSource, damage);
+			DamageSource necrotoxinSource = new DamageSource(necrotoxinType, null, null);
+			entity.hurt(necrotoxinSource, damage);
 		}
 	}
 	

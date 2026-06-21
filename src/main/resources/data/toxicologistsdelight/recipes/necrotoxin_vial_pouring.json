@@ -5,9 +5,9 @@
     "item": "toxicologistsdelight:empty_vial"
   },
   "filling": true,
-  "fluid": "toxicologistsdelight:acid",
+  "fluid": "toxicologistsdelight:necrotoxin",
   "output": {
-    "item": "toxicologistsdelight:poison_vial"
+    "item": "toxicologistsdelight:necrotoxin_vial"
   },
   "strict": false
 }

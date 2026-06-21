@@ -57,7 +57,7 @@ public final class PoisonUtils
 		MobEffect effect = getPoisonEffect(source);
 		if (effect == null) return;
 		int strength = Math.max(1, getPoisonStrength(source));
-		if (effect == ToxicologistsEffects.ACID.get()) {
+		if (effect == ToxicologistsEffects.NECROTOXIN.get()) {
 			target.addEffect(new MobEffectInstance(effect, -1, strength - 1));
 		} else {
 			target.addEffect(new MobEffectInstance(effect, strength * TICKS_PER_STRENGTH, strength - 1));

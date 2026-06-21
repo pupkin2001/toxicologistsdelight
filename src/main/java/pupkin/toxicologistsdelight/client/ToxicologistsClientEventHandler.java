@@ -48,7 +48,7 @@ public class ToxicologistsClientEventHandler
 			// we simply won't be called, so we won't fight it.
 			if (player == null || mc.gameMode == null || !mc.gameMode.canHurtPlayer()) return;
 			if (mc.options.hideGui) return;
-			if (!player.hasEffect(ToxicologistsEffects.ACID.get())) return;
+			if (!player.hasEffect(ToxicologistsEffects.NECROTOXIN.get())) return;
 			
 			// Only now are we deliberately taking over — stop vanilla drawing its own.
 			event.setCanceled(true);
@@ -75,7 +75,7 @@ public class ToxicologistsClientEventHandler
 				int x = baseX + (i % 10) * 8;
 				int y = baseY - (i / 10) * 10;
 				
-				// Per-heart acid jitter. Seeded by tick so it holds for a tick then
+				// Per-heart jitter. Seeded by tick so it holds for a tick then
 				// jumps; long math so tick * 31 doesn't overflow an int mid-multiply.
 				RANDOM.setSeed(tick * 31L + i);
 				x += RANDOM.nextInt(3) - 1;

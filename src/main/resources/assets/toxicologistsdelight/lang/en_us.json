@@ -1,23 +1,23 @@
 {
   "item.toxicologistsdelight.empty_vial": "Glass Vial",
   "item.toxicologistsdelight.poison_vial": "Vial of Poison",
-  "item.toxicologistsdelight.acid_vial": "Vial of Necrotoxin",
+  "item.toxicologistsdelight.necrotoxin_vial": "Vial of Necrotoxin",
   "item.toxicologistsdelight.rot_vial": "Vial of Putrescine",
   "item.toxicologistsdelight.hemotoxin_vial": "Vial of Hemotoxin",
   "item.toxicologistsdelight.cure_vial": "Vial of Antidote",
 
-  "fluid_type.toxicologistsdelight.acid": "Necrotoxin",
+  "fluid_type.toxicologistsdelight.necrotoxin": "Necrotoxin",
   "fluid_type.toxicologistsdelight.rot": "Putrescine",
   "fluid_type.toxicologistsdelight.hemotoxin": "Hemotoxin",
   "fluid_type.toxicologistsdelight.cure": "Antidote",
 
-  "effect.toxicologistsdelight.acid": "Necrosis",
+  "effect.toxicologistsdelight.necrotoxin": "Necrosis",
   "effect.toxicologistsdelight.rot": "Putrefaction",
   "effect.toxicologistsdelight.toxicosis": "Toxicosis",
   "effect.toxicologistsdelight.toxic_crisis": "Toxic Crisis",
 
-  "death.attack.toxicologistsdelight.acid": "The brain of %s was unable to cope with severe cerebral hypoxia",
-  "death.attack.toxicologistsdelight.acid.player": "Hypoxia killed %s in battle against %s",
+  "death.attack.toxicologistsdelight.necrotoxin": "The brain of %s was unable to cope with severe cerebral hypoxia",
+  "death.attack.toxicologistsdelight.necrotoxin.player": "Hypoxia killed %s in battle against %s",
   "death.attack.toxicologistsdelight.rot": "%s forfeit their shape due to rot",
   "death.attack.toxicologistsdelight.rot.player": "%s succumbed to rot while fighting %s",
   "death.attack.toxicologistsdelight.toxicosis": "%s had poison congealing in their veins instead of blood",

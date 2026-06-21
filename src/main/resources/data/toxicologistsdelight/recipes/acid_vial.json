@@ -1,7 +1,7 @@
 {
   "type": "brewinandchewin:fermenting",
   "basefluid": {
-    "count": 500,
+    "count": 1000,
     "fluid": "minecraft:milk"
   },
   "container": {

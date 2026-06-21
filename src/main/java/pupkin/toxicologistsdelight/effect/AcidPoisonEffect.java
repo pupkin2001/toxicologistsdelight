@@ -30,7 +30,7 @@ public class AcidPoisonEffect extends MobEffect
 	public void applyEffectTick(LivingEntity entity, int amplifier)
 	{
 		if (!entity.level().isClientSide) {
-			float damage = 2.0F + 2 * amplifier;
+			float damage = 2 * amplifier;
 			
 			// Get the registered DamageType holder
 			Holder<DamageType> acidType = entity.level().registryAccess()
@@ -46,7 +46,7 @@ public class AcidPoisonEffect extends MobEffect
 	@Override
 	public boolean isDurationEffectTick(int duration, int amplifier)
 	{
-		int interval = 25 >> amplifier;
+		int interval = 200 >> amplifier;
 		if (interval > 0) return duration % interval == 0;
 		return true;
 	}

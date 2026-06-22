@@ -17,27 +17,32 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
 
 ---
 
+## [1.20.1-0.2.0.0] — Unreleased
+
+### Fixed
+- Game crashing due to missing registry entries when forge decides to load Brewin' and Chewin' or Farmer's Delight after Toxicologists's Delight
+
 ## [1.20.1-0.2.0.0] — 2026-06-21
 
 ### Added
-- Sound on successful vial use
+- Sounds on successful vial use
 - Poison tincture fluid for creating vials with vanilla poison effect
 
 ### Changed
 
-- Renamed:
+- Renamed Greater Poison:
   - Greater Poison (fluid) → Necrotoxin
   - Greater Poison (effect) → Necrosis
   - Vial of Greater Poison → Vial of Necrotoxin
-- Necrotoxin requires 1000 mB of milk (was 500 mB)
-- Recolored antidote fluid to better match mean item texture liquid color
-- Recolored necrotoxin fluid and effect to better match mean placeholder effect texture color
+- Necrotoxin recipe requires 1000 mB of milk (was 500 mB)
+- Antidote fluid recolored to better match mean item texture liquid color
+- Necrotoxin fluid and effect recolored to better match mean placeholder effect texture color
 
 ### Fixed
 
-- Fixed poison vial strings calling the fluid "greater poison" instead of "vial of poison"
-- Fixed missing translation key on the greater poison vial
-- Fixed untranslatable poisoned tooltip in creative mode
+- Poison vial strings calling the fluid "greater poison" instead of "vial of poison"
+- Missing translation key on the greater poison vial
+- Poisoned tooltip in creative mode missing localisation string
 
 ### Technical
 

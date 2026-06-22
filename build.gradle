@@ -135,6 +135,7 @@ tasks.named('processResources', ProcessResources).configure {
 			minecraft_version_range      : minecraft_version_range,
 			forge_version                : forge_version,
 			forge_version_range          : forge_version_range,
+			
 			mod_id                       : mod_id,
 			mod_name                     : mod_name,
 			mod_displayName              : mod_displayName,
@@ -143,8 +144,9 @@ tasks.named('processResources', ProcessResources).configure {
 			mod_authors                  : mod_authors,
 			mod_url                      : mod_url,
 			mod_description              : mod_description,
-			mod_credits                  : "",
-			farmersdelight_version_range : farmersdelight_version_range
+			
+			farmersdelight_version_range : farmersdelight_version_range,
+			brewinandchewin_version_range: brewinandchewin_version_range,
 	]
 	inputs.properties replaceProperties
 	

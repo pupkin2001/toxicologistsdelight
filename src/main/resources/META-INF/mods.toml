@@ -21,8 +21,6 @@ displayURL = "${mod_url}"
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile = "assets/toxicologistsdelight/textures/logo.png"
 # A text field displayed in the mod UI
-credits = "${mod_credits}"
-# A text field displayed in the mod UI
 authors = "${mod_authors}"
 # Display Test controls the display for your mod in the server connection screen
 # MATCH_VERSION means that your mod will cause a red X if the versions on client and server differ. This is the default behaviour and should be what you choose if you have server and client elements to your mod.
@@ -58,9 +56,16 @@ side = "BOTH"
 
 [[dependencies.${ mod_id }]]
 modId = "farmersdelight"
-mandatory = false
+mandatory = true
 versionRange = "${farmersdelight_version_range}"
-ordering = "BEFORE"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "brewinandchewin"
+mandatory = true
+versionRange = "${brewinandchewin_version_range}"
+ordering = "AFTER"
 side = "BOTH"
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares

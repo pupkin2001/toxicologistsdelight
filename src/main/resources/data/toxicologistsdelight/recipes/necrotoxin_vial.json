@@ -18,6 +18,9 @@
     },
     {
       "item": "minecraft:pufferfish"
+    },
+    {
+      "item": "minecraft:red_mushroom"
     }
   ],
   "recipe_book_tab": "drinks",

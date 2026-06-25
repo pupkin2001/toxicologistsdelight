@@ -7,7 +7,16 @@
   "experience": 1.0,
   "ingredients": [
     {
-      "item": "minecraft:milk_bucket"
+      "tag": "forge:milk/milk"
+    },
+    {
+      "item": "minecraft:honey_bottle"
+    },
+    {
+      "item": "minecraft:charcoal"
+    },
+    {
+      "item": "minecraft:sweet_berries"
     }
   ],
   "recipe_book_tab": "meals",

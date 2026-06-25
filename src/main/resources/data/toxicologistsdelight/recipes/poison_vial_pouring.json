@@ -1,6 +1,6 @@
 {
   "type": "brewinandchewin:keg_pouring",
-  "amount": 100,
+  "amount": 250,
   "container": {
     "item": "toxicologistsdelight:empty_vial"
   },

@@ -2,12 +2,12 @@
 
 Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Patch>`**, with optional pre-release tags.
 
-| Segment | Incremented for |
-| :-- | :-- |
-| **Major** | Complete rewrites |
-| **Minor** | New Minecraft patch support, large features, or save-breaking changes |
-| **Feature** | Added or reworked features that keep compatibility |
-| **Patch** | Small bug fixes and optimizations |
+| Segment     | Incremented for                                                       |
+|:------------|:----------------------------------------------------------------------|
+| **Major**   | Complete rewrites                                                     |
+| **Minor**   | New Minecraft patch support, large features, or save-breaking changes |
+| **Feature** | Added or reworked features that keep compatibility                    |
+| **Patch**   | Small bug fixes and optimizations                                     |
 
 **Pre-release order** (earliest → stable):
 `-a#` alpha → `-b#` beta → `-rc#` release candidate → stable
@@ -17,14 +17,33 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
 
 ---
 
-## [1.20.1-0.2.0.0] — Unreleased
+## [1.20.1-0.2.1.0] — 2026-06-26
+
+### Added
+
+- Vial-coloured particle cloud on successful vial use
+
+### Changed
+
+- Milk bucket in antidote recipe can now be replaced by equivalent items from other mods if they are tagged as <code>#forge:milk/milk</code>
+- Fermenting recipe costs:
+  - Necrotoxin (Added red mushroom)
+  - Antidote (Added honey bottle, charcoal, sweet berries)
 
 ### Fixed
+
 - Game crashing due to missing registry entries when forge decides to load Brewin' and Chewin' or Farmer's Delight after Toxicologists's Delight
+- All vial fermenting recipes never being able to start and confusing JEI
+- Necrosis damage being affected by damage reduction
+
+### Technical
+
+- 'acid' damage type renamed to 'necrotoxin'
 
 ## [1.20.1-0.2.0.0] — 2026-06-21
 
 ### Added
+
 - Sounds on successful vial use
 - Poison tincture fluid for creating vials with vanilla poison effect
 
@@ -35,8 +54,8 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
   - Greater Poison (effect) → Necrosis
   - Vial of Greater Poison → Vial of Necrotoxin
 - Necrotoxin recipe requires 1000 mB of milk (was 500 mB)
-- Antidote fluid recolored to better match mean item texture liquid color
-- Necrotoxin fluid and effect recolored to better match mean placeholder effect texture color
+- Antidote fluid recoloured to better match mean item texture liquid colour
+- Necrotoxin fluid and effect recoloured to better match mean placeholder effect texture colour
 
 ### Fixed
 

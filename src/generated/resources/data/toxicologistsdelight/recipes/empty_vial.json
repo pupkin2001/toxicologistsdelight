@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "g",
-    "g"
-  ],
   "key": {
     "g": {
       "tag": "forge:glass_panes"
     }
   },
+  "pattern": [
+    "g",
+    "g"
+  ],
   "result": {
-    "item": "toxicologistsdelight:empty_vial",
-    "count": 2
+    "count": 2,
+    "item": "toxicologistsdelight:empty_vial"
   }
 }

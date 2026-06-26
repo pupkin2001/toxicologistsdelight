@@ -4,9 +4,6 @@
     "count": 1000,
     "fluid": "minecraft:milk"
   },
-  "container": {
-    "item": "toxicologistsdelight:empty_vial"
-  },
   "experience": 4.0,
   "fermentingtime": 19200,
   "ingredients": [

@@ -1,11 +1,13 @@
 {
   "item.toxicologistsdelight.empty_vial": "Glass Vial",
+
   "item.toxicologistsdelight.poison_vial": "Vial of Poison",
   "item.toxicologistsdelight.necrotoxin_vial": "Vial of Necrotoxin",
   "item.toxicologistsdelight.rot_vial": "Vial of Putrescine",
   "item.toxicologistsdelight.hemotoxin_vial": "Vial of Hemotoxin",
   "item.toxicologistsdelight.antidote_vial": "Vial of Antidote",
 
+  "fluid_type.toxicologistsdelight.poison_tincture": "Poison Tincture",
   "fluid_type.toxicologistsdelight.necrotoxin": "Necrotoxin",
   "fluid_type.toxicologistsdelight.rot": "Putrescine",
   "fluid_type.toxicologistsdelight.hemotoxin": "Hemotoxin",

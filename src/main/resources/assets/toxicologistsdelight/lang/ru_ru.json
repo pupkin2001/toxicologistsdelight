@@ -22,7 +22,7 @@
   "death.attack.toxicologistsdelight.rot.player": "Гниение настигло %s в бою с %s",
   "death.attack.toxicologistsdelight.toxicosis": "У %s вместо крови в жилах застыл яд",
   "death.attack.toxicologistsdelight.toxicosis.player": "Кровь в теле %s утратила способность переносить кислород в бою с %s",
-  "death.attack.toxicologistsdelight.toxic_crisis": "Тело %s забыло, что кровь не должна иметь консистенцию мармелада.",
+  "death.attack.toxicologistsdelight.toxic_crisis": "Тело %s забыло, что кровь не должна иметь консистенцию мармелада",
   "death.attack.toxicologistsdelight.toxic_crisis.player": "Сердце %s не было дефибриллировано вовремя в бою с %s",
 
   "gui.toxicologistsdelight.poisoned": "Отравлено!",

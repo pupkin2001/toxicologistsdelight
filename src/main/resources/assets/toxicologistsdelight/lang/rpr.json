@@ -1,0 +1,32 @@
+{
+  "item.toxicologistsdelight.empty_vial": "Стеклянная стклянка",
+
+  "item.toxicologistsdelight.poison_vial": "Стклянка съ ядомъ",
+  "item.toxicologistsdelight.necrotoxin_vial": "Стклянка некротоксина",
+  "item.toxicologistsdelight.rot_vial": "Стклянка путресцина",
+  "item.toxicologistsdelight.hemotoxin_vial": "Стклянка гемотоксина",
+  "item.toxicologistsdelight.antidote_vial": "Стклянка противуядія",
+
+  "fluid_type.toxicologistsdelight.poison_tincture": "Ядовитая настойка",
+  "fluid_type.toxicologistsdelight.necrotoxin": "Некротоксинъ",
+  "fluid_type.toxicologistsdelight.rot": "Путресцинъ",
+  "fluid_type.toxicologistsdelight.hemotoxin": "Гемотоксинъ",
+  "fluid_type.toxicologistsdelight.antidote": "Противуядіе",
+
+  "effect.toxicologistsdelight.necrotoxin": "Некрозъ",
+  "effect.toxicologistsdelight.rot": "Гніеніе",
+  "effect.toxicologistsdelight.toxicosis": "Токсикозъ",
+  "effect.toxicologistsdelight.toxic_crisis": "Токсическій кризъ",
+
+  "death.attack.toxicologistsdelight.necrotoxin": "Мозгъ %s не въ силахъ былъ совладать съ жестокою мозговою гипоксіею",
+  "death.attack.toxicologistsdelight.necrotoxin.player": "Гипоксія сразила %s въ битвѣ съ %s",
+  "death.attack.toxicologistsdelight.rot": "%s лишился образа своего вслѣдствіе гніенія",
+  "death.attack.toxicologistsdelight.rot.player": "%s палъ жертвою гніенія, сражаясь съ %s",
+  "death.attack.toxicologistsdelight.toxicosis": "Въ жилахъ %s, вмѣсто крови, сгущался ядъ",
+  "death.attack.toxicologistsdelight.toxicosis.player": "Кровь въ тѣлѣ %s утратила всякую способность переносить кислородъ въ битвѣ съ %s",
+  "death.attack.toxicologistsdelight.toxic_crisis": "%s позабылъ, что кровь не должна быть густа аки мармеладъ",
+  "death.attack.toxicologistsdelight.toxic_crisis.player": "%s не успѣлъ возстановить біеніе сердца, сражаясь съ %s",
+
+  "gui.toxicologistsdelight.poisoned": "Отравленъ!",
+  "gui.toxicologistsdelight.eternal": "Вѣчное"
+}

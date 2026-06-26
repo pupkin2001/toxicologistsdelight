@@ -17,11 +17,17 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
 
 ---
 
-## [1.20.1-0.2.1.1] — Unreleased
+## [1.20.1-0.2.1.1] — 2026-06-27
+
+### Added
+
+- Русскій дореформенный (rpr) locale
 
 ### Fixed
 
 - Particle cloud now takes main hand skin customisation setting into account when spawning
+- Missing poison tincture localisation strings
+- Missing poison tincture display item in keg UI
 
 ## [1.20.1-0.2.1.0] — 2026-06-26
 

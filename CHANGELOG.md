@@ -17,11 +17,17 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
 
 ---
 
+## [1.20.1-0.2.1.1] — Unreleased
+
+### Fixed
+
+- Particle cloud now takes main hand skin customisation setting into account when spawning
+
 ## [1.20.1-0.2.1.0] — 2026-06-26
 
 ### Added
 
-- Vial-coloured particle cloud on successful vial use
+- Particle cloud near offhand on successful vial use
 
 ### Changed
 

@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -173,7 +174,6 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 	}
 	
 	/** Approximate world position of the off-hand (the left hand on a default model). */
-	// TODO: account for left hand being main hand
 	private static Vec3 offHandPos(Player player)
 	{
 		double yaw = Math.toRadians(player.getYRot());
@@ -182,8 +182,10 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 		double fwdX = -Math.sin(yaw);   // horizontal facing vector
 		double fwdZ = Math.cos(yaw);
 		
-		double side = 0.4;
 		double front = 0.1;
+		double side = (player.getMainArm() == HumanoidArm.RIGHT) ? 0.4 : -0.4;
+		
+		
 		return new Vec3(
 				player.getX() + leftX * side + fwdX * front,
 				player.getEyeY() - 0.45, // roughly hand height

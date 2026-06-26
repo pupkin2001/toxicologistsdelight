@@ -24,10 +24,10 @@ public class ToxicosisEffect extends MobEffect // ! Both toxicosis and toxic cri
 {
 	private static final ResourceKey<DamageType> TOXICOSIS_DAMAGE_KEY =
 			ResourceKey.create(Registries.DAMAGE_TYPE,
-			                   new ResourceLocation(ToxicologistsDelight.MOD_ID, "toxicosis"));
+			                   ResourceLocation.fromNamespaceAndPath(ToxicologistsDelight.MOD_ID, "toxicosis"));
 	private static final ResourceKey<DamageType> TOXIC_CRISIS_DAMAGE_KEY =
 			ResourceKey.create(Registries.DAMAGE_TYPE,
-			                   new ResourceLocation(ToxicologistsDelight.MOD_ID, "toxic_crisis"));
+			                   ResourceLocation.fromNamespaceAndPath(ToxicologistsDelight.MOD_ID, "toxic_crisis"));
 	
 	public ToxicosisEffect() { super(MobEffectCategory.HARMFUL, 0x4B0082); }
 	

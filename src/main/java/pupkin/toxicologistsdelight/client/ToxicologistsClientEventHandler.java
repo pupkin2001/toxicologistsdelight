@@ -22,7 +22,7 @@ public class ToxicologistsClientEventHandler
 	public static class ClientEventHandler
 	{
 		private static final Random RANDOM = new Random();
-		private static final ResourceLocation GUI_ICONS = new ResourceLocation("textures/gui/icons.png");
+		private static final ResourceLocation GUI_ICONS = ResourceLocation.withDefaultNamespace("textures/gui/icons.png");
 		
 		private static final int HEART_CONTAINER_U = 16;
 		private static final int HEART_FULL_U = 52;

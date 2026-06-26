@@ -18,7 +18,7 @@ public class RotPoisonEffect extends MobEffect
 {
 	private static final ResourceKey<DamageType> ROT_DAMAGE_KEY =
 			ResourceKey.create(Registries.DAMAGE_TYPE,
-			                   new ResourceLocation(ToxicologistsDelight.MOD_ID, "rot"));
+			                   ResourceLocation.fromNamespaceAndPath(ToxicologistsDelight.MOD_ID, "rot"));
 	
 	public RotPoisonEffect()
 	{

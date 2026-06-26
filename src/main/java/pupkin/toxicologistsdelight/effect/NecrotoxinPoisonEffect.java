@@ -22,7 +22,7 @@ public class NecrotoxinPoisonEffect extends MobEffect
 {
 	private static final ResourceKey<DamageType> NECROTOXIN_DAMAGE_KEY =
 			ResourceKey.create(Registries.DAMAGE_TYPE,
-			                   new ResourceLocation(ToxicologistsDelight.MOD_ID, "necrotoxin"));
+			                   ResourceLocation.fromNamespaceAndPath(ToxicologistsDelight.MOD_ID, "necrotoxin"));
 	
 	public NecrotoxinPoisonEffect() { super(MobEffectCategory.HARMFUL, 0x703a76); }
 	

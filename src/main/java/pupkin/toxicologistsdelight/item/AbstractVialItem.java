@@ -44,6 +44,24 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 		}
 	}
 	
+	/** Approximate world position of the off-hand (the left hand on a default model). */
+	private static Vec3 offHandPos(Player player)
+	{
+		double yaw = Math.toRadians(player.getYRot());
+		double leftX = Math.cos(yaw);   // unit vector pointing to the player's left
+		double leftZ = Math.sin(yaw);
+		double fwdX = -Math.sin(yaw);   // horizontal facing vector
+		double fwdZ = Math.cos(yaw);
+		
+		double front = 0.1;
+		double side = (player.getMainArm() == HumanoidArm.RIGHT) ? 0.4 : -0.4;
+		
+		return new Vec3(
+				player.getX() + leftX * side + fwdX * front,
+				player.getEyeY() - 0.45, // roughly hand height
+				player.getZ() + leftZ * side + fwdZ * front);
+	}
+	
 	/** Extra condition the off-hand target must meet (e.g. poisoned / not poisoned). */
 	protected abstract boolean canTransform(ItemStack target);
 	
@@ -54,8 +72,7 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 	protected abstract ItemStack transform(ItemStack base);
 	
 	/**
-	 * Sound played server-side when the vial is successfully used.
-	 * Defaults to a vanilla glass-bottle sound.
+	 * Sound played server-side when the vial is successfully used. Defaults to a vanilla glass-bottle sound.
 	 */
 	protected SoundEvent useSound()
 	{
@@ -74,16 +91,15 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 		return 1.0F;
 	}
 	
-	/** Number of particles in the cloud spawned at the off-hand.  */
+	/** Number of particles in the cloud spawned at the off-hand. */
 	protected int useParticleCount()
 	{
 		return 12;
 	}
 	
 	/**
-	 * Particle used when {@link #recolorParticles()} is {@code false}. When recolouring
-	 * is on, the vanilla colour-capable {@code ENTITY_EFFECT} is used instead so it can
-	 * be tinted. Override to change the un-tinted particle.
+	 * Particle used when {@link #recolorParticles()} is {@code false}. When recolouring is on, the vanilla colour-capable {@code ENTITY_EFFECT} is used instead so it can be
+	 * tinted. Override to change the un-tinted particle.
 	 */
 	protected ParticleOptions useParticle()
 	{
@@ -97,8 +113,7 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 	}
 	
 	/**
-	 * Packed 0xRRGGBB colour used to tint particles when {@link #recolorParticles()} is on.
-	 * Defaults to the vial's own colour from {@link ColoredVial}.
+	 * Packed 0xRRGGBB colour used to tint particles when {@link #recolorParticles()} is on. Defaults to the vial's own colour from {@link ColoredVial}.
 	 */
 	protected int particleColor(ItemStack vial)
 	{
@@ -171,25 +186,6 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 			double spread = PARTICLE_CLOUD_RADIUS * 0.5;
 			level.sendParticles(useParticle(), pos.x, pos.y, pos.z, count, spread, spread, spread, 0.0);
 		}
-	}
-	
-	/** Approximate world position of the off-hand (the left hand on a default model). */
-	private static Vec3 offHandPos(Player player)
-	{
-		double yaw = Math.toRadians(player.getYRot());
-		double leftX = Math.cos(yaw);   // unit vector pointing to the player's left
-		double leftZ = Math.sin(yaw);
-		double fwdX = -Math.sin(yaw);   // horizontal facing vector
-		double fwdZ = Math.cos(yaw);
-		
-		double front = 0.1;
-		double side = (player.getMainArm() == HumanoidArm.RIGHT) ? 0.4 : -0.4;
-		
-		
-		return new Vec3(
-				player.getX() + leftX * side + fwdX * front,
-				player.getEyeY() - 0.45, // roughly hand height
-				player.getZ() + leftZ * side + fwdZ * front);
 	}
 	
 	private void transformOffhand(Player player, ItemStack target)

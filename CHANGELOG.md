@@ -17,6 +17,22 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
 
 ---
 
+## [1.20.1-0.2.2.0] — 2026-06-28
+
+### Added
+
+- Necrosis damage ramping up with time
+- Recipe book entries for every recipe
+- Creative tab registration for every item
+
+### Changed
+
+- Necrosis no longer bypasses resistance
+
+### Fixed
+
+- Necrosis effect displaying missing texture instead of its icon
+
 ## [1.20.1-0.2.1.1] — 2026-06-27
 
 ### Added

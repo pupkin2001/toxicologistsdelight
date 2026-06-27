@@ -2,6 +2,14 @@ package pupkin.toxicologistsdelight.datagen;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementRewards;
+import net.minecraft.advancements.CriterionTriggerInstance;
+import net.minecraft.advancements.RequirementsStrategy;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
@@ -22,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
+
+import static net.minecraft.data.recipes.RecipeBuilder.ROOT_RECIPE_ADVANCEMENT;
 
 public class TDRecipeProvider extends RecipeProvider implements IConditionBuilder
 {
@@ -49,74 +59,6 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 		super(output);
 	}
 	
-	@Override
-	protected void buildRecipes(@NotNull Consumer<FinishedRecipe> consumer)
-	{
-		generateFermentingRecipes(consumer);
-		generatePouringRecipes(consumer);
-		generateCookingRecipes(consumer);
-		generateCraftingRecipes(consumer);
-	}
-	
-	private void generateFermentingRecipes(Consumer<FinishedRecipe> consumer)
-	{
-		// Fermenting drinks
-		
-		// poison_tincture: 1000mb water + spider eye, hot, long ferment -> 250mb poison_tincture
-		createFermentingRecipe(consumer, "poison_vial", "drinks",
-		                       Fluids.WATER, 1000,
-		                       LONG_FERMENTING, HOT_TEMPERATURE, 4.0F,
-		                       ToxicologistsFluids.POISON_TINCTURE.source(), 250,
-		                       Items.SPIDER_EYE);
-		
-		// necrotoxin: 1000mb milk + echo shard, fermented spider eye, pufferfish, red mushroom,
-		//             warm, long ferment -> 250mb necrotoxin
-		createFermentingRecipe(consumer, "necrotoxin_vial", "drinks",
-		                       ResourceLocation.fromNamespaceAndPath("minecraft", "milk"), 1000,
-		                       LONG_FERMENTING, WARM_TEMPERATURE, 4.0F,
-		                       ToxicologistsFluids.NECROTOXIN.source(), 250,
-		                       Items.ECHO_SHARD, Items.FERMENTED_SPIDER_EYE, Items.PUFFERFISH, Items.RED_MUSHROOM);
-		
-		// Fermenting meals
-	}
-	
-	private void generatePouringRecipes(Consumer<FinishedRecipe> consumer)
-	{
-		// Pouring drinks
-		createPouringRecipe(consumer, "antidote_vial",
-		                    ToxicologistsFluids.ANTIDOTE.source().get(), 250,
-		                    ToxicologistsItems.EMPTY_VIAL, ToxicologistsItems.ANTIDOTE_VIAL,
-		                    true, false);
-		
-		createPouringRecipe(consumer, "necrotoxin_vial",
-		                    ToxicologistsFluids.NECROTOXIN.source().get(), 250,
-		                    ToxicologistsItems.EMPTY_VIAL, ToxicologistsItems.NECROTOXIN_VIAL,
-		                    true, false);
-		
-		createPouringRecipe(consumer, "poison_vial",
-		                    ToxicologistsFluids.POISON_TINCTURE.source().get(), 250,
-		                    ToxicologistsItems.EMPTY_VIAL, ToxicologistsItems.POISON_VIAL,
-		                    true, false);
-	}
-	
-	private void generateCookingRecipes(Consumer<FinishedRecipe> consumer)
-	{
-		// antidote_vial: cook milk + honey bottle + charcoal + sweet berries in an empty vial -> antidote_vial
-		createCookingRecipe(consumer, "antidote_vial", "meals",
-		                    ToxicologistsItems.EMPTY_VIAL, 200, MEDIUM_EXP,
-		                    ToxicologistsItems.ANTIDOTE_VIAL, 1,
-		                    "forge:milk/milk", Items.HONEY_BOTTLE, Items.CHARCOAL, Items.SWEET_BERRIES);
-	}
-	
-	private void generateCraftingRecipes(Consumer<FinishedRecipe> consumer)
-	{
-		// empty_vial: two stacked glass panes -> 2 empty vials
-		createShapedRecipe(consumer, "empty_vial",
-		                   ToxicologistsItems.EMPTY_VIAL, 2,
-		                   List.of("g", "g"),
-		                   Map.of('g', "forge:glass_panes"));
-	}
-	
 	// Shared ingredient serializer used by fermenting, cooking, and shaped key entries.
 	private static void writeIngredient(JsonObject ingredientJson, Object ingredient)
 	{
@@ -138,10 +80,125 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 		}
 	}
 	
+	private static UnlockCriterion unlock(String name, Object... items)
+	{
+		ItemPredicate[] predicates = new ItemPredicate[items.length];
+		for (int i = 0; i < items.length; i++) {
+			predicates[i] = toItemPredicate(items[i]);
+		}
+		return new UnlockCriterion(name, InventoryChangeTrigger.TriggerInstance.hasItems(predicates));
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static ItemPredicate toItemPredicate(Object ingredient)
+	{
+		if (ingredient instanceof Item item) {
+			return ItemPredicate.Builder.item().of(item).build();
+		} else if (ingredient instanceof net.minecraft.tags.TagKey<?> tagKey) {
+			return ItemPredicate.Builder.item().of((net.minecraft.tags.TagKey<Item>) tagKey).build();
+		} else if (ingredient instanceof String s) {
+			// "namespace:path"
+			String[] parts = s.split(":", 2);
+			ResourceLocation tagId = parts.length == 2
+					? ResourceLocation.fromNamespaceAndPath(parts[0], parts[1])
+					: ResourceLocation.fromNamespaceAndPath("minecraft", parts[0]);
+			return ItemPredicate.Builder.item().of(net.minecraft.tags.TagKey.create(Registries.ITEM, tagId)).build();
+		} else if (ingredient instanceof RegistryObject<?> regObj) {
+			return ItemPredicate.Builder.item().of((Item) regObj.get()).build();
+		} else {
+			throw new IllegalArgumentException(
+					"Criterion item must be an Item, TagKey<Item>, String tag representation, or RegistryObject<Item>: " + ingredient);
+		}
+	}
+	
+	private static Advancement.Builder buildAdvancement(ResourceLocation recipeId, List<UnlockCriterion> unlocks)
+	{
+		Advancement.Builder advancement = Advancement.Builder.recipeAdvancement()
+		                                                     .parent(ROOT_RECIPE_ADVANCEMENT)
+		                                                     .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeId))
+		                                                     .rewards(AdvancementRewards.Builder.recipe(recipeId))
+		                                                     .requirements(RequirementsStrategy.OR);
+		for (UnlockCriterion unlock : unlocks) {
+			advancement.addCriterion(unlock.name(), unlock.trigger());
+		}
+		return advancement;
+	}
+	
+	private static ResourceLocation recipeAdvancementId(String category, String recipeName)
+	{
+		return ResourceLocation.fromNamespaceAndPath("toxicologistsdelight", "recipes/" + category + "/" + recipeName);
+	}
+	
+	@Override
+	protected void buildRecipes(@NotNull Consumer<FinishedRecipe> consumer)
+	{
+		generateFermentingRecipes(consumer);
+		generatePouringRecipes(consumer);
+		generateCookingRecipes(consumer);
+		generateCraftingRecipes(consumer);
+	}
+	
+	private void generateFermentingRecipes(Consumer<FinishedRecipe> consumer)
+	{
+		createFermentingRecipe(consumer, "poison_vial", "drinks",
+		                       Fluids.WATER, 1000,
+		                       LONG_FERMENTING, HOT_TEMPERATURE, 4.0F,
+		                       ToxicologistsFluids.POISON_TINCTURE.source(), 250,
+		                       List.of(unlock("has_glass_vial", ToxicologistsItems.EMPTY_VIAL)),
+		                       Items.SPIDER_EYE);
+		
+		createFermentingRecipe(consumer, "necrotoxin_vial", "drinks",
+		                       ResourceLocation.fromNamespaceAndPath("minecraft", "milk"), 1000,
+		                       LONG_FERMENTING, WARM_TEMPERATURE, 4.0F,
+		                       ToxicologistsFluids.NECROTOXIN.source(), 250,
+		                       List.of(unlock("has_glass_vial", ToxicologistsItems.EMPTY_VIAL)),
+		                       Items.ECHO_SHARD, Items.FERMENTED_SPIDER_EYE, Items.PUFFERFISH, Items.RED_MUSHROOM);
+	}
+	
+	private void generatePouringRecipes(Consumer<FinishedRecipe> consumer)
+	{
+		createPouringRecipe(consumer, "antidote_vial",
+		                    ToxicologistsFluids.ANTIDOTE.source().get(), 250,
+		                    ToxicologistsItems.EMPTY_VIAL, ToxicologistsItems.ANTIDOTE_VIAL,
+		                    true, false);
+		
+		createPouringRecipe(consumer, "necrotoxin_vial",
+		                    ToxicologistsFluids.NECROTOXIN.source().get(), 250,
+		                    ToxicologistsItems.EMPTY_VIAL, ToxicologistsItems.NECROTOXIN_VIAL,
+		                    true, false);
+		
+		createPouringRecipe(consumer, "poison_vial",
+		                    ToxicologistsFluids.POISON_TINCTURE.source().get(), 250,
+		                    ToxicologistsItems.EMPTY_VIAL, ToxicologistsItems.POISON_VIAL,
+		                    true, false);
+	}
+	
+	private void generateCookingRecipes(Consumer<FinishedRecipe> consumer)
+	{
+		createCookingRecipe(consumer, "antidote_vial", "meals",
+		                    ToxicologistsItems.EMPTY_VIAL, 200, MEDIUM_EXP,
+		                    ToxicologistsItems.ANTIDOTE_VIAL, 1,
+		                    List.of(
+				                    unlock("has_glass_vial", ToxicologistsItems.EMPTY_VIAL),
+				                    unlock("has_milk_bucket", Items.MILK_BUCKET)
+		                           ),
+		                    "forge:milk/milk", Items.HONEY_BOTTLE, Items.CHARCOAL, Items.SWEET_BERRIES);
+	}
+	
+	private void generateCraftingRecipes(Consumer<FinishedRecipe> consumer)
+	{
+		createShapedRecipe(consumer, "empty_vial",
+		                   ToxicologistsItems.EMPTY_VIAL, 2,
+		                   List.of("g", "g"),
+		                   Map.of('g', "forge:glass_panes"),
+		                   List.of(unlock("has_glass_pane", "forge:glass_panes")));
+	}
+	
 	private void createFermentingRecipe(@NotNull Consumer<FinishedRecipe> consumer, String recipeName, String recipeBookTab,
 	                                    Object baseFluid, int baseFluidCount,
 	                                    int fermentingTime, int temperature, float experience,
 	                                    ResourceLocation resultFluid, int resultFluidCount,
+	                                    List<UnlockCriterion> unlocks,
 	                                    Object... ingredients)
 	{
 		consumer.accept(new FinishedRecipe()
@@ -212,13 +269,19 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 			@Override
 			public JsonObject serializeAdvancement()
 			{
-				return null; // No advancement
+				if (unlocks == null || unlocks.isEmpty()) {
+					return null; // No advancement
+				}
+				return buildAdvancement(getId(), unlocks).serializeToJson();
 			}
 			
 			@Override
 			public ResourceLocation getAdvancementId()
 			{
-				return null; // No advancement
+				if (unlocks == null || unlocks.isEmpty()) {
+					return null; // No advancement
+				}
+				return recipeAdvancementId("fermenting", recipeName);
 			}
 		});
 	}
@@ -228,6 +291,7 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 	                                    Object baseFluid, int baseFluidCount,
 	                                    int fermentingTime, int temperature, float experience,
 	                                    Fluid resultFluid, int resultFluidCount,
+	                                    List<UnlockCriterion> unlocks,
 	                                    Object... ingredients)
 	{
 		ResourceLocation resultFluidId = ForgeRegistries.FLUIDS.getKey(resultFluid);
@@ -239,6 +303,7 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 		                       baseFluid, baseFluidCount,
 		                       fermentingTime, temperature, experience,
 		                       resultFluidId, resultFluidCount,
+		                       unlocks,
 		                       ingredients);
 	}
 	
@@ -247,6 +312,7 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 	                                    Object baseFluid, int baseFluidCount,
 	                                    int fermentingTime, int temperature, float experience,
 	                                    RegistryObject<? extends Fluid> resultFluid, int resultFluidCount,
+	                                    List<UnlockCriterion> unlocks,
 	                                    Object... ingredients)
 	{
 		ResourceLocation resultFluidId = ForgeRegistries.FLUIDS.getKey(resultFluid.get());
@@ -258,6 +324,7 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 		                       baseFluid, baseFluidCount,
 		                       fermentingTime, temperature, experience,
 		                       resultFluidId, resultFluidCount,
+		                       unlocks,
 		                       ingredients);
 	}
 	
@@ -342,6 +409,7 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 	private void createCookingRecipe(@NotNull Consumer<FinishedRecipe> consumer, String recipeName, String recipeBookTab,
 	                                 ResourceLocation container, int cookingTime, float experience,
 	                                 ResourceLocation result, int resultCount,
+	                                 List<UnlockCriterion> unlocks,
 	                                 Object... ingredients)
 	{
 		consumer.accept(new FinishedRecipe()
@@ -393,13 +461,19 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 			@Override
 			public JsonObject serializeAdvancement()
 			{
-				return null; // No advancement
+				if (unlocks == null || unlocks.isEmpty()) {
+					return null; // No advancement
+				}
+				return buildAdvancement(getId(), unlocks).serializeToJson();
 			}
 			
 			@Override
 			public ResourceLocation getAdvancementId()
 			{
-				return null; // No advancement
+				if (unlocks == null || unlocks.isEmpty()) {
+					return null; // No advancement
+				}
+				return recipeAdvancementId("cooking", recipeName);
 			}
 		});
 	}
@@ -408,17 +482,20 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 	private void createCookingRecipe(Consumer<FinishedRecipe> consumer, String recipeName, String recipeBookTab,
 	                                 RegistryObject<Item> container, int cookingTime, float experience,
 	                                 RegistryObject<Item> result, int resultCount,
+	                                 List<UnlockCriterion> unlocks,
 	                                 Object... ingredients)
 	{
 		createCookingRecipe(consumer, recipeName, recipeBookTab,
 		                    container == null ? null : container.getId(), cookingTime, experience,
 		                    result.getId(), resultCount,
+		                    unlocks,
 		                    ingredients);
 	}
 	
 	private void createShapedRecipe(@NotNull Consumer<FinishedRecipe> consumer, String recipeName,
 	                                ResourceLocation result, int resultCount,
-	                                List<String> pattern, Map<Character, ?> key)
+	                                List<String> pattern, Map<Character, ?> key,
+	                                List<UnlockCriterion> unlocks)
 	{
 		consumer.accept(new FinishedRecipe()
 		{
@@ -450,7 +527,6 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 			@Override
 			public @NotNull ResourceLocation getId()
 			{
-				// Crafting recipes go in the main recipes folder (no subdir).
 				return ResourceLocation.fromNamespaceAndPath("toxicologistsdelight", recipeName);
 			}
 			
@@ -463,13 +539,20 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 			@Override
 			public JsonObject serializeAdvancement()
 			{
-				return null; // No advancement
+				if (unlocks == null || unlocks.isEmpty()) {
+					return null; // No advancement
+				}
+				return buildAdvancement(getId(), unlocks).serializeToJson();
 			}
 			
 			@Override
 			public ResourceLocation getAdvancementId()
 			{
-				return null; // No advancement
+				if (unlocks == null || unlocks.isEmpty()) {
+					return null; // No advancement
+				}
+				
+				return recipeAdvancementId("misc", recipeName);
 			}
 		});
 	}
@@ -477,8 +560,11 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 	// Wrapper
 	private void createShapedRecipe(Consumer<FinishedRecipe> consumer, String recipeName,
 	                                RegistryObject<Item> result, int resultCount,
-	                                List<String> pattern, Map<Character, ?> key)
+	                                List<String> pattern, Map<Character, ?> key,
+	                                List<UnlockCriterion> unlocks)
 	{
-		createShapedRecipe(consumer, recipeName, result.getId(), resultCount, pattern, key);
+		createShapedRecipe(consumer, recipeName, result.getId(), resultCount, pattern, key, unlocks);
 	}
+	
+	private record UnlockCriterion(String name, CriterionTriggerInstance trigger) {}
 }

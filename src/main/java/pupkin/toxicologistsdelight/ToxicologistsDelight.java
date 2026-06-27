@@ -16,9 +16,8 @@ public class ToxicologistsDelight
 	public static final String MOD_ID = "toxicologistsdelight";
 	public static final Logger LOGGER = LogUtils.getLogger();
 	
-	public ToxicologistsDelight()
-	{
-		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+	public ToxicologistsDelight(FMLJavaModLoadingContext context) {
+		IEventBus eventBus = context.getModEventBus();
 		
 		ToxicologistsItems.register(eventBus);
 		ToxicologistsEffects.register(eventBus);

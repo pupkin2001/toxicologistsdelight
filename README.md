@@ -20,4 +20,4 @@ Licensed under the [MIT License](LICENSE.md).
 
 ### Acknowledgments
 
-Inspired by [Amarite](https://modrinth.com/mod/amarite) and [The Last Voyage of the Harpy Express](https://modrinth.com/modpack/harpy-express/version/5cJWyHka).
+Inspired by [Amarite](https://modrinth.com/mod/amarite), [The Last Voyage of the Harpy Express](https://modrinth.com/modpack/harpy-express/version/5cJWyHka) and [Minepathy](https://modrinth.com/mod/minepathy).

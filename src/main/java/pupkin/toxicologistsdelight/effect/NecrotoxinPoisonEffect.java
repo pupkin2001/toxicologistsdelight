@@ -14,9 +14,15 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.client.extensions.common.IClientMobEffectExtensions;
+import net.minecraftforge.event.entity.living.PotionColorCalculationEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import pupkin.toxicologistsdelight.ToxicologistsDelight;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class NecrotoxinPoisonEffect extends MobEffect
@@ -105,5 +111,25 @@ public class NecrotoxinPoisonEffect extends MobEffect
 				return true;
 			}
 		});
+	}
+	
+	@Mod.EventBusSubscriber(modid = ToxicologistsDelight.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+	public static class HideParticlesHandler
+	{
+		// Recolour the swirl particles as if necrotoxin wasn't there, no matter how the effect was applied.
+		// Highest priority so other mods' listeners still get to adjust the result.
+		@SubscribeEvent(priority = EventPriority.HIGHEST)
+		public static void onPotionColorCalculation(PotionColorCalculationEvent event)
+		{
+			MobEffect necrotoxin = ToxicologistsEffects.NECROTOXIN.get();
+			List<MobEffectInstance> others = event.getEffects().stream()
+			                                      .filter(instance -> instance.getEffect() != necrotoxin)
+			                                      .toList();
+			if (others.size() == event.getEffects().size()) return;
+			
+			// getColor() returns the water colour for an empty list, which would still spawn particles; 0 spawns none.
+			event.setColor(others.isEmpty() ? 0 : PotionUtils.getColor(others));
+			event.shouldHideParticles(LivingEntity.areAllEffectsAmbient(others));
+		}
 	}
 }

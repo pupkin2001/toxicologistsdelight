@@ -19,6 +19,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -54,12 +56,17 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 			MEDIUM_EXP = 1.0F,
 			LARGE_EXP = 2.0F;
 	
+	// Brewer's Delight (optional) ingredients
+	private static final String BREWERS_DELIGHT = "brewersdelight";
+	private static final ResourceLocation SNOW_FUNGUS = ResourceLocation.fromNamespaceAndPath(BREWERS_DELIGHT, "snow_fungus");
+	private static final ResourceLocation CATTAIL = ResourceLocation.fromNamespaceAndPath(BREWERS_DELIGHT, "cattail");
+	
 	public TDRecipeProvider(PackOutput output)
 	{
 		super(output);
 	}
 	
-	// Shared ingredient serializer used by fermenting, cooking, and shaped key entries.
+	// Shared ingredient serializer used by fermenting, cooking, and shaped key entries
 	private static void writeIngredient(JsonObject ingredientJson, Object ingredient)
 	{
 		if (ingredient instanceof Item item) {
@@ -71,13 +78,61 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 		} else if (ingredient instanceof String s) {
 			// String representation of a tag
 			ingredientJson.addProperty("tag", s);
+		} else if (ingredient instanceof ResourceLocation id) {
+			// Item ID, for items from optional mods that may not be loaded during datagen
+			ingredientJson.addProperty("item", id.toString());
 		} else if (ingredient instanceof RegistryObject<?> regObj) {
 			// RegistryObject for Item
 			Item item = (Item) regObj.get();
 			ingredientJson.addProperty("item", Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item)).toString());
 		} else {
-			throw new IllegalArgumentException("Ingredient must be an Item, TagKey<Item>, String tag representation, or RegistryObject<Item>: " + ingredient);
+			throw new IllegalArgumentException("Ingredient must be an Item, TagKey<Item>, String tag representation, ResourceLocation item ID, or RegistryObject<Item>: " + ingredient);
 		}
+	}
+	
+	private ICondition itemExists(ResourceLocation id)
+	{
+		return itemExists(id.getNamespace(), id.getPath());
+	}
+	
+	private Consumer<FinishedRecipe> withConditions(Consumer<FinishedRecipe> consumer, ICondition... conditionList)
+	{
+		JsonArray conditions = CraftingHelper.serialize(conditionList);
+		return recipe -> consumer.accept(new FinishedRecipe()
+		{
+			@Override
+			public void serializeRecipeData(@NotNull JsonObject json)
+			{
+				recipe.serializeRecipeData(json);
+				json.add("conditions", conditions.deepCopy());
+			}
+			
+			@Override
+			public @NotNull ResourceLocation getId()
+			{
+				return recipe.getId();
+			}
+			
+			@Override
+			public @NotNull RecipeSerializer<?> getType()
+			{
+				return recipe.getType();
+			}
+			
+			@Override
+			public JsonObject serializeAdvancement()
+			{
+				JsonObject advancement = recipe.serializeAdvancement();
+				if (advancement != null) advancement.add("conditions", conditions.deepCopy());
+				return advancement;
+			}
+			
+			@Override
+			public ResourceLocation getAdvancementId()
+			{
+				return recipe.getAdvancementId();
+			}
+		});
 	}
 	
 	private static UnlockCriterion unlock(String name, Object... items)

@@ -59,7 +59,6 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 	// Brewer's Delight (optional) ingredients
 	private static final String BREWERS_DELIGHT = "brewersdelight";
 	private static final ResourceLocation SNOW_FUNGUS = ResourceLocation.fromNamespaceAndPath(BREWERS_DELIGHT, "snow_fungus");
-	private static final ResourceLocation CATTAIL = ResourceLocation.fromNamespaceAndPath(BREWERS_DELIGHT, "cattail");
 	
 	public TDRecipeProvider(PackOutput output)
 	{
@@ -90,6 +89,7 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 		}
 	}
 	
+	// Item exists condition for an item from an optional mod
 	private ICondition itemExists(ResourceLocation id)
 	{
 		return itemExists(id.getNamespace(), id.getPath());
@@ -208,6 +208,13 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 		                       ToxicologistsFluids.NECROTOXIN.source(), 250,
 		                       List.of(unlock("has_glass_vial", ToxicologistsItems.EMPTY_VIAL)),
 		                       Items.ECHO_SHARD, Items.FERMENTED_SPIDER_EYE, Items.PUFFERFISH, Items.RED_MUSHROOM);
+		
+		createFermentingRecipe(withConditions(consumer, itemExists(SNOW_FUNGUS)), "vitality_vial", "drinks",
+		                       Fluids.WATER, 1000,
+		                       NORMAL_FERMENTING, COLD_TEMPERATURE, 2.0F,
+		                       ToxicologistsFluids.VITALITY_TINCTURE.source(), 250,
+		                       List.of(unlock("has_glass_vial", ToxicologistsItems.EMPTY_VIAL)),
+		                       SNOW_FUNGUS, Items.GLISTERING_MELON_SLICE);
 	}
 	
 	private void generatePouringRecipes(Consumer<FinishedRecipe> consumer)
@@ -225,6 +232,11 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 		createPouringRecipe(consumer, "poison_vial",
 		                    ToxicologistsFluids.POISON_TINCTURE.source().get(), 250,
 		                    ToxicologistsItems.EMPTY_VIAL, ToxicologistsItems.POISON_VIAL,
+		                    true, false);
+		
+		createPouringRecipe(consumer, "vitality_vial",
+		                    ToxicologistsFluids.VITALITY_TINCTURE.source().get(), 250,
+		                    ToxicologistsItems.EMPTY_VIAL, ToxicologistsItems.VITALITY_VIAL,
 		                    true, false);
 	}
 	

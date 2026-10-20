@@ -1,5 +1,6 @@
 package pupkin.toxicologistsdelight.client;
 
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -25,13 +26,22 @@ public class ToxicologistsClientEventHandler
 		private static final ResourceLocation GUI_ICONS = ResourceLocation.withDefaultNamespace("textures/gui/icons.png");
 		
 		private static final int HEART_CONTAINER_U = 16;
+		private static final int HEART_CONTAINER_BLINK_U = 25;
 		private static final int HEART_FULL_U = 52;
 		private static final int HEART_HALF_U = 61;
+		private static final int HEART_FULL_BLINK_U = 70;
+		private static final int HEART_HALF_BLINK_U = 79;
 		private static final int HEART_ABSORB_FULL_U = 160;
 		private static final int HEART_ABSORB_HALF_U = 169;
 		private static final int HARDCORE_V = 45;
 		private static final int NORMAL_V = 0;
 		private static final ResourceLocation HEALTH_OVERLAY = VanillaGuiOverlay.PLAYER_HEALTH.id();
+		
+		// Damage blink state. ForgeGui keeps its own copy, but never updates it while we cancel its overlay.
+		private static float lastHealth;
+		private static int displayHealth;
+		private static long lastHealthTime;
+		private static long healthBlinkTime;
 		
 		@SubscribeEvent
 		public static void onRenderHealth(RenderGuiOverlayEvent.Pre event)
@@ -55,10 +65,37 @@ public class ToxicologistsClientEventHandler
 			
 			int x = event.getWindow().getGuiScaledWidth() / 2 - 91;
 			int y = event.getWindow().getGuiScaledHeight() - 39;
-			drawJumpingHearts(event.getGuiGraphics(), player, x, y);
+			boolean highlight = updateHealthBlink(player, mc.gui.getGuiTicks());
+			drawJumpingHearts(event.getGuiGraphics(), player, x, y, highlight);
 		}
 		
-		private static void drawJumpingHearts(GuiGraphics graphics, Player player, int baseX, int baseY)
+		// Same bookkeeping as ForgeGui#renderHealth: blink for 20 ticks after taking damage (10 after healing
+		// right after a hit), with the health from before the hit drawn as white hearts until it settles for a second.
+		private static boolean updateHealthBlink(Player player, int guiTicks)
+		{
+			boolean highlight = healthBlinkTime > guiTicks && (healthBlinkTime - guiTicks) / 3L % 2L == 1L;
+			float health = player.getHealth();
+			long now = Util.getMillis();
+			
+			// Compared unrounded, unlike vanilla, so hits too small to change a half-heart (early in the ramp) still blink.
+			if (health < lastHealth && player.invulnerableTime > 0) {
+				lastHealthTime = now;
+				healthBlinkTime = guiTicks + 20;
+			} else if (health > lastHealth && player.invulnerableTime > 0) {
+				lastHealthTime = now;
+				healthBlinkTime = guiTicks + 10;
+			}
+			
+			if (now - lastHealthTime > 1000L) {
+				displayHealth = Mth.ceil(health);
+				lastHealthTime = now;
+			}
+			
+			lastHealth = health;
+			return highlight;
+		}
+		
+		private static void drawJumpingHearts(GuiGraphics graphics, Player player, int baseX, int baseY, boolean highlight)
 		{
 			int health = Mth.ceil(player.getHealth());
 			int absorption = Mth.ceil(player.getAbsorptionAmount());
@@ -85,8 +122,12 @@ public class ToxicologistsClientEventHandler
 					y += RANDOM.nextInt(7) - 3;
 				}
 				
+				drawHeart(graphics, x, y, highlight ? HEART_CONTAINER_BLINK_U : HEART_CONTAINER_U, v);
 				if (i < healthHearts) {
-					drawHeart(graphics, x, y, HEART_CONTAINER_U, v);
+					if (highlight) {
+						int lost = displayHealth - i * 2;
+						if (lost >= 2) { drawHeart(graphics, x, y, HEART_FULL_BLINK_U, v); } else if (lost == 1) drawHeart(graphics, x, y, HEART_HALF_BLINK_U, v);
+					}
 					int rem = health - i * 2;
 					if (rem >= 2) { drawHeart(graphics, x, y, HEART_FULL_U, v); } else if (rem == 1) drawHeart(graphics, x, y, HEART_HALF_U, v);
 				} else {

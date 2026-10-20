@@ -23,10 +23,12 @@ public class NecrotoxinPoisonEffect extends MobEffect
 {
 	/** Persistent-data key - how many ticks the effect has been active on this entity. */
 	public static final String RAMP_TICKS_KEY = ToxicologistsDelight.MOD_ID + ":necrotoxin_ramp_ticks";
+	/** Time, in seconds at strength 1, after poisoning before any damage is dealt. The ramp starts once it ends. */
+	private static final float GRACE_PERIOD_SECONDS = 30.0F;
 	/** Time, in seconds at strength 1, for damage to ramp from 0 up to the ceiling. */
 	private static final float RAMP_UP_TIME_SECONDS = 120.0F;
-	/** Counter stops here (the most that any strength could need, i.e. the strength-1 ramp length). */
-	public static final long RAMP_TICK_CAP = (long) Math.ceil(RAMP_UP_TIME_SECONDS * 20.0F) + 1L;
+	/** Counter stops here (the most that any strength could need, i.e. the strength-1 grace period + ramp length). */
+	public static final long RAMP_TICK_CAP = (long) Math.ceil((GRACE_PERIOD_SECONDS + RAMP_UP_TIME_SECONDS) * 20.0F) + 1L;
 	/** Damage ceiling. */
 	private static final float MAX_DAMAGE_PER_TICK = 8.0F;
 	/** Curve. 1.0 = linear. >1 = slow start / fast finish. <1 = fast start. */
@@ -57,7 +59,9 @@ public class NecrotoxinPoisonEffect extends MobEffect
 	{
 		if (!entity.level().isClientSide) {
 			long elapsed = entity.getPersistentData().getLong(RAMP_TICKS_KEY);
-			float damage = rampedDamage(elapsed, amplifier);
+			long graceTicks = (long) (GRACE_PERIOD_SECONDS * ticksPerSecondFor(amplifier));
+			if (elapsed < graceTicks) return;
+			float damage = rampedDamage(elapsed - graceTicks, amplifier);
 			
 			Holder<DamageType> necrotoxinType = entity.level().registryAccess()
 			                                          .registryOrThrow(Registries.DAMAGE_TYPE)

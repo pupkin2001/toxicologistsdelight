@@ -9,6 +9,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -59,14 +60,18 @@ public class ToxicologistsClientEventHandler
 			if (player == null || mc.gameMode == null || !mc.gameMode.canHurtPlayer()) return;
 			if (mc.options.hideGui) return;
 			if (!player.hasEffect(ToxicologistsEffects.NECROTOXIN.get())) return;
+			if (!(mc.gui instanceof ForgeGui gui)) return;
 			
 			// Only now are we deliberately taking over — stop vanilla drawing its own.
 			event.setCanceled(true);
 			
 			int x = event.getWindow().getGuiScaledWidth() / 2 - 91;
-			int y = event.getWindow().getGuiScaledHeight() - 39;
-			boolean highlight = updateHealthBlink(player, mc.gui.getGuiTicks());
-			drawJumpingHearts(event.getGuiGraphics(), player, x, y, highlight);
+			int y = event.getWindow().getGuiScaledHeight() - gui.leftHeight;
+			boolean highlight = updateHealthBlink(player, gui.getGuiTicks());
+			int rows = drawJumpingHearts(event.getGuiGraphics(), player, x, y, highlight);
+			
+			// Reserve the space we drew in, as ForgeGui#renderHealth would have, or the armour bar draws over the hearts.
+			gui.leftHeight += rows * 10;
 		}
 		
 		// Same bookkeeping as ForgeGui#renderHealth: blink for 20 ticks after taking damage (10 after healing
@@ -95,7 +100,8 @@ public class ToxicologistsClientEventHandler
 			return highlight;
 		}
 		
-		private static void drawJumpingHearts(GuiGraphics graphics, Player player, int baseX, int baseY, boolean highlight)
+		/** Returns the number of 10-pixel heart rows drawn. */
+		private static int drawJumpingHearts(GuiGraphics graphics, Player player, int baseX, int baseY, boolean highlight)
 		{
 			int health = Mth.ceil(player.getHealth());
 			int absorption = Mth.ceil(player.getAbsorptionAmount());
@@ -135,6 +141,8 @@ public class ToxicologistsClientEventHandler
 					if (rem >= 2) { drawHeart(graphics, x, y, HEART_ABSORB_FULL_U, v); } else if (rem == 1) drawHeart(graphics, x, y, HEART_ABSORB_HALF_U, v);
 				}
 			}
+			
+			return Mth.ceil(totalHearts / 10.0);
 		}
 		
 		// Draws a full 9x9 heart icon at the given UV

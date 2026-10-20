@@ -23,7 +23,6 @@ public class ToxicologistsFluids
 			POISON_TINCTURE = registerAlcoholFluid("poison_tincture", new Color(135, 163, 99, 255)),
 			NECROTOXIN = registerAlcoholFluid("necrotoxin", new Color(112, 58, 118, 255)),
 			//FluidRegistryObject ROT = registerAlcoholFluid("rot", new Color(75, 0, 130, 255)),
-			//FluidRegistryObject HEMOTOXIN = registerAlcoholFluid("hemotoxin", new Color(84, 140, 45, 255)),
 			ANTIDOTE = registerAlcoholFluid("antidote", new Color(152, 152, 152, 255));
 	
 	// Overly complex code duplicate from brewers delight. Go look there for comments on how this contraption works.

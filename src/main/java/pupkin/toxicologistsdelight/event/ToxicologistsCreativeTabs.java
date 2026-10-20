@@ -17,7 +17,6 @@ public final class ToxicologistsCreativeTabs
 			event.accept(ToxicologistsItems.POISON_VIAL.get());
 			event.accept(ToxicologistsItems.NECROTOXIN_VIAL.get());
 			//event.accept(ToxicologistsItems.ROT_VIAL.get());
-			//event.accept(ToxicologistsItems.HEMOTOXIN_VIAL.get());
 			event.accept(ToxicologistsItems.ANTIDOTE_VIAL.get());
 		} else if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
 			event.accept(ToxicologistsItems.EMPTY_VIAL.get());

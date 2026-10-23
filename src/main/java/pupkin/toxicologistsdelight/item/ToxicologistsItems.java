@@ -22,7 +22,7 @@ public final class ToxicologistsItems
 	
 	NECROTOXIN_VIAL = effectVial("necrotoxin_vial", ToxicologistsEffects.NECROTOXIN, 1, 8),
 			POISON_VIAL = effectVial("poison_vial", () -> MobEffects.POISON, 1, 16),
-			//ROT_VIAL = effectVial("rot_vial", ToxicologistsEffects.ROT, 1, 8),
+			ROT_VIAL = effectVial("rot_vial", ToxicologistsEffects.ROT, 1, 8),
 			VITALITY_VIAL = effectVial("vitality_vial", () -> MobEffects.REGENERATION, 1, 4),
 	
 	ANTIDOTE_VIAL = ITEMS.register("antidote_vial", PoisonAntidoteItem::new);

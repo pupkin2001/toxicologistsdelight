@@ -22,7 +22,7 @@ public class ToxicologistsFluids
 	public static final FluidRegistryObject
 			POISON_TINCTURE = registerAlcoholFluid("poison_tincture", new Color(135, 163, 99, 255)),
 			NECROTOXIN = registerAlcoholFluid("necrotoxin", new Color(112, 58, 118, 255)),
-			//FluidRegistryObject ROT = registerAlcoholFluid("rot", new Color(75, 0, 130, 255)),
+			ROT = registerAlcoholFluid("rot", new Color(75, 0, 130, 255)),
 			VITALITY_TINCTURE = registerAlcoholFluid("vitality_tincture", new Color(205, 92, 171, 255)),
 			ANTIDOTE = registerAlcoholFluid("antidote", new Color(152, 152, 152, 255));
 	

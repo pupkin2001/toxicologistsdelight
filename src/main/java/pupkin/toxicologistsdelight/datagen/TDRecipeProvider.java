@@ -59,6 +59,7 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 	// Brewer's Delight (optional) ingredients
 	private static final String BREWERS_DELIGHT = "brewersdelight";
 	private static final ResourceLocation SNOW_FUNGUS = ResourceLocation.fromNamespaceAndPath(BREWERS_DELIGHT, "snow_fungus");
+	private static final ResourceLocation CATTAIL = ResourceLocation.fromNamespaceAndPath(BREWERS_DELIGHT, "cattail");
 	
 	public TDRecipeProvider(PackOutput output)
 	{
@@ -215,6 +216,13 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 		                       ToxicologistsFluids.VITALITY_TINCTURE.source(), 250,
 		                       List.of(unlock("has_glass_vial", ToxicologistsItems.EMPTY_VIAL)),
 		                       SNOW_FUNGUS, Items.GLISTERING_MELON_SLICE);
+		
+		createFermentingRecipe(withConditions(consumer, itemExists(CATTAIL)), "rot_vial", "drinks",
+		                       ToxicologistsFluids.VITALITY_TINCTURE.source(), 250,
+		                       LONG_FERMENTING, WARM_TEMPERATURE, 4.0F,
+		                       ToxicologistsFluids.ROT.source(), 250,
+		                       List.of(unlock("has_glass_vial", ToxicologistsItems.EMPTY_VIAL)),
+		                       CATTAIL, Items.FERMENTED_SPIDER_EYE);
 	}
 	
 	private void generatePouringRecipes(Consumer<FinishedRecipe> consumer)
@@ -237,6 +245,11 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 		createPouringRecipe(consumer, "vitality_vial",
 		                    ToxicologistsFluids.VITALITY_TINCTURE.source().get(), 250,
 		                    ToxicologistsItems.EMPTY_VIAL, ToxicologistsItems.VITALITY_VIAL,
+		                    true, false);
+		
+		createPouringRecipe(consumer, "rot_vial",
+		                    ToxicologistsFluids.ROT.source().get(), 250,
+		                    ToxicologistsItems.EMPTY_VIAL, ToxicologistsItems.ROT_VIAL,
 		                    true, false);
 	}
 	

@@ -6,15 +6,18 @@
   },
   "conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "brewersdelight:cattail"
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "minecraft:cattails"
+      }
     }
   ],
   "experience": 4.0,
   "fermentingtime": 19200,
   "ingredients": [
     {
-      "item": "brewersdelight:cattail"
+      "tag": "minecraft:cattails"
     },
     {
       "item": "minecraft:fermented_spider_eye"

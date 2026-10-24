@@ -14,6 +14,8 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -59,14 +61,13 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 	// Brewer's Delight (optional) ingredients
 	private static final String BREWERS_DELIGHT = "brewersdelight";
 	private static final ResourceLocation SNOW_FUNGUS = ResourceLocation.fromNamespaceAndPath(BREWERS_DELIGHT, "snow_fungus");
-	private static final ResourceLocation CATTAIL = ResourceLocation.fromNamespaceAndPath(BREWERS_DELIGHT, "cattail");
+	private static final TagKey<Item> CATTAILS = ItemTags.create(ResourceLocation.withDefaultNamespace("cattails"));
 	
 	public TDRecipeProvider(PackOutput output)
 	{
 		super(output);
 	}
 	
-	// Shared ingredient serializer used by fermenting, cooking, and shaped key entries
 	private static void writeIngredient(JsonObject ingredientJson, Object ingredient)
 	{
 		if (ingredient instanceof Item item) {
@@ -86,9 +87,54 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 			Item item = (Item) regObj.get();
 			ingredientJson.addProperty("item", Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item)).toString());
 		} else {
-			throw new IllegalArgumentException(
-					"Ingredient must be an Item, TagKey<Item>, String tag representation, ResourceLocation item ID, or RegistryObject<Item>: " + ingredient);
+			throw new IllegalArgumentException("Ingredient must be an Item, TagKey<Item>, String tag representation, ResourceLocation item ID, or RegistryObject<Item>: " + ingredient);
 		}
+	}
+	
+	// Item exists condition for an item from an optional mod
+	private ICondition itemExists(ResourceLocation id)
+	{
+		return itemExists(id.getNamespace(), id.getPath());
+	}
+	
+	private Consumer<FinishedRecipe> withConditions(Consumer<FinishedRecipe> consumer, ICondition... conditionList)
+	{
+		JsonArray conditions = CraftingHelper.serialize(conditionList);
+		return recipe -> consumer.accept(new FinishedRecipe()
+		{
+			@Override
+			public void serializeRecipeData(@NotNull JsonObject json)
+			{
+				recipe.serializeRecipeData(json);
+				json.add("conditions", conditions.deepCopy());
+			}
+			
+			@Override
+			public @NotNull ResourceLocation getId()
+			{
+				return recipe.getId();
+			}
+			
+			@Override
+			public @NotNull RecipeSerializer<?> getType()
+			{
+				return recipe.getType();
+			}
+			
+			@Override
+			public JsonObject serializeAdvancement()
+			{
+				JsonObject advancement = recipe.serializeAdvancement();
+				if (advancement != null) advancement.add("conditions", conditions.deepCopy());
+				return advancement;
+			}
+			
+			@Override
+			public ResourceLocation getAdvancementId()
+			{
+				return recipe.getAdvancementId();
+			}
+		});
 	}
 	
 	private static UnlockCriterion unlock(String name, Object... items)
@@ -140,52 +186,6 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 		return ResourceLocation.fromNamespaceAndPath("toxicologistsdelight", "recipes/" + category + "/" + recipeName);
 	}
 	
-	// Item exists condition for an item from an optional mod
-	private ICondition itemExists(ResourceLocation id)
-	{
-		return itemExists(id.getNamespace(), id.getPath());
-	}
-	
-	private Consumer<FinishedRecipe> withConditions(Consumer<FinishedRecipe> consumer, ICondition... conditionList)
-	{
-		JsonArray conditions = CraftingHelper.serialize(conditionList);
-		return recipe -> consumer.accept(new FinishedRecipe()
-		{
-			@Override
-			public void serializeRecipeData(@NotNull JsonObject json)
-			{
-				recipe.serializeRecipeData(json);
-				json.add("conditions", conditions.deepCopy());
-			}
-			
-			@Override
-			public @NotNull ResourceLocation getId()
-			{
-				return recipe.getId();
-			}
-			
-			@Override
-			public @NotNull RecipeSerializer<?> getType()
-			{
-				return recipe.getType();
-			}
-			
-			@Override
-			public JsonObject serializeAdvancement()
-			{
-				JsonObject advancement = recipe.serializeAdvancement();
-				if (advancement != null) advancement.add("conditions", conditions.deepCopy());
-				return advancement;
-			}
-			
-			@Override
-			public ResourceLocation getAdvancementId()
-			{
-				return recipe.getAdvancementId();
-			}
-		});
-	}
-	
 	@Override
 	protected void buildRecipes(@NotNull Consumer<FinishedRecipe> consumer)
 	{
@@ -218,12 +218,28 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 		                       List.of(unlock("has_glass_vial", ToxicologistsItems.EMPTY_VIAL)),
 		                       SNOW_FUNGUS, Items.GLISTERING_MELON_SLICE);
 		
-		createFermentingRecipe(withConditions(consumer, itemExists(CATTAIL)), "rot_vial", "drinks",
+		// Without Brewer's Delight
+		createFermentingRecipe(withConditions(consumer, not(itemExists(SNOW_FUNGUS))), "vitality_vial_from_pink_petals", "drinks",
+		                       Fluids.WATER, 1000,
+		                       NORMAL_FERMENTING, COLD_TEMPERATURE, 2.0F,
+		                       ToxicologistsFluids.VITALITY_TINCTURE.source(), 250,
+		                       List.of(unlock("has_glass_vial", ToxicologistsItems.EMPTY_VIAL)),
+		                       Items.PINK_PETALS, Items.GLISTERING_MELON_SLICE);
+		
+		createFermentingRecipe(withConditions(consumer, tagEmpty(CATTAILS)), "rot_vial_from_lily_pad", "drinks",
 		                       ToxicologistsFluids.VITALITY_TINCTURE.source(), 250,
 		                       LONG_FERMENTING, WARM_TEMPERATURE, 4.0F,
 		                       ToxicologistsFluids.ROT.source(), 250,
 		                       List.of(unlock("has_glass_vial", ToxicologistsItems.EMPTY_VIAL)),
-		                       CATTAIL, Items.FERMENTED_SPIDER_EYE);
+		                       Items.LILY_PAD, Items.FERMENTED_SPIDER_EYE);
+		
+		// Taints the vitality tincture
+		createFermentingRecipe(withConditions(consumer, not(tagEmpty(CATTAILS))), "rot_vial", "drinks",
+		                       ToxicologistsFluids.VITALITY_TINCTURE.source(), 250,
+		                       LONG_FERMENTING, WARM_TEMPERATURE, 4.0F,
+		                       ToxicologistsFluids.ROT.source(), 250,
+		                       List.of(unlock("has_glass_vial", ToxicologistsItems.EMPTY_VIAL)),
+		                       CATTAILS, Items.FERMENTED_SPIDER_EYE);
 	}
 	
 	private void generatePouringRecipes(Consumer<FinishedRecipe> consumer)
@@ -290,16 +306,10 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 				JsonObject baseFluidJson = new JsonObject();
 				baseFluidJson.addProperty("count", baseFluidCount);
 				
+				// Fluid tags are not supported for the base fluid in BnC
 				if (baseFluid instanceof Fluid) {
 					// Regular fluid
 					baseFluidJson.addProperty("fluid", Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey((Fluid) baseFluid)).toString());
-				} else if (baseFluid instanceof net.minecraft.tags.TagKey) {
-					// Fluid tag
-					net.minecraft.tags.TagKey<Fluid> tagKey = (net.minecraft.tags.TagKey<Fluid>) baseFluid;
-					baseFluidJson.addProperty("tag", tagKey.location().toString());
-				} else if (baseFluid instanceof String) {
-					// String representation of fluid tag
-					baseFluidJson.addProperty("tag", (String) baseFluid);
 				} else if (baseFluid instanceof ResourceLocation) {
 					// Direct ResourceLocation for fluid
 					baseFluidJson.addProperty("fluid", baseFluid.toString());
@@ -309,7 +319,7 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 					baseFluidJson.addProperty("fluid", Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(fluid)).toString());
 				} else {
 					throw new IllegalArgumentException(
-							"Base fluid must be a Fluid, TagKey<Fluid>, String tag representation, ResourceLocation, or RegistryObject<Fluid>: " + baseFluid);
+							"Base fluid must be a Fluid, ResourceLocation, or RegistryObject<Fluid>: " + baseFluid);
 				}
 				
 				json.add("basefluid", baseFluidJson);

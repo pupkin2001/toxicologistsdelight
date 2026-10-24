@@ -2,8 +2,11 @@
   "parent": "minecraft:recipes/root",
   "conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "brewersdelight:cattail"
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "minecraft:cattails"
+      }
     }
   ],
   "criteria": {

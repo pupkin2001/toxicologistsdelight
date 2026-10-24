@@ -1,0 +1,32 @@
+{
+  "type": "brewinandchewin:fermenting",
+  "basefluid": {
+    "count": 1000,
+    "fluid": "minecraft:water"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:item_exists",
+        "item": "brewersdelight:snow_fungus"
+      }
+    }
+  ],
+  "experience": 2.0,
+  "fermentingtime": 9600,
+  "ingredients": [
+    {
+      "item": "minecraft:pink_petals"
+    },
+    {
+      "item": "minecraft:glistering_melon_slice"
+    }
+  ],
+  "recipe_book_tab": "drinks",
+  "result": {
+    "count": 250,
+    "fluid": "toxicologistsdelight:vitality_tincture"
+  },
+  "temperature": 2
+}

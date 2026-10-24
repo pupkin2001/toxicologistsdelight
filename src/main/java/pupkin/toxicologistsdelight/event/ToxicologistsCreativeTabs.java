@@ -4,9 +4,10 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import pupkin.toxicologistsdelight.ToxicologistsDelight;
 import pupkin.toxicologistsdelight.item.ToxicologistsItems;
 
-@Mod.EventBusSubscriber(modid = "toxicologistsdelight", bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ToxicologistsDelight.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class ToxicologistsCreativeTabs
 {
 	

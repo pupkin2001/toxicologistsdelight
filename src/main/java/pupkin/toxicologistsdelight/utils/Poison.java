@@ -16,8 +16,8 @@ import pupkin.toxicologistsdelight.effect.ToxicologistsEffects;
 import java.util.Objects;
 
 /**
- * Immutable poison carried by an item or a fluid: the effect id and strength stored under {@link #TYPE_KEY} / {@link #STRENGTH_KEY} at the root of the stack's tag.
- * Two poisons are interchangeable (stacks may merge) only when they are {@code equals}.
+ * Immutable poison carried by an item or a fluid. The effect id and strength stored under {@link #TYPE_KEY} / {@link #STRENGTH_KEY} at the root of the stack's tag. Two poisons are
+ * interchangeable (stacks may merge) only when they are {@code equals}.
  */
 public record Poison(@NotNull ResourceLocation effectId, int strength)
 {
@@ -44,7 +44,7 @@ public record Poison(@NotNull ResourceLocation effectId, int strength)
 		return of(stack.getTag());
 	}
 	
-	/** Reads the tag even when the stack is empty: a drained Forge tank keeps its (stale) tag at 0 mB. */
+	/** Reads the tag even when the stack is empty - drained Forge tank keeps its stale tag at 0 mB */
 	@Nullable
 	public static Poison of(@NotNull FluidStack fluid)
 	{
@@ -59,8 +59,7 @@ public record Poison(@NotNull ResourceLocation effectId, int strength)
 	}
 	
 	/**
-	 * The more dangerous of two poisons: Necrosis, then Putrefaction, then other harmful, neutral and beneficial effects; then the stronger one.
-	 * Remaining ties go by effect id, so the order ingredients were put in never decides which poison a result gets.
+	 * The more dangerous of two poisons: Necrosis, then Putrefaction, then other harmful, neutral and beneficial effects, remaining are sorted by id.
 	 */
 	@Nullable
 	public static Poison strongest(@Nullable Poison a, @Nullable Poison b)
@@ -73,7 +72,7 @@ public record Poison(@NotNull ResourceLocation effectId, int strength)
 		return order >= 0 ? a : b;
 	}
 	
-	/** Strongest poison among all slots of {@code container}. */
+	/** Strongest poison among all slots of {@code container} */
 	@Nullable
 	public static Poison strongestIn(@NotNull Container container)
 	{
@@ -84,7 +83,7 @@ public record Poison(@NotNull ResourceLocation effectId, int strength)
 		return result;
 	}
 	
-	/** Strongest poison among slots {@code [from, to)} of {@code handler}. */
+	/** Strongest poison among slots {@code [from, to)} of {@code handler} */
 	@Nullable
 	public static Poison strongestIn(@NotNull IItemHandler handler, int from, int to)
 	{
@@ -95,7 +94,7 @@ public record Poison(@NotNull ResourceLocation effectId, int strength)
 		return result;
 	}
 	
-	/** Removes the poison keys from {@code tag}, if present. */
+	/** Removes the poison keys from {@code tag}, if present */
 	public static void remove(@Nullable CompoundTag tag)
 	{
 		if (tag == null) return;
@@ -103,7 +102,7 @@ public record Poison(@NotNull ResourceLocation effectId, int strength)
 		tag.remove(STRENGTH_KEY);
 	}
 	
-	/** Same fluid and same tag once the poison keys are ignored on both sides. */
+	/** Same fluid and same tag once the poison keys are ignored on both sides */
 	public static boolean fluidEqualIgnoringPoison(@NotNull FluidStack a, @NotNull FluidStack b)
 	{
 		if (a.getFluid() != b.getFluid()) return false;
@@ -151,13 +150,13 @@ public record Poison(@NotNull ResourceLocation effectId, int strength)
 		return tag;
 	}
 	
-	/** Writes this poison onto {@code stack} (replacing any other poison). Does nothing to an empty stack. */
+	/** Writes this poison onto {@code stack} (replacing any other poison). Does nothing to an empty stack */
 	public void applyTo(@NotNull ItemStack stack)
 	{
 		if (!stack.isEmpty()) write(stack.getOrCreateTag());
 	}
 	
-	/** Writes this poison onto {@code fluid}. Does nothing to an empty stack, whose tag can't be written. */
+	/** Writes this poison onto {@code fluid}. Does nothing to an empty stack, whose tag can't be written */
 	public void applyTo(@NotNull FluidStack fluid)
 	{
 		if (!fluid.isEmpty()) write(fluid.getOrCreateTag());

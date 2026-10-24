@@ -48,14 +48,6 @@ public class ToxicologistsFluids
 		return new FluidRegistryObject(fluidType, sourceHolder[0], flowingHolder[0]);
 	}
 	
-	private static ForgeFlowingFluid.Properties createFluidProperties(
-			RegistryObject<FluidType> type,
-			RegistryObject<FlowingFluid> source,
-			RegistryObject<FlowingFluid> flowing)
-	{
-		return new ForgeFlowingFluid.Properties(type, source, flowing);
-	}
-	
 	public static void register(IEventBus eventBus)
 	{
 		FLUID_TYPES.register(eventBus);

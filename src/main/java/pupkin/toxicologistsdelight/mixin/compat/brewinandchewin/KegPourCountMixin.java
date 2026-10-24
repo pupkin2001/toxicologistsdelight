@@ -23,7 +23,9 @@ public abstract class KegPourCountMixin
 {
 	private static final String FLUID_EXTRACT = "fluidExtract(Lnet/minecraft/world/item/ItemStack;IZZ)Ljava/util/List;";
 	
-	@Shadow @Final private FluidTank fluidTank;
+	@Shadow
+	@Final
+	private FluidTank fluidTank;
 	
 	@Shadow
 	public abstract Optional<KegPouringRecipe> getPouringRecipe(ItemStack slot);

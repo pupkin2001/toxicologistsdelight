@@ -7,6 +7,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import pupkin.toxicologistsdelight.ToxicologistsDelight;
 import pupkin.toxicologistsdelight.effect.ToxicologistsEffects;
 
 import java.util.function.Supplier;
@@ -15,7 +16,7 @@ public final class ToxicologistsItems
 {
 	
 	public static final DeferredRegister<Item> ITEMS =
-			DeferredRegister.create(ForgeRegistries.ITEMS, "toxicologistsdelight");
+			DeferredRegister.create(ForgeRegistries.ITEMS, ToxicologistsDelight.MOD_ID);
 	
 	public static final RegistryObject<Item>
 			EMPTY_VIAL = ITEMS.register("empty_vial", () -> new Item(new Item.Properties())),

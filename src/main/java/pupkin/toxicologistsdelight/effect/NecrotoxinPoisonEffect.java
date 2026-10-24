@@ -104,7 +104,7 @@ public class NecrotoxinPoisonEffect extends MobEffect
 				                       0xAA0000, true);
 				
 				guiGraphics.drawString(mc.font,
-				                       net.minecraft.client.resources.language.I18n.get("gui.toxicologistsdelight.eternal"),
+				                       Component.translatable("gui.toxicologistsdelight.eternal"),
 				                       x + 10 + 18, y + 6 + 10,
 				                       0x7F7F7F, true);
 				

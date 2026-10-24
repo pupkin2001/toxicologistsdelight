@@ -19,13 +19,6 @@ public final class ToxicologistsMixinPlugin implements IMixinConfigPlugin
 	private static final String KEG_POUR_METHOD = "fluidExtract";
 	private static final String KEG_POUR_DESCRIPTOR = "(Lnet/minecraft/world/item/ItemStack;IZZ)Ljava/util/List;";
 	
-	@Override
-	public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
-	{
-		if (!KEG_POUR_COUNT_MIXIN.equals(mixinClassName)) return true;
-		return hasMethod(targetClassName, KEG_POUR_METHOD, KEG_POUR_DESCRIPTOR);
-	}
-	
 	private static boolean hasMethod(String className, String name, String descriptor)
 	{
 		try {
@@ -37,6 +30,13 @@ public final class ToxicologistsMixinPlugin implements IMixinConfigPlugin
 			LOGGER.warn("Couldn't inspect {} for compat mixins", className, e);
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
+	{
+		if (!KEG_POUR_COUNT_MIXIN.equals(mixinClassName)) return true;
+		return hasMethod(targetClassName, KEG_POUR_METHOD, KEG_POUR_DESCRIPTOR);
 	}
 	
 	@Override

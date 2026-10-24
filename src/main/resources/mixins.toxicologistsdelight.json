@@ -1,15 +1,19 @@
 {
   "required": true,
-  "minVersion": "0.7",
+  "minVersion": "0.8",
   "package": "pupkin.toxicologistsdelight.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.toxicologistsdelight.refmap.json",
   "plugin": "pupkin.toxicologistsdelight.compat.ToxicologistsMixinPlugin",
   "mixins": [
-    "compat.brewinandchewin.KegPourCountMixin"
+    "AbstractHorseMixin",
+    "AnimalMixin",
+    "LivingEntityMixin",
+    "WolfMixin",
+    "compat.brewinandchewin.KegPourCountMixin",
+    "compat.farmersdelight.DogFoodEventMixin"
   ],
-  "client": [
-  ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }

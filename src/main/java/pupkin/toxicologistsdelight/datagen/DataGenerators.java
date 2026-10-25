@@ -23,6 +23,6 @@ public class DataGenerators
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 		
 		generator.addProvider(event.includeClient(), new TDItemModelProvider(packOutput, existingFileHelper));
-		generator.addProvider(event.includeClient(), new TDRecipeProvider(packOutput));
+		generator.addProvider(event.includeServer(), new TDRecipeProvider(packOutput));
 	}
 }

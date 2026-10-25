@@ -1,0 +1,29 @@
+{
+  "type": "brewinandchewin:fermenting",
+  "basefluid": {
+    "count": 250,
+    "fluid": "toxicologistsdelight:vitality_tincture"
+  },
+  "conditions": [
+    {
+      "type": "forge:tag_empty",
+      "tag": "forge:cattails"
+    }
+  ],
+  "experience": 4.0,
+  "fermentingtime": 19200,
+  "ingredients": [
+    {
+      "item": "minecraft:lily_pad"
+    },
+    {
+      "item": "minecraft:fermented_spider_eye"
+    }
+  ],
+  "recipe_book_tab": "drinks",
+  "result": {
+    "count": 250,
+    "fluid": "toxicologistsdelight:rot"
+  },
+  "temperature": 4
+}

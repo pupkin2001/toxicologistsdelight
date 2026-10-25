@@ -4,9 +4,10 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import pupkin.toxicologistsdelight.ToxicologistsDelight;
 import pupkin.toxicologistsdelight.item.ToxicologistsItems;
 
-@Mod.EventBusSubscriber(modid = "toxicologistsdelight", bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ToxicologistsDelight.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class ToxicologistsCreativeTabs
 {
 	
@@ -16,8 +17,8 @@ public final class ToxicologistsCreativeTabs
 		if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
 			event.accept(ToxicologistsItems.POISON_VIAL.get());
 			event.accept(ToxicologistsItems.NECROTOXIN_VIAL.get());
-			//event.accept(ToxicologistsItems.ROT_VIAL.get());
-			//event.accept(ToxicologistsItems.HEMOTOXIN_VIAL.get());
+			event.accept(ToxicologistsItems.ROT_VIAL.get());
+			event.accept(ToxicologistsItems.VITALITY_VIAL.get());
 			event.accept(ToxicologistsItems.ANTIDOTE_VIAL.get());
 		} else if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
 			event.accept(ToxicologistsItems.EMPTY_VIAL.get());

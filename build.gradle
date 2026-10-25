@@ -26,8 +26,6 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-	mappings channel: 'official', version: "${minecraft_version}"
-	
 	// accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
 	
 	// Default run configurations.
@@ -111,12 +109,13 @@ dependencies {
 	
 	// Hard dependencies
 	implementation fg.deobf("curse.maven:brewin-and-chewin-637808:${brewinandchewin_version}")
+	implementation fg.deobf("curse.maven:farmers-delight-398521:${farmersdelight_version}")
+
 	
 	// Soft dependencies
-	runtimeOnly fg.deobf("curse.maven:farmers-delight-398521:${farmersdelight_version}")
 	runtimeOnly fg.deobf("curse.maven:jei-238222:${jei_version}")
 	runtimeOnly fg.deobf("curse.maven:appleskin-248787:${appleskin_version}")
-	runtimeOnly fg.deobf("libs:BrewersDelight-1.20.1-0.7.0:1.20.1")
+	runtimeOnly fg.deobf("libs:BrewersDelight-1.20.1-0.8.1.1:1.20.1")
 	
 	//runtimeOnly fg.deobf("curse.maven:lmft-656346:4892299")
 	//runtimeOnly fg.deobf("libs:BetterTags:1.20.1")
@@ -135,6 +134,7 @@ tasks.named('processResources', ProcessResources).configure {
 			minecraft_version            : minecraft_version,
 			minecraft_version_range      : minecraft_version_range,
 			forge_version                : forge_version,
+			loader_version_range         : loader_version_range,
 			forge_version_range          : forge_version_range,
 			
 			mod_id                       : mod_id,

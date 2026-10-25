@@ -13,7 +13,6 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -32,12 +31,7 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 		super(properties);
 	}
 	
-	private static boolean isConsumable(ItemStack stack)
-	{
-		return stack.isEdible() || stack.getItem() instanceof PotionItem;
-	}
-	
-	private static void giveOrDrop(Player player, ItemStack stack)
+	protected static void giveOrDrop(Player player, ItemStack stack)
 	{
 		if (!player.getInventory().add(stack)) {
 			player.drop(stack, false);
@@ -62,7 +56,7 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 				player.getZ() + leftZ * side + fwdZ * front);
 	}
 	
-	/** Extra condition the off-hand target must meet (e.g. poisoned / not poisoned). */
+	/** Whether the off-hand target can be transformed (e.g. poisonable and clean / poisoned). */
 	protected abstract boolean canTransform(ItemStack target);
 	
 	/** Maximum number of items from one stack a single use modifies. */
@@ -133,20 +127,21 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 				|| player.getCooldowns().isOnCooldown(target.getItem())) {
 			return InteractionResultHolder.pass(vial);
 		}
-		if (!isConsumable(target) || !canTransform(target)) {
+		if (!canTransform(target)) {
 			return InteractionResultHolder.pass(vial);
 		}
 		
 		player.getCooldowns().addCooldown(target.getItem(), TARGET_COOLDOWN_TICKS);
 		player.getCooldowns().addCooldown(this, VIAL_COOLDOWN_TICKS);
 		
+		ItemStack result = vial;
 		if (!level.isClientSide()) {
 			transformOffhand(player, target);
 			playUseSound(level, player);
 			spawnUseParticles((ServerLevel) level, player, vial); // read colour before the vial shrinks
-			consumeVial(player, vial);
+			result = consumeVial(player, vial);
 		}
-		return InteractionResultHolder.sidedSuccess(vial, level.isClientSide());
+		return InteractionResultHolder.sidedSuccess(result, level.isClientSide());
 	}
 	
 	private void playUseSound(Level level, Player player)
@@ -207,12 +202,17 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 		}
 	}
 	
-	private void consumeVial(Player player, ItemStack vial)
+	private ItemStack consumeVial(Player player, ItemStack vial)
 	{
 		if (player.getAbilities().instabuild) {
-			return;
+			return vial;
 		}
 		vial.shrink(1);
-		giveOrDrop(player, new ItemStack(ToxicologistsItems.EMPTY_VIAL.get()));
+		ItemStack emptyVial = new ItemStack(ToxicologistsItems.EMPTY_VIAL.get());
+		if (vial.isEmpty()) {
+			return emptyVial;
+		}
+		giveOrDrop(player, emptyVial);
+		return vial;
 	}
 }

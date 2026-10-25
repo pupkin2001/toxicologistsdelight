@@ -7,6 +7,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import pupkin.toxicologistsdelight.ToxicologistsDelight;
 import pupkin.toxicologistsdelight.effect.ToxicologistsEffects;
 
 import java.util.function.Supplier;
@@ -15,15 +16,15 @@ public final class ToxicologistsItems
 {
 	
 	public static final DeferredRegister<Item> ITEMS =
-			DeferredRegister.create(ForgeRegistries.ITEMS, "toxicologistsdelight");
+			DeferredRegister.create(ForgeRegistries.ITEMS, ToxicologistsDelight.MOD_ID);
 	
 	public static final RegistryObject<Item>
 			EMPTY_VIAL = ITEMS.register("empty_vial", () -> new Item(new Item.Properties())),
 	
 	NECROTOXIN_VIAL = effectVial("necrotoxin_vial", ToxicologistsEffects.NECROTOXIN, 1, 8),
 			POISON_VIAL = effectVial("poison_vial", () -> MobEffects.POISON, 1, 16),
-			//ROT_VIAL = effectVial("rot_vial", ToxicologistsEffects.ROT, 1, 8),
-			//HEMOTOXIN_VIAL = effectVial("hemotoxin_vial", ToxicologistsEffects.HEMOTOXIN, 1, 8),
+			ROT_VIAL = effectVial("rot_vial", ToxicologistsEffects.ROT, 1, 8),
+			VITALITY_VIAL = effectVial("vitality_vial", () -> MobEffects.REGENERATION, 1, 4),
 	
 	ANTIDOTE_VIAL = ITEMS.register("antidote_vial", PoisonAntidoteItem::new);
 	

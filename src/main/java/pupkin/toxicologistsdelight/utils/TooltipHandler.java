@@ -1,5 +1,6 @@
 package pupkin.toxicologistsdelight.utils;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -18,7 +19,7 @@ public class TooltipHandler
 		Player player = event.getEntity();
 		if (player != null && !player.getAbilities().instabuild) return;
 		if (PoisonUtils.isPoisoned(event.getItemStack())) {
-			event.getToolTip().add(Component.literal("§c" + net.minecraft.client.resources.language.I18n.get("gui.toxicologistsdelight.poisoned")));
+			event.getToolTip().add(Component.translatable("gui.toxicologistsdelight.poisoned").withStyle(ChatFormatting.RED));
 		}
 	}
 }

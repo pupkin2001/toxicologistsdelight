@@ -1,0 +1,13 @@
+{
+  "type": "brewinandchewin:keg_pouring",
+  "amount": 250,
+  "container": {
+    "item": "toxicologistsdelight:empty_vial"
+  },
+  "filling": true,
+  "fluid": "toxicologistsdelight:vitality_tincture",
+  "output": {
+    "item": "toxicologistsdelight:vitality_vial"
+  },
+  "strict": false
+}

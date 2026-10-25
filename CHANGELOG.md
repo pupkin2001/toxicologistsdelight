@@ -17,7 +17,54 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
 
 ---
 
-## [1.20.1-0.2.2.0] — 2026-06-28
+## [0.3.0.0] — 2026-10-26
+
+### Added
+
+- Tincture of Natural Vitality (Regeneration)
+- Poisonable Farmer's Delight feasts and pies
+- Vial of Antidote can be drunk to cure Necrosis, Rot and Poison
+- Another dose of harmful poison raises its strength (up to strength III), except Natural Vitality
+- Grace period before necrosis starts dealing damage
+- Drinks without food values (milk buckets, Farmer's Delight milk bottles, hot cocoa and melon juice) can be poisoned
+- Putrescine from lily pads recipe
+
+### Changed
+
+- Necrosis, Rot and Toxic damage no longer scales with difficulty
+- Necrosis cannot be cured by milk
+- Necrosis never shows effect particles
+- Necrosis no longer bypasses resistance
+- Putrescine accepts any cattail in `#forge:cattail`
+- Limit amount of damage dealt in quick succession by rot
+- Stopped Toxicosis and Toxic Crisis draining hunger when blocking natural regeneration
+- Hearts stay still during the necrotoxin grace period and shake harder as the damage ramps up
+
+### Fixed
+
+- Patched [dupe exploit present in Brewin' and Chewin' 3.2.0+](https://github.com/Monad-Modding/BrewinAndChewin/issues/42):
+  - Brewin' and Chewin' kegs deleting item results that don't fit the output slot
+  - Brewin' and Chewin' 3.2 keg dupe: pouring filled more containers than the keg held, and pouring in used up drinks that didn't fit
+- Armour bar drawing on top of health bar when necrosis is active
+- Health bar not flashing outlines or rendering special textures (poisoned/withered) when necrosis is active
+- Animals being poisoned by food they didn't eat (adults already in love or on breeding cooldown)
+- Tamed wolves not being poisoned by poisoned Farmer's Delight dog food
+- Using up the last vial in stack sometimes deleting the empty vial it gives back
+- Splash and lingering potions being poisonable
+- Furnaces and cooking pots merging poisoned and clean results
+- Toxicosis and Toxic Crisis only blocking regeneration when both were active, blocking any next heal
+- Mod resources being flagged as an incompatible pack
+- Poison tincture missing display item in keg UI
+
+### Technical
+
+- Requires Forge 47.3.30, Farmer's Delight 1.2.5 and Brewin' and Chewin' 3.0.0 or newer
+- Mixins: refmap renamed to `mixins.toxicologistsdelight.refmap.json`
+- Fluids carry poison under the same NBT keys as items
+- Network channel `toxicologistsdelight:main`, syncing Necrosis ramp
+- Necrosis hearts shake the vanilla health bar instead of replacing it
+
+## [0.2.2.0] — 2026-06-28
 
 ### Added
 
@@ -25,15 +72,11 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
 - Recipe book entries for every recipe
 - Creative tab registration for every item
 
-### Changed
-
-- Necrosis no longer bypasses resistance
-
 ### Fixed
 
 - Necrosis effect displaying missing texture instead of its icon
 
-## [1.20.1-0.2.1.1] — 2026-06-27
+## [0.2.1.1] — 2026-06-27
 
 ### Added
 
@@ -45,7 +88,7 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
 - Missing poison tincture localisation strings
 - Missing poison tincture display item in keg UI
 
-## [1.20.1-0.2.1.0] — 2026-06-26
+## [0.2.1.0] — 2026-06-26
 
 ### Added
 
@@ -68,7 +111,7 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
 
 - 'acid' damage type renamed to 'necrotoxin'
 
-## [1.20.1-0.2.0.0] — 2026-06-21
+## [0.2.0.0] — 2026-06-21
 
 ### Added
 
@@ -105,7 +148,7 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
   - Renamed toxicologistsdelight.acid → toxicologistsdelight.necrotoxin
   - Renamed toxicologistsdelight.cure → toxicologistsdelight.antidote
 
-## [1.20.1-0.1.0.0] — 2026-06-21
+## [0.1.0.0] — 2026-06-21
 
 ### Added
 

@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 public class EffectVialItem extends AbstractVialItem
 {
 	
-	private final Supplier<MobEffect> effect; // supplier so the effect can register after the item
+	private final Supplier<MobEffect> effect;
 	private final int strength;
 	private final int batchSize;
 	
@@ -30,7 +30,7 @@ public class EffectVialItem extends AbstractVialItem
 	@Override
 	protected boolean canTransform(ItemStack target)
 	{
-		return !PoisonUtils.isPoisoned(target);
+		return PoisonUtils.canBePoisoned(target) && !PoisonUtils.isPoisoned(target);
 	}
 	
 	@Override

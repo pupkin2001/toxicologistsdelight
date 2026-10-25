@@ -11,8 +11,9 @@ public final class NecroticHearts
 	private static final Random RANDOM = new Random();
 	private static final int THRASH_HEALTH = 8;
 	
-	/** Set from the server (NecrosisIntensityPacket)
-	 * 0 during the grace period, up to 1 once the damage has fully ramped up */
+	/**
+	 * Set from the server (NecrosisIntensityPacket) 0 during the grace period, up to 1 once the damage has fully ramped up
+	 */
 	private static float intensity;
 	private static boolean active;
 	private static boolean thrashing;

@@ -1,7 +1,7 @@
 {
-  "toxicologistsdelight:poison_tincture": "toxicologistsdelight:poison_vial",
-  "toxicologistsdelight:necrotoxin": "toxicologistsdelight:necrotoxin_vial",
-  "toxicologistsdelight:rot": "toxicologistsdelight:rot_vial",
+  "toxicologistsdelight:antidote": "toxicologistsdelight:antidote_vial",
   "toxicologistsdelight:vitality_tincture": "toxicologistsdelight:vitality_vial",
-  "toxicologistsdelight:antidote": "toxicologistsdelight:antidote_vial"
+  "toxicologistsdelight:poison_tincture": "toxicologistsdelight:poison_vial",
+  "toxicologistsdelight:rot": "toxicologistsdelight:rot_vial",
+  "toxicologistsdelight:necrotoxin": "toxicologistsdelight:necrotoxin_vial"
 }

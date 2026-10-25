@@ -48,15 +48,6 @@ public class NecrotoxinPoisonEffect extends MobEffect
 	
 	public NecrotoxinPoisonEffect() { super(MobEffectCategory.HARMFUL, 0x703a76); }
 	
-	// Only the antidote cures it - milk (and Farmer's Delight milk bottles / hot cocoa, which ask about milk) no longer does.
-	@Override
-	public List<ItemStack> getCurativeItems()
-	{
-		List<ItemStack> curativeItems = new ArrayList<>();
-		curativeItems.add(new ItemStack(ToxicologistsItems.ANTIDOTE_VIAL.get()));
-		return curativeItems;
-	}
-	
 	private static int ticksPerSecondFor(int amplifier)
 	{
 		// amp 0->20, 1->18, 2->16 ... clamped so amp>=10 never divides by zero.
@@ -86,6 +77,15 @@ public class NecrotoxinPoisonEffect extends MobEffect
 		long graceTicks = graceTicksFor(necrosis.getAmplifier());
 		if (elapsed < graceTicks) return 0.0F;
 		return rampedDamage(elapsed - graceTicks, necrosis.getAmplifier()) / MAX_DAMAGE_PER_TICK;
+	}
+	
+	// Only the antidote cures it - milk (and Farmer's Delight milk bottles / hot cocoa, which ask about milk) no longer does.
+	@Override
+	public List<ItemStack> getCurativeItems()
+	{
+		List<ItemStack> curativeItems = new ArrayList<>();
+		curativeItems.add(new ItemStack(ToxicologistsItems.ANTIDOTE_VIAL.get()));
+		return curativeItems;
 	}
 	
 	@Override

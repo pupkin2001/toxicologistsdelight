@@ -87,54 +87,9 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 			Item item = (Item) regObj.get();
 			ingredientJson.addProperty("item", Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item)).toString());
 		} else {
-			throw new IllegalArgumentException("Ingredient must be an Item, TagKey<Item>, String tag representation, ResourceLocation item ID, or RegistryObject<Item>: " + ingredient);
+			throw new IllegalArgumentException(
+					"Ingredient must be an Item, TagKey<Item>, String tag representation, ResourceLocation item ID, or RegistryObject<Item>: " + ingredient);
 		}
-	}
-	
-	// Item exists condition for an item from an optional mod
-	private ICondition itemExists(ResourceLocation id)
-	{
-		return itemExists(id.getNamespace(), id.getPath());
-	}
-	
-	private Consumer<FinishedRecipe> withConditions(Consumer<FinishedRecipe> consumer, ICondition... conditionList)
-	{
-		JsonArray conditions = CraftingHelper.serialize(conditionList);
-		return recipe -> consumer.accept(new FinishedRecipe()
-		{
-			@Override
-			public void serializeRecipeData(@NotNull JsonObject json)
-			{
-				recipe.serializeRecipeData(json);
-				json.add("conditions", conditions.deepCopy());
-			}
-			
-			@Override
-			public @NotNull ResourceLocation getId()
-			{
-				return recipe.getId();
-			}
-			
-			@Override
-			public @NotNull RecipeSerializer<?> getType()
-			{
-				return recipe.getType();
-			}
-			
-			@Override
-			public JsonObject serializeAdvancement()
-			{
-				JsonObject advancement = recipe.serializeAdvancement();
-				if (advancement != null) advancement.add("conditions", conditions.deepCopy());
-				return advancement;
-			}
-			
-			@Override
-			public ResourceLocation getAdvancementId()
-			{
-				return recipe.getAdvancementId();
-			}
-		});
 	}
 	
 	private static UnlockCriterion unlock(String name, Object... items)
@@ -184,6 +139,52 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 	private static ResourceLocation recipeAdvancementId(String category, String recipeName)
 	{
 		return ResourceLocation.fromNamespaceAndPath("toxicologistsdelight", "recipes/" + category + "/" + recipeName);
+	}
+	
+	// Item exists condition for an item from an optional mod
+	private ICondition itemExists(ResourceLocation id)
+	{
+		return itemExists(id.getNamespace(), id.getPath());
+	}
+	
+	private Consumer<FinishedRecipe> withConditions(Consumer<FinishedRecipe> consumer, ICondition... conditionList)
+	{
+		JsonArray conditions = CraftingHelper.serialize(conditionList);
+		return recipe -> consumer.accept(new FinishedRecipe()
+		{
+			@Override
+			public void serializeRecipeData(@NotNull JsonObject json)
+			{
+				recipe.serializeRecipeData(json);
+				json.add("conditions", conditions.deepCopy());
+			}
+			
+			@Override
+			public @NotNull ResourceLocation getId()
+			{
+				return recipe.getId();
+			}
+			
+			@Override
+			public @NotNull RecipeSerializer<?> getType()
+			{
+				return recipe.getType();
+			}
+			
+			@Override
+			public JsonObject serializeAdvancement()
+			{
+				JsonObject advancement = recipe.serializeAdvancement();
+				if (advancement != null) advancement.add("conditions", conditions.deepCopy());
+				return advancement;
+			}
+			
+			@Override
+			public ResourceLocation getAdvancementId()
+			{
+				return recipe.getAdvancementId();
+			}
+		});
 	}
 	
 	@Override

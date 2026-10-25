@@ -44,6 +44,13 @@ public class RotPoisonEffect extends MobEffect
 		super(MobEffectCategory.HARMFUL, 0x4B0082);
 	}
 	
+	private static void addBudget(LivingEntity entity, float amount, int amplifier)
+	{
+		CompoundTag data = entity.getPersistentData();
+		float max = MAX_BUDGET * (amplifier + 1);
+		data.putFloat(BUDGET_KEY, Math.min(max, data.getFloat(BUDGET_KEY) + amount * (amplifier + 1)));
+	}
+	
 	@Override
 	public List<ItemStack> getCurativeItems()
 	{
@@ -51,13 +58,6 @@ public class RotPoisonEffect extends MobEffect
 		curativeItems.add(new ItemStack(Items.MILK_BUCKET));
 		curativeItems.add(new ItemStack(ToxicologistsItems.ANTIDOTE_VIAL.get()));
 		return curativeItems;
-	}
-	
-	private static void addBudget(LivingEntity entity, float amount, int amplifier)
-	{
-		CompoundTag data = entity.getPersistentData();
-		float max = MAX_BUDGET * (amplifier + 1);
-		data.putFloat(BUDGET_KEY, Math.min(max, data.getFloat(BUDGET_KEY) + amount * (amplifier + 1)));
 	}
 	
 	@Mod.EventBusSubscriber(modid = ToxicologistsDelight.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)

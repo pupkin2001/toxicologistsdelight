@@ -4,11 +4,13 @@
   "item.toxicologistsdelight.poison_vial": "Стклянка съ ядомъ",
   "item.toxicologistsdelight.necrotoxin_vial": "Стклянка некротоксина",
   "item.toxicologistsdelight.rot_vial": "Стклянка путресцина",
+  "item.toxicologistsdelight.vitality_vial": "Стклянка природной жизненной силы",
   "item.toxicologistsdelight.antidote_vial": "Стклянка противуядія",
 
   "fluid_type.toxicologistsdelight.poison_tincture": "Ядовитая настойка",
   "fluid_type.toxicologistsdelight.necrotoxin": "Некротоксинъ",
   "fluid_type.toxicologistsdelight.rot": "Путресцинъ",
+  "fluid_type.toxicologistsdelight.vitality_tincture": "Настойка природной жизненной силы",
   "fluid_type.toxicologistsdelight.antidote": "Противуядіе",
 
   "effect.toxicologistsdelight.necrotoxin": "Некрозъ",

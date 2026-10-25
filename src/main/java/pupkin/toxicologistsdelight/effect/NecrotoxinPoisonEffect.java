@@ -14,6 +14,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.client.extensions.common.IClientMobEffectExtensions;
 import net.minecraftforge.event.entity.living.PotionColorCalculationEvent;
@@ -21,7 +22,9 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import pupkin.toxicologistsdelight.ToxicologistsDelight;
+import pupkin.toxicologistsdelight.item.ToxicologistsItems;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -58,6 +61,14 @@ public class NecrotoxinPoisonEffect extends MobEffect
 		float progress = Mth.clamp(elapsedTicks / rampTicks, 0.0F, 1.0F);
 		if (RAMP_EXPONENT != 1.0F) progress = (float) Math.pow(progress, RAMP_EXPONENT);
 		return MAX_DAMAGE_PER_TICK * progress;
+	}
+	
+	@Override
+	public List<ItemStack> getCurativeItems()
+	{
+		List<ItemStack> curativeItems = new ArrayList<>();
+		curativeItems.add(new ItemStack(ToxicologistsItems.ANTIDOTE_VIAL.get()));
+		return curativeItems;
 	}
 	
 	@Override

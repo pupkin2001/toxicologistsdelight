@@ -13,7 +13,9 @@
     "compat.brewinandchewin.KegPourCountMixin",
     "compat.farmersdelight.DogFoodEventMixin"
   ],
-  "client": [],
+  "client": [
+    "client.GuiMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

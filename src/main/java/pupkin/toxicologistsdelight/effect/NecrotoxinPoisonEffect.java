@@ -48,10 +48,24 @@ public class NecrotoxinPoisonEffect extends MobEffect
 	
 	public NecrotoxinPoisonEffect() { super(MobEffectCategory.HARMFUL, 0x703a76); }
 	
+	// Only the antidote cures it - milk (and Farmer's Delight milk bottles / hot cocoa, which ask about milk) no longer does.
+	@Override
+	public List<ItemStack> getCurativeItems()
+	{
+		List<ItemStack> curativeItems = new ArrayList<>();
+		curativeItems.add(new ItemStack(ToxicologistsItems.ANTIDOTE_VIAL.get()));
+		return curativeItems;
+	}
+	
 	private static int ticksPerSecondFor(int amplifier)
 	{
 		// amp 0->20, 1->18, 2->16 ... clamped so amp>=10 never divides by zero.
 		return Math.max(1, 20 - 2 * amplifier);
+	}
+	
+	private static long graceTicksFor(int amplifier)
+	{
+		return (long) (GRACE_PERIOD_SECONDS * ticksPerSecondFor(amplifier));
 	}
 	
 	private static float rampedDamage(long elapsedTicks, int amplifier)
@@ -63,12 +77,15 @@ public class NecrotoxinPoisonEffect extends MobEffect
 		return MAX_DAMAGE_PER_TICK * progress;
 	}
 	
-	@Override
-	public List<ItemStack> getCurativeItems()
+	/** 0 until the grace period ends, then how far the damage has ramped up, up to 1. Server side only: the tick counter isn't synced. */
+	public static float rampIntensity(LivingEntity entity)
 	{
-		List<ItemStack> curativeItems = new ArrayList<>();
-		curativeItems.add(new ItemStack(ToxicologistsItems.ANTIDOTE_VIAL.get()));
-		return curativeItems;
+		MobEffectInstance necrosis = entity.getEffect(ToxicologistsEffects.NECROTOXIN.get());
+		if (necrosis == null) return 0.0F;
+		long elapsed = entity.getPersistentData().getLong(RAMP_TICKS_KEY);
+		long graceTicks = graceTicksFor(necrosis.getAmplifier());
+		if (elapsed < graceTicks) return 0.0F;
+		return rampedDamage(elapsed - graceTicks, necrosis.getAmplifier()) / MAX_DAMAGE_PER_TICK;
 	}
 	
 	@Override
@@ -76,7 +93,7 @@ public class NecrotoxinPoisonEffect extends MobEffect
 	{
 		if (!entity.level().isClientSide) {
 			long elapsed = entity.getPersistentData().getLong(RAMP_TICKS_KEY);
-			long graceTicks = (long) (GRACE_PERIOD_SECONDS * ticksPerSecondFor(amplifier));
+			long graceTicks = graceTicksFor(amplifier);
 			if (elapsed < graceTicks) return;
 			float damage = rampedDamage(elapsed - graceTicks, amplifier);
 			

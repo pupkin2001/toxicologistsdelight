@@ -61,7 +61,7 @@ public class TDRecipeProvider extends RecipeProvider implements IConditionBuilde
 	// Brewer's Delight (optional) ingredients
 	private static final String BREWERS_DELIGHT = "brewersdelight";
 	private static final ResourceLocation SNOW_FUNGUS = ResourceLocation.fromNamespaceAndPath(BREWERS_DELIGHT, "snow_fungus");
-	private static final TagKey<Item> CATTAILS = ItemTags.create(ResourceLocation.withDefaultNamespace("cattails"));
+	private static final TagKey<Item> CATTAILS = ItemTags.create(ResourceLocation.fromNamespaceAndPath("forge", "cattails"));
 	
 	public TDRecipeProvider(PackOutput output)
 	{

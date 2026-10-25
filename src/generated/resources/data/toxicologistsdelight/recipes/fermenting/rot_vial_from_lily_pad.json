@@ -7,7 +7,7 @@
   "conditions": [
     {
       "type": "forge:tag_empty",
-      "tag": "minecraft:cattails"
+      "tag": "forge:cattails"
     }
   ],
   "experience": 4.0,

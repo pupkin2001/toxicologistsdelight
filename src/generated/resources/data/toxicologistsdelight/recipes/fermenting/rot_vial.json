@@ -9,7 +9,7 @@
       "type": "forge:not",
       "value": {
         "type": "forge:tag_empty",
-        "tag": "minecraft:cattails"
+        "tag": "forge:cattails"
       }
     }
   ],
@@ -17,7 +17,7 @@
   "fermentingtime": 19200,
   "ingredients": [
     {
-      "tag": "minecraft:cattails"
+      "tag": "forge:cattails"
     },
     {
       "item": "minecraft:fermented_spider_eye"

@@ -1,13 +1,15 @@
 # Changelog
 
-Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Patch>`**, with optional pre-release tags.
+Versions follow the format **`<Minecraft_Version>-v<Major>.<Minor>.<Feature>.<Patch>`**, with optional pre-release tags.
 
-| Segment     | Incremented for                                                       |
-|:------------|:----------------------------------------------------------------------|
-| **Major**   | Complete rewrites                                                     |
-| **Minor**   | New Minecraft patch support, large features, or save-breaking changes |
-| **Feature** | Added or reworked features that keep compatibility                    |
-| **Patch**   | Small bug fixes and optimizations                                     |
+*Note: Releases before v0.4.0.0 omitted **`v`** before version numbers.*
+
+| Segment     | Incremented for                                                         |
+|:------------|:------------------------------------------------------------------------|
+| **Major**   | Complete rewrites                                                       |
+| **Minor**   | New Minecraft version support, large features, or save-breaking changes |
+| **Feature** | Added or reworked features that keep compatibility                      |
+| **Patch**   | Small bug fixes and optimizations                                       |
 
 **Pre-release order** (earliest → stable):
 `-a#` alpha → `-b#` beta → `-rc#` release candidate → stable
@@ -37,14 +39,14 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
 - Necrosis no longer bypasses resistance
 - Putrescine accepts any cattail in `#forge:cattail`
 - Limit amount of damage dealt in quick succession by rot
-- Stopped Toxicosis and Toxic Crisis draining hunger when blocking natural regeneration
 - Hearts stay still during the necrotoxin grace period and shake harder as the damage ramps up
 
 ### Fixed
 
-- Patched [dupe exploit present in Brewin' and Chewin' 3.2.0+](https://github.com/Monad-Modding/BrewinAndChewin/issues/42):
+- Patched [dupe present in Brewin' and Chewin' 3.2.0+](https://github.com/Monad-Modding/BrewinAndChewin/issues/42):
   - Brewin' and Chewin' kegs deleting item results that don't fit the output slot
-  - Brewin' and Chewin' 3.2 keg dupe: pouring filled more containers than the keg held, and pouring in used up drinks that didn't fit
+  - Brewin' and Chewin' 3.2 keg dupe: pouring filled more containers than the keg held, and pouring in used up drinks
+    that didn't fit
 - Armour bar drawing on top of health bar when necrosis is active
 - Health bar not flashing outlines or rendering special textures (poisoned/withered) when necrosis is active
 - Animals being poisoned by food they didn't eat (adults already in love or on breeding cooldown)
@@ -52,7 +54,6 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
 - Using up the last vial in stack sometimes deleting the empty vial it gives back
 - Splash and lingering potions being poisonable
 - Furnaces and cooking pots merging poisoned and clean results
-- Toxicosis and Toxic Crisis only blocking regeneration when both were active, blocking any next heal
 - Mod resources being flagged as an incompatible pack
 - Poison tincture missing display item in keg UI
 
@@ -96,14 +97,16 @@ Versions follow the format **`<Minecraft_Version>-<Major>.<Minor>.<Feature>.<Pat
 
 ### Changed
 
-- Milk bucket in antidote recipe can now be replaced by equivalent items from other mods if they are tagged as <code>#forge:milk/milk</code>
+- Milk bucket in antidote recipe can now be replaced by equivalent items from other mods if they are tagged as
+  <code>#forge:milk/milk</code>
 - Fermenting recipe costs:
   - Necrotoxin (Added red mushroom)
   - Antidote (Added honey bottle, charcoal, sweet berries)
 
 ### Fixed
 
-- Game crashing due to missing registry entries when forge decides to load Brewin' and Chewin' or Farmer's Delight after Toxicologists's Delight
+- Game crashing due to missing registry entries when forge decides to load Brewin' and Chewin' or Farmer's Delight after
+  Toxicologists's Delight
 - All vial fermenting recipes never being able to start and confusing JEI
 - Necrosis damage being affected by damage reduction
 

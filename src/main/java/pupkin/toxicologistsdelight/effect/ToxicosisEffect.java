@@ -63,6 +63,14 @@ public class ToxicosisEffect extends MobEffect // ! Both toxicosis and toxic cri
 		});
 	}
 	
+	/* Set by PlayerMixin while Peaceful regeneration calls Player#heal. Food regeneration is stopped in FoodDataMixin */
+	public static final ThreadLocal<Boolean> NATURAL_REGEN = ThreadLocal.withInitial(() -> false);
+	
+	public static boolean blocksNaturalRegen(LivingEntity entity)
+	{
+		return entity.hasEffect(ToxicologistsEffects.TOXICOSIS.get()) || entity.hasEffect(ToxicologistsEffects.TOXIC_CRISIS.get());
+	}
+	
 	@Mod.EventBusSubscriber(modid = ToxicologistsDelight.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 	public static class ToxicosisHealingHandler
 	{

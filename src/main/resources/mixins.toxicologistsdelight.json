@@ -8,7 +8,9 @@
   "mixins": [
     "AbstractHorseMixin",
     "AnimalMixin",
+    "FoodDataMixin",
     "LivingEntityMixin",
+    "PlayerMixin",
     "WolfMixin",
     "compat.brewinandchewin.KegPourCountMixin",
     "compat.farmersdelight.DogFoodEventMixin"

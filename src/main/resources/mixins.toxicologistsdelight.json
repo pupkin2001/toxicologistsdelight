@@ -18,6 +18,12 @@
     "WolfMixin",
     "compat.brewinandchewin.KegPourCountMixin",
     "compat.farmersdelight.DogFoodEventMixin"
+    "compat.farmersdelight.CookingPotBlockEntityMixin",
+    "compat.farmersdelight.CuttingBoardBlockEntityMixin",
+    "compat.farmersdelight.CuttingBoardRecipeMixin",
+    "compat.farmersdelight.DogFoodEventMixin",
+    "compat.farmersdelight.SkilletItemMixin",
+    "compat.farmersdelight.StoveBlockEntityMixin"
   ],
   "client": [
     "client.GuiMixin"

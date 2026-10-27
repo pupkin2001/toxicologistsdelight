@@ -6,11 +6,15 @@
   "refmap": "mixins.toxicologistsdelight.refmap.json",
   "plugin": "pupkin.toxicologistsdelight.compat.ToxicologistsMixinPlugin",
   "mixins": [
+    "AbstractCookingRecipeMixin",
+    "AbstractFurnaceBlockEntityMixin",
     "AbstractHorseMixin",
     "AnimalMixin",
+    "CraftingRecipeMixin",
     "FoodDataMixin",
     "LivingEntityMixin",
     "PlayerMixin",
+    "SingleItemRecipeMixin",
     "WolfMixin",
     "compat.brewinandchewin.KegPourCountMixin",
     "compat.farmersdelight.DogFoodEventMixin"

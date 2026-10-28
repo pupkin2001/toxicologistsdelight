@@ -19,12 +19,31 @@ Versions follow the format **`<Minecraft_Version>-v<Major>.<Minor>.<Feature>.<Pa
 
 ---
 
+## [v0.4.0.0] — Unreleased
+
+### Added
+
+- Minecraft 1.21.1 NeoForge support
+- Poisonable Farmer's Delight feasts and pies
+- Poison carries over when poisoned food is processed into other food, taking the most dangerous poison among the
+  ingredients:
+  - Crafting, smelting, smoking, campfires, stonecutting and brewing stands
+  - Farmer's Delight cooking pots, cutting boards, stoves and skillets
+  - Brewin' and Chewin' kegs - fermenting, and pouring drinks in and out
+
+### Changed
+
+- Toxicosis and Toxic Crisis no longer drain hunger when blocking natural regeneration
+
+### Fixed
+
+- Toxicosis and Toxic Crisis only blocking regeneration when both were active, blocking any next heal
+
 ## [0.3.0.0] — 2026-10-26
 
 ### Added
 
 - Tincture of Natural Vitality (Regeneration)
-- Poisonable Farmer's Delight feasts and pies
 - Vial of Antidote can be drunk to cure Necrosis, Rot and Poison
 - Another dose of harmful poison raises its strength (up to strength III), except Natural Vitality
 - Grace period before necrosis starts dealing damage
@@ -98,7 +117,7 @@ Versions follow the format **`<Minecraft_Version>-v<Major>.<Minor>.<Feature>.<Pa
 ### Changed
 
 - Milk bucket in antidote recipe can now be replaced by equivalent items from other mods if they are tagged as
-  <code>#forge:milk/milk</code>
+  `#forge:milk/milk`
 - Fermenting recipe costs:
   - Necrotoxin (Added red mushroom)
   - Antidote (Added honey bottle, charcoal, sweet berries)

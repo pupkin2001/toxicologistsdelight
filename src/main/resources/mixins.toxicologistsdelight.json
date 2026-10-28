@@ -16,8 +16,12 @@
     "PlayerMixin",
     "SingleItemRecipeMixin",
     "WolfMixin",
+    "compat.brewinandchewin.CreatePotionPouringRecipeMixin",
+    "compat.brewinandchewin.KegBlockEntityMixin",
+    "compat.brewinandchewin.KegFermentingRecipeMixin",
     "compat.brewinandchewin.KegPourCountMixin",
-    "compat.farmersdelight.DogFoodEventMixin"
+    "compat.brewinandchewin.KegPouringRecipeMixin",
+    "compat.farmersdelight.DogFoodEventMixin",
     "compat.farmersdelight.CookingPotBlockEntityMixin",
     "compat.farmersdelight.CuttingBoardBlockEntityMixin",
     "compat.farmersdelight.CuttingBoardRecipeMixin",

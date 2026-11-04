@@ -39,6 +39,10 @@ Versions follow the format **`<Minecraft_Version>-v<Major>.<Minor>.<Feature>.<Pa
 
 - Toxicosis and Toxic Crisis only blocking regeneration when both were active, blocking any next heal
 
+### Technical
+
+- Global loot modifier `toxicologistsdelight:poisoned_block_drops`, saved data `toxicologistsdelight_poisoned_blocks`
+
 ## [0.3.0.0] — 2026-10-26
 
 ### Added

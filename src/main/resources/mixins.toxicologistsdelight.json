@@ -26,6 +26,9 @@
     "compat.farmersdelight.CuttingBoardBlockEntityMixin",
     "compat.farmersdelight.CuttingBoardRecipeMixin",
     "compat.farmersdelight.DogFoodEventMixin",
+    "compat.farmersdelight.FeastBlockMixin",
+    "compat.farmersdelight.PastrySlicingModifierMixin",
+    "compat.farmersdelight.PieBlockMixin",
     "compat.farmersdelight.SkilletItemMixin",
     "compat.farmersdelight.StoveBlockEntityMixin"
   ],

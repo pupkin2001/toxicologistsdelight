@@ -23,7 +23,9 @@ import java.util.Objects;
 @Mixin(value = CookingPotBlockEntity.class, remap = false)
 public abstract class CookingPotBlockEntityMixin
 {
-	@Shadow @Final private ItemStackHandler inventory;
+	@Shadow
+	@Final
+	private ItemStackHandler inventory;
 	
 	// Set when a batch completes and written onto the meal at the end of processCooking
 	@Unique
@@ -59,7 +61,7 @@ public abstract class CookingPotBlockEntityMixin
 	}
 	
 	// The meal stays in its slot while the output holds the same meal with another poison
-	@Inject(method = {"moveMealToOutput()V", "useStoredContainersOnMeal()V"}, at = @At("HEAD"), cancellable = true)
+	@Inject(method = { "moveMealToOutput()V", "useStoredContainersOnMeal()V" }, at = @At("HEAD"), cancellable = true)
 	private void toxicologistsdelight$keepOutputsApart(CallbackInfo ci)
 	{
 		ItemStack meal = inventory.getStackInSlot(CookingPotBlockEntity.MEAL_DISPLAY_SLOT);

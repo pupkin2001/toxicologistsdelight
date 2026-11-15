@@ -22,6 +22,8 @@ import java.util.function.Consumer;
 
 public class ToxicosisEffect extends MobEffect // ! Both toxicosis and toxic crisis effects live here.
 {
+	/* Set by PlayerMixin while Peaceful regeneration calls Player#heal. Food regeneration is stopped in FoodDataMixin */
+	public static final ThreadLocal<Boolean> NATURAL_REGEN = ThreadLocal.withInitial(() -> false);
 	private static final ResourceKey<DamageType> TOXICOSIS_DAMAGE_KEY =
 			ResourceKey.create(Registries.DAMAGE_TYPE,
 			                   ResourceLocation.fromNamespaceAndPath(ToxicologistsDelight.MOD_ID, "toxicosis"));
@@ -30,6 +32,11 @@ public class ToxicosisEffect extends MobEffect // ! Both toxicosis and toxic cri
 			                   ResourceLocation.fromNamespaceAndPath(ToxicologistsDelight.MOD_ID, "toxic_crisis"));
 	
 	public ToxicosisEffect() { super(MobEffectCategory.HARMFUL, 0x4B0082); }
+	
+	public static boolean blocksNaturalRegen(LivingEntity entity)
+	{
+		return entity.hasEffect(ToxicologistsEffects.TOXICOSIS.get()) || entity.hasEffect(ToxicologistsEffects.TOXIC_CRISIS.get());
+	}
 	
 	@Override
 	public boolean isDurationEffectTick(int duration, int amplifier) { return false; }
@@ -61,14 +68,6 @@ public class ToxicosisEffect extends MobEffect // ! Both toxicosis and toxic cri
 				return true; // Suppress the default vanilla name/duration text
 			}
 		});
-	}
-	
-	/* Set by PlayerMixin while Peaceful regeneration calls Player#heal. Food regeneration is stopped in FoodDataMixin */
-	public static final ThreadLocal<Boolean> NATURAL_REGEN = ThreadLocal.withInitial(() -> false);
-	
-	public static boolean blocksNaturalRegen(LivingEntity entity)
-	{
-		return entity.hasEffect(ToxicologistsEffects.TOXICOSIS.get()) || entity.hasEffect(ToxicologistsEffects.TOXIC_CRISIS.get());
 	}
 	
 	@Mod.EventBusSubscriber(modid = ToxicologistsDelight.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)

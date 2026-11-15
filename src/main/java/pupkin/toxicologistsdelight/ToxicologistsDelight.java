@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import pupkin.toxicologistsdelight.effect.ToxicologistsEffects;
 import pupkin.toxicologistsdelight.item.ToxicologistsItems;
 import pupkin.toxicologistsdelight.misc.ToxicologistsFluids;
+import pupkin.toxicologistsdelight.misc.ToxicologistsLootModifiers;
 import pupkin.toxicologistsdelight.network.ToxicologistsNetwork;
 
 @Mod(ToxicologistsDelight.MOD_ID)
@@ -24,5 +25,6 @@ public class ToxicologistsDelight
 		ToxicologistsEffects.register(eventBus);
 		ToxicologistsFluids.register(eventBus);
 		ToxicologistsNetwork.register();
+		ToxicologistsLootModifiers.register(eventBus);
 	}
 }

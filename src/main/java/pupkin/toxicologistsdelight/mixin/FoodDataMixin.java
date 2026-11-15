@@ -3,6 +3,7 @@ package pupkin.toxicologistsdelight.mixin;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -12,10 +13,16 @@ import pupkin.toxicologistsdelight.effect.ToxicosisEffect;
 @Mixin(FoodData.class)
 public abstract class FoodDataMixin
 {
+	@Shadow
+	private int tickTimer;
+	
 	@Inject(method = "tick(Lnet/minecraft/world/entity/player/Player;)V",
 	        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;heal(F)V"), cancellable = true)
 	private void toxicologistsdelight$blockRegen(Player player, CallbackInfo ci)
 	{
-		if (ToxicosisEffect.blocksNaturalRegen(player)) ci.cancel();
+		if (!ToxicosisEffect.blocksNaturalRegen(player)) return;
+		// Reset the timer like a real heal
+		tickTimer = 0;
+		ci.cancel();
 	}
 }

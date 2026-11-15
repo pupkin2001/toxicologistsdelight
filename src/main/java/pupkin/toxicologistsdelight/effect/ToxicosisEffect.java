@@ -10,9 +10,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.extensions.common.IClientMobEffectExtensions;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -73,40 +71,11 @@ public class ToxicosisEffect extends MobEffect // ! Both toxicosis and toxic cri
 	@Mod.EventBusSubscriber(modid = ToxicologistsDelight.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 	public static class ToxicosisHealingHandler
 	{
-		// Flag entities about to naturally regen
-		@SubscribeEvent
-		public static void onLivingTick(LivingEvent.LivingTickEvent event)
-		{
-			LivingEntity entity = event.getEntity();
-			if (!(entity instanceof Player player)) return;
-			if (!player.hasEffect(ToxicologistsEffects.TOXICOSIS.get()) ||
-					!player.hasEffect(ToxicologistsEffects.TOXIC_CRISIS.get())) { return; }
-			
-			// Mirror vanilla's regen condition (from Player.java)
-			boolean saturatedRegen = player.getFoodData().getSaturationLevel() > 0
-					&& player.isHurt()
-					&& player.getFoodData().getFoodLevel() >= 20;
-			
-			boolean normalRegen = player.getFoodData().getFoodLevel() >= 18
-					&& player.isHurt();
-			
-			if (saturatedRegen || normalRegen) {
-				// Tag "about to naturally regen this tick"
-				player.getPersistentData().putBoolean("pending_natural_regen", true);
-			}
-		}
-		
+		// Only Peaceful regeneration is cancelled here
 		@SubscribeEvent
 		public static void onLivingHeal(LivingHealEvent event)
 		{
-			LivingEntity entity = event.getEntity();
-			if (!entity.hasEffect(ToxicologistsEffects.TOXICOSIS.get()) ||
-					!entity.hasEffect(ToxicologistsEffects.TOXIC_CRISIS.get())) { return; }
-			
-			if (entity.getPersistentData().getBoolean("pending_natural_regen")) {
-				entity.getPersistentData().remove("pending_natural_regen");
-				event.setCanceled(true);
-			}
+			if (NATURAL_REGEN.get() && blocksNaturalRegen(event.getEntity())) event.setCanceled(true);
 		}
 	}
 }

@@ -2,8 +2,8 @@
 
 # Welcome to the Toxicologist's Delight repository.
 
-**Toxicologist's Delight** is an add-on to **[Farmer's Delight](https://github.com/vectorwing/FarmersDelight)** and *
-*[Brewin' and Chewin'](https://github.com/wiidotmom/BrewinAndChewin)**, adding food and potion poisoning.
+**Toxicologist's Delight** is an add-on to **[Farmer's Delight](https://github.com/vectorwing/FarmersDelight)** and
+**[Brewin' and Chewin'](https://github.com/wiidotmom/BrewinAndChewin)**, adding food and potion poisoning.
 Also patches [dupe exploit](https://github.com/Monad-Modding/BrewinAndChewin/issues/42) present in Brewin' and Chewin'
 3.2.0 and later.
 

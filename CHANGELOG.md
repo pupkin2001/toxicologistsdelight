@@ -27,13 +27,15 @@ Versions follow the format **`<Minecraft_Version>-v<Major>.<Minor>.<Feature>.<Pa
 - Poisonable Farmer's Delight feasts and pies
 - Poison carries over when poisoned food is processed into other food, taking the most dangerous poison among the
   ingredients:
-  - Crafting, smelting, smoking, campfires, stonecutting and brewing stands
+  - Crafting, smelting, smoking, campfires, stonecutting
   - Farmer's Delight cooking pots, cutting boards, stoves and skillets
   - Brewin' and Chewin' kegs - fermenting, and pouring drinks in and out
+- Brewed potions keep the poison of the potion they were brewed from (ingredient's poison is skipped). Splash and
+  lingering potions can't hold poison (adding gunpowder or dragon's breath remove all poisons)
 
 ### Changed
 
-- Toxicosis and Toxic Crisis no longer drain hunger when blocking natural regeneration
+- Toxicosis and Toxic Crisis no longer drain hunger when blocking natural regeneration (even on Peaceful)
 
 ### Fixed
 
@@ -42,6 +44,8 @@ Versions follow the format **`<Minecraft_Version>-v<Major>.<Minor>.<Feature>.<Pa
 ### Technical
 
 - Global loot modifier `toxicologistsdelight:poisoned_block_drops`, saved data `toxicologistsdelight_poisoned_blocks`
+- Brewin' and Chewin' kegs wait until the output slot has room for the fermented item instead of deleting whatever
+  didn't fit
 
 ## [0.3.0.0] — 2026-10-26
 

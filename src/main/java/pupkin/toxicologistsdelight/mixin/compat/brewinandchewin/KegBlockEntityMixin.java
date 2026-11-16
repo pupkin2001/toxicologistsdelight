@@ -68,7 +68,13 @@ public abstract class KegBlockEntityMixin
 		return result;
 	}
 	
-	// BnC inserts an item result without checking the output slot and drops whatever doesn't fit, so with this batch waits until new result fits
+	@Inject(method = "processFermenting", at = @At("RETURN"))
+	private void toxicologistsdelight$clearBatchPoison(KegFermentingRecipe recipe, KegBlockEntity keg, CallbackInfoReturnable<Boolean> cir)
+	{
+		toxicologistsdelight$batchPoison = null;
+	}
+	
+	// BnC inserts an item result without checking the output slot and voids whatever doesn't fit, so the batch waits until its result fits
 	@Inject(method = "canFerment", at = @At("RETURN"), cancellable = true)
 	private void toxicologistsdelight$waitForOutputSpace(KegFermentingRecipe recipe, KegBlockEntity keg, CallbackInfoReturnable<Boolean> cir)
 	{
@@ -90,6 +96,7 @@ public abstract class KegBlockEntityMixin
 	{
 		FluidStack tank = fluidTank.getFluid();
 		if (tank.isEmpty() || Poison.of(tank) == null) return original;
+		// Both BnC callers pass this keg's own recipeWrapper as the argument
 		KegRecipeWrapper wrapper = recipeWrapper;
 		Level level = ((BlockEntity) (Object) this).getLevel();
 		return original.or(recipe -> recipe.getFluidIngredient() != null

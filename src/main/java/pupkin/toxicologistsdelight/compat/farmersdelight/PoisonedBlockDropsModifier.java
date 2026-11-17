@@ -37,14 +37,15 @@ public class PoisonedBlockDropsModifier extends LootModifier
 	{
 		BlockState state = context.getParamOrNull(LootContextParams.BLOCK_STATE);
 		Vec3 origin = context.getParamOrNull(LootContextParams.ORIGIN);
-		if (state == null || origin == null || !PoisonUtils.isPoisonableBlock(state.getBlock())) return;
+		if (state == null || origin == null) return;
 		
 		BlockPos pos = BlockPos.containing(origin);
 		PoisonedBlocks poisonedBlocks = PoisonedBlocks.get(context.getLevel());
 		Poison poison = poisonedBlocks.poisonAt(pos, state.getBlock());
-		if (poison == null) return;
-		for (ItemStack drop : drops) {
-			PoisonUtils.propagate(poison, drop);
+		if (poison != null) {
+			for (ItemStack drop : drops) {
+				PoisonUtils.propagate(poison, drop);
+			}
 		}
 		poisonedBlocks.forgetLaterIfGone(pos);
 	}

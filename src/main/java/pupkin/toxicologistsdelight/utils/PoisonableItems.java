@@ -51,7 +51,7 @@ public final class PoisonableItems
 	/** Food itself, placed food and the poisonable tag */
 	public static boolean isBase(@NotNull ItemStack stack)
 	{
-		return PoisonUtils.isConsumable(stack) || PoisonUtils.isPoisonableBlockItem(stack) || stack.is(POISONABLE);
+		return PoisonUtils.isConsumable(stack) || PoisonUtils.isFoodBlockItem(stack) || stack.is(POISONABLE);
 	}
 	
 	/** Unpoisonable tag and vials. */

@@ -37,9 +37,7 @@ public final class PoisonedBlockEvents
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onBlockBroken(BlockEvent.BreakEvent event)
 	{
-		if (event.getLevel() instanceof ServerLevel level && PoisonUtils.isPoisonableBlock(event.getState().getBlock())) {
-			PoisonedBlocks.get(level).forgetLaterIfGone(event.getPos());
-		}
+		if (event.getLevel() instanceof ServerLevel level) PoisonedBlocks.get(level).forgetLaterIfGone(event.getPos());
 	}
 	
 	@SubscribeEvent

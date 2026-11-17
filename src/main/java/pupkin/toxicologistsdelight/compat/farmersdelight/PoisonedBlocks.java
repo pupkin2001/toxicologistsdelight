@@ -19,8 +19,8 @@ import pupkin.toxicologistsdelight.utils.PoisonUtils;
 import java.util.Objects;
 
 /**
- * Poison of placed Farmer's Delight feasts and pies, which have no block entity to hold it. One instance per {@link ServerLevel}. Each entry remembers the block it was placed as,
- * so a different block later put at the same position doesn't inherit it.
+ * Poison placed food blocks ({@link PoisonUtils#isPoisonableBlock}), which have no block entity to hold it. One instance per {@link ServerLevel}. Each entry remembers the block
+ * it was placed as, so a different block later put at the same position doesn't inherit it. The same food in another form keeps it ({@link PoisonUtils#isSameFood}).
  */
 public final class PoisonedBlocks extends SavedData
 {
@@ -46,20 +46,19 @@ public final class PoisonedBlocks extends SavedData
 			CompoundTag entry = list.getCompound(i);
 			Poison poison = Poison.of(entry);
 			ResourceLocation blockId = ResourceLocation.tryParse(entry.getString(BLOCK_KEY));
-			Block block = blockId == null ? null : ForgeRegistries.BLOCKS.getValue(blockId);
-			// Unknown id resolve to air (i.e. block from removed mods)
+			// Unknown ids (blocks from removed mods) are dropped. Not isPoisonableBlock as poisonable items may not be derived yet
+			Block block = blockId == null || !ForgeRegistries.BLOCKS.containsKey(blockId) ? null : ForgeRegistries.BLOCKS.getValue(blockId);
 			if (poison != null && block != null && PoisonUtils.isPoisonableBlock(block)) data.entries.put(entry.getLong(POS_KEY), new Placed(poison, block));
 		}
 		return data;
 	}
 	
-	/** The poison recorded at {@code pos} for {@code block} */
+	/** The poison recorded at {@code pos} for {@code block} or the same food in another form */
 	@Nullable
 	public Poison poisonAt(@NotNull BlockPos pos, @NotNull Block block)
 	{
 		Placed placed = entries.get(pos.asLong());
-		return placed != null && placed.block() == block ? placed.poison() : null;
-	}
+		return placed != null && PoisonUtils.isSameFood(placed.block(), block) ? placed.poison() : null;	}
 	
 	/** Records {@code poison} for {@code block} at {@code pos}; {@code null} clears the position. */
 	public void setPoison(@NotNull BlockPos pos, @NotNull Block block, @Nullable Poison poison)
@@ -69,11 +68,11 @@ public final class PoisonedBlocks extends SavedData
 		if (!Objects.equals(previous, placed)) setDirty();
 	}
 	
-	/** Forgets the entry at {@code pos} once its block is no longer there. */
+	/** Forgets the entry at {@code pos} once its food is no longer there. */
 	public void forgetIfGone(@NotNull ServerLevel level, @NotNull BlockPos pos)
 	{
 		Placed placed = entries.get(pos.asLong());
-		if (placed == null || !level.isLoaded(pos) || level.getBlockState(pos).is(placed.block())) return;
+		if (placed == null || !level.isLoaded(pos) || PoisonUtils.isSameFood(placed.block(), level.getBlockState(pos).getBlock())) return;
 		entries.remove(pos.asLong());
 		setDirty();
 	}

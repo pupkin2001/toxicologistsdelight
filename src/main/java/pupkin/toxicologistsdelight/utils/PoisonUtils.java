@@ -9,11 +9,15 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.*;
+import net.minecraftforge.common.IPlantable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pupkin.toxicologistsdelight.effect.ToxicologistsEffects;
 import pupkin.toxicologistsdelight.item.AbstractVialItem;
+import umpaz.brewinandchewin.common.block.CheeseWheelBlock;
+import umpaz.brewinandchewin.common.block.PizzaBlock;
+import umpaz.brewinandchewin.common.block.UnripeCheeseWheelBlock;
 import vectorwing.farmersdelight.common.block.FeastBlock;
 import vectorwing.farmersdelight.common.block.PieBlock;
 
@@ -35,15 +39,54 @@ public final class PoisonUtils
 		return anim == UseAnim.EAT || anim == UseAnim.DRINK;
 	}
 	
-	/** Placed food (Farmer's Delight feasts and pies) whose servings carry the poison of the item it was placed from. */
-	public static boolean isPoisonableBlock(@NotNull Block block)
+	/** Food eaten or served from the placed block itself. Feasts, pies, cakes, cheese wheels and pizza. */
+	public static boolean isFoodBlock(@NotNull Block block)
 	{
-		return block instanceof FeastBlock || block instanceof PieBlock;
+		return block instanceof FeastBlock || block instanceof PieBlock || block instanceof CakeBlock || block instanceof CandleCakeBlock
+		       || block instanceof CheeseWheelBlock || block instanceof UnripeCheeseWheelBlock || block instanceof PizzaBlock;
 	}
 	
-	public static boolean isPoisonableBlockItem(@NotNull ItemStack stack)
+	public static boolean isFoodBlockItem(@NotNull ItemStack stack)
 	{
-		return stack.getItem() instanceof BlockItem blockItem && isPoisonableBlock(blockItem.getBlock());
+		return stack.getItem() instanceof BlockItem blockItem && isFoodBlock(blockItem.getBlock());
+	}
+	
+	/**
+	 * Placed food that carry the poison of the item it was placed from: food blocks, blocks placed from any other poisonable item (melons, pumpkins, hay bales, crates) that
+	 * aren't plants.
+	 */
+	public static boolean isPoisonableBlock(@NotNull Block block)
+	{
+		if (isFoodBlock(block)) return true;
+		return !isPlant(block) && canBePoisoned(block.asItem().getDefaultInstance());
+	}
+	
+	// Any world interactions drop the poison. Planted seeds, cocoa, sugar cane, thrown eggs and so on
+	private static boolean isPlant(@NotNull Block block)
+	{
+		return block instanceof BonemealableBlock || block instanceof GrowingPlantBlock || block instanceof StemBlock
+				|| block instanceof CocoaBlock || block instanceof ChorusFlowerBlock
+				|| block instanceof ChorusPlantBlock || block instanceof IPlantable || block.defaultBlockState().isRandomlyTicking();
+	}
+	
+	/**
+	 * Whether two blocks are the same placed food (Cake and candle cake, unripe and ripe cheese wheels)
+	 */
+	public static boolean isSameFood(@NotNull Block a, @NotNull Block b)
+	{
+		if (a == b) return true;
+		if (isCake(a) && isCake(b)) return true;
+		return ripensInto(a, b) || ripensInto(b, a);
+	}
+	
+	private static boolean isCake(@NotNull Block block)
+	{
+		return block instanceof CakeBlock || block instanceof CandleCakeBlock;
+	}
+	
+	private static boolean ripensInto(@NotNull Block unripe, @NotNull Block ripe)
+	{
+		return unripe instanceof UnripeCheeseWheelBlock cheese && cheese.ripeCheeseBlock.get() == ripe;
 	}
 	
 	/**

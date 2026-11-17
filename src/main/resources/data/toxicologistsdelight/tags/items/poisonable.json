@@ -1,0 +1,66 @@
+{
+  "values": [
+    "minecraft:cake",
+    "minecraft:melon",
+    "minecraft:pumpkin",
+    "farmersdelight:horse_feed",
+    "brewinandchewin:fiery_fondue_pot",
+    "minecraft:torchflower_seeds",
+    {
+      "id": "#forge:crops",
+      "required": false
+    },
+    {
+      "id": "#forge:grain",
+      "required": false
+    },
+    {
+      "id": "#forge:vegetables",
+      "required": false
+    },
+    {
+      "id": "#forge:berries",
+      "required": false
+    },
+    {
+      "id": "#forge:bread",
+      "required": false
+    },
+    {
+      "id": "#forge:dough",
+      "required": false
+    },
+    {
+      "id": "#forge:pasta",
+      "required": false
+    },
+    {
+      "id": "#forge:salad_ingredients",
+      "required": false
+    },
+    {
+      "id": "#forge:raw_fishes",
+      "required": false
+    },
+    {
+      "id": "#forge:cooked_fishes",
+      "required": false
+    },
+    {
+      "id": "#forge:seeds",
+      "required": false
+    },
+    {
+      "id": "#forge:mushrooms",
+      "required": false
+    },
+    {
+      "id": "#forge:eggs",
+      "required": false
+    },
+    {
+      "id": "#forge:milk",
+      "required": false
+    }
+  ]
+}

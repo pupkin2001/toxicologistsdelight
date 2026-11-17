@@ -1,0 +1,34 @@
+{
+  "values": [
+    "minecraft:bowl",
+    "minecraft:glass_bottle",
+    "minecraft:bucket",
+    "minecraft:stick",
+    "brewinandchewin:tankard",
+    "toxicologistsdelight:empty_vial",
+    {
+      "id": "#forge:ingots",
+      "required": false
+    },
+    {
+      "id": "#forge:nuggets",
+      "required": false
+    },
+    {
+      "id": "#forge:gems",
+      "required": false
+    },
+    {
+      "id": "#forge:dusts",
+      "required": false
+    },
+    {
+      "id": "#forge:ores",
+      "required": false
+    },
+    {
+      "id": "#forge:raw_materials",
+      "required": false
+    }
+  ]
+}

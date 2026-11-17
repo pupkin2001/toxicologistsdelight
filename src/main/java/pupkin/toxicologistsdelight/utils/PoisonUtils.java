@@ -46,10 +46,14 @@ public final class PoisonUtils
 		return stack.getItem() instanceof BlockItem blockItem && isPoisonableBlock(blockItem.getBlock());
 	}
 	
-	/** Whether a vial may poison this stack, and whether processing may carry poison onto it. */
+	/**
+	 * Whether a vial may poison this stack, and whether processing may carry poison onto it.
+	 * Food, placed food and their ingredients ({@link PoisonableItems}).
+	 */
 	public static boolean canBePoisoned(@NotNull ItemStack stack)
 	{
-		return isConsumable(stack) || isPoisonableBlockItem(stack);
+		if (stack.isEmpty() || PoisonableItems.isExcluded(stack)) return false;
+		return PoisonableItems.contains(stack.getItem()) || PoisonableItems.isBase(stack);
 	}
 	
 	public static ItemStack poisonItem(@NotNull ItemStack stack, @NotNull MobEffect effect, int strength)

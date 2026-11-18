@@ -64,9 +64,9 @@ public final class PoisonUtils
 	// Any world interactions drop the poison. Planted seeds, cocoa, sugar cane, thrown eggs and so on
 	private static boolean isPlant(@NotNull Block block)
 	{
-		return block instanceof BonemealableBlock || block instanceof GrowingPlantBlock || block instanceof StemBlock
-				|| block instanceof CocoaBlock || block instanceof ChorusFlowerBlock
-				|| block instanceof ChorusPlantBlock || block instanceof IPlantable || block.defaultBlockState().isRandomlyTicking();
+		return block instanceof BushBlock || block instanceof BonemealableBlock || block instanceof GrowingPlantBlock || block instanceof StemBlock
+		       || block instanceof SugarCaneBlock || block instanceof CactusBlock || block instanceof CocoaBlock || block instanceof ChorusFlowerBlock
+		       || block instanceof ChorusPlantBlock || block instanceof IPlantable || block.defaultBlockState().isRandomlyTicking();
 	}
 	
 	/**
@@ -117,11 +117,16 @@ public final class PoisonUtils
 		return Poison.of(stack) != null;
 	}
 	
+	/** Applies poison from {@code source} to {@code target} */
 	public static void applyPoison(@NotNull LivingEntity target, @NotNull ItemStack source)
 	{
-		if (target.level().isClientSide()) return;
-		Poison poison = Poison.of(source);
-		if (poison == null) return;
+		applyPoison(target, Poison.of(source));
+	}
+	
+	/** Applies {@code poison} to {@code target} */
+	public static void applyPoison(@NotNull LivingEntity target, @Nullable Poison poison)
+	{
+		if (target.level().isClientSide() || poison == null) return;
 		MobEffect effect = poison.effect();
 		if (effect == null) return;
 		

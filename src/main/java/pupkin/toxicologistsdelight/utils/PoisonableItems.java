@@ -12,6 +12,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,11 +22,9 @@ import org.jetbrains.annotations.Nullable;
 import pupkin.toxicologistsdelight.ToxicologistsDelight;
 import pupkin.toxicologistsdelight.item.AbstractVialItem;
 import umpaz.brewinandchewin.common.crafting.KegFermentingRecipe;
+import umpaz.brewinandchewin.common.crafting.KegPouringRecipe;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -79,9 +78,15 @@ public final class PoisonableItems
 	
 	public static void recompute(@NotNull RecipeManager recipeManager, @NotNull RegistryAccess registryAccess)
 	{
+		Map<Fluid, List<Item>> pouredInto = new HashMap<>();
+		for (Recipe<?> recipe : recipeManager.getRecipes()) {
+			if (recipe instanceof KegPouringRecipe pouring) {
+				pouredInto.computeIfAbsent(pouring.getRawFluid(), fluid -> new ArrayList<>()).add(pouring.getOutput().getItem());
+			}
+		}
 		List<Shape> recipes = new ArrayList<>();
 		for (Recipe<?> recipe : recipeManager.getRecipes()) {
-			Shape shape = Shape.of(recipe, registryAccess);
+			Shape shape = Shape.of(recipe, registryAccess, pouredInto);
 			if (shape != null) recipes.add(shape);
 		}
 		
@@ -91,10 +96,10 @@ public final class PoisonableItems
 			if (!stack.isEmpty() && !isExcluded(stack) && isBase(stack)) result.add(item);
 		}
 		
-		// Ingredients of food, one level deep only, or wood and iron nuggets get in
+		// Ingredients of food, one level deep only
 		Set<Item> ingredients = new HashSet<>();
 		for (Shape recipe : recipes) {
-			if (!recipe.makesFood() && !result.contains(recipe.result())) continue;
+			if (!recipe.makesAnyOf(result)) continue;
 			for (Ingredient ingredient : recipe.ingredients()) {
 				addItems(ingredient, ingredients);
 			}
@@ -106,7 +111,7 @@ public final class PoisonableItems
 		while (changed) {
 			changed = false;
 			for (Shape recipe : recipes) {
-				if (recipe.ingredients().size() == 1 && result.contains(recipe.result())) changed |= addItems(recipe.ingredients().get(0), result);
+				if (recipe.ingredients().size() == 1 && recipe.makesAnyOf(result)) changed |= addItems(recipe.ingredients().get(0), result);
 			}
 		}
 		
@@ -118,6 +123,7 @@ public final class PoisonableItems
 		}
 	}
 	
+	// Excluded items are never added, so they can't carry the derivation further
 	private static boolean addItems(@NotNull Ingredient ingredient, @NotNull Set<Item> items)
 	{
 		boolean changed = false;
@@ -129,19 +135,30 @@ public final class PoisonableItems
 	}
 	
 	/** What the derivation needs from a recipe, read once. */
-	private record Shape(@NotNull Item result, boolean makesFood, @NotNull List<Ingredient> ingredients)
+	private record Shape(@NotNull List<Item> results, @NotNull List<Ingredient> ingredients)
 	{
 		@Nullable
-		static Shape of(@NotNull Recipe<?> recipe, @NotNull RegistryAccess registryAccess)
+		static Shape of(@NotNull Recipe<?> recipe, @NotNull RegistryAccess registryAccess, @NotNull Map<Fluid, List<Item>> pouredInto)
 		{
 			try {
 				List<Ingredient> ingredients = recipe.getIngredients().stream().filter(ingredient -> !ingredient.isEmpty()).toList();
-				return new Shape(recipe.getResultItem(registryAccess).getItem(), recipe instanceof KegFermentingRecipe, ingredients);
+				// A fermenting recipe makes either an item or a fluid
+				Fluid fluid = recipe instanceof KegFermentingRecipe fermenting && fermenting.getResultItem() == null ? fermenting.getResultFluid() : null;
+				List<Item> results = fluid != null ? pouredInto.getOrDefault(fluid, List.of()) : List.of(recipe.getResultItem(registryAccess).getItem());
+				return new Shape(results, ingredients);
 			} catch (RuntimeException e) {
 				// Some recipes can't tell their result or ingredients outside crafting
 				ToxicologistsDelight.LOGGER.debug("Skipping recipe {} for poisonable items", recipe.getId(), e);
 				return null;
 			}
+		}
+		
+		boolean makesAnyOf(@NotNull Set<Item> items)
+		{
+			for (Item result : results) {
+				if (items.contains(result)) return true;
+			}
+			return false;
 		}
 	}
 }

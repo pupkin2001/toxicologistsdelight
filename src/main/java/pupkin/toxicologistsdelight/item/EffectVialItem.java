@@ -2,6 +2,8 @@ package pupkin.toxicologistsdelight.item;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
+import pupkin.toxicologistsdelight.utils.Poison;
 import pupkin.toxicologistsdelight.utils.PoisonUtils;
 
 import java.util.function.Supplier;
@@ -43,5 +45,17 @@ public class EffectVialItem extends AbstractVialItem
 	protected ItemStack transform(ItemStack base)
 	{
 		return PoisonUtils.poisonItem(base, effect.get(), strength);
+	}
+	
+	@Override
+	protected boolean canTransformBlock(@Nullable Poison poison)
+	{
+		return poison == null && transformBlock() != null;
+	}
+	
+	@Override
+	protected @Nullable Poison transformBlock()
+	{
+		return Poison.of(effect.get(), strength);
 	}
 }

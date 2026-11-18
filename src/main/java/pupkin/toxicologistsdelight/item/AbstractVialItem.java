@@ -1,5 +1,6 @@
 package pupkin.toxicologistsdelight.item;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -8,14 +9,22 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import pupkin.toxicologistsdelight.compat.farmersdelight.PoisonedBlocks;
+import pupkin.toxicologistsdelight.utils.Poison;
+import pupkin.toxicologistsdelight.utils.PoisonUtils;
 
 public abstract class AbstractVialItem extends Item implements ColoredVial
 {
@@ -65,6 +74,12 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 	/** Transforms {@code base} (already sized to the batch) into the result stack. */
 	protected abstract ItemStack transform(ItemStack base);
 	
+	/** Whether a placed food block holding {@code poison} can be transformed by {@link #canTransform}. */
+	protected abstract boolean canTransformBlock(@Nullable Poison poison);
+	
+	@Nullable
+	protected abstract Poison transformBlock();
+	
 	/**
 	 * Sound played server-side when the vial is successfully used. Defaults to a vanilla glass-bottle sound.
 	 */
@@ -85,7 +100,7 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 		return 1.0F;
 	}
 	
-	/** Number of particles in the cloud spawned at the off-hand. */
+	/** Number of particles in the cloud spawned at the off-hand or the block. */
 	protected int useParticleCount()
 	{
 		return 12;
@@ -138,10 +153,47 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 		if (!level.isClientSide()) {
 			transformOffhand(player, target);
 			playUseSound(level, player);
-			spawnUseParticles((ServerLevel) level, player, vial); // read colour before the vial shrinks
+			spawnUseParticles((ServerLevel) level, offHandPos(player), vial); // read colour before the vial shrinks
 			result = consumeVial(player, vial);
 		}
 		return InteractionResultHolder.sidedSuccess(result, level.isClientSide());
+	}
+	
+	// Sneaking, the main-hand vial acts on a placed block instead of the off-hand
+	@Override
+	public @NotNull InteractionResult useOn(@NotNull UseOnContext context)
+	{
+		Player player = context.getPlayer();
+		Level level = context.getLevel();
+		BlockPos pos = context.getClickedPos();
+		Block block = level.getBlockState(pos).getBlock();
+		if (player == null || context.getHand() != InteractionHand.MAIN_HAND || !player.isSecondaryUseActive() || !PoisonUtils.isPoisonableBlock(block)) {
+			return InteractionResult.PASS;
+		}
+		
+		ItemStack vial = context.getItemInHand();
+		Item target = block.asItem();
+		if (player.getCooldowns().isOnCooldown(this) || player.getCooldowns().isOnCooldown(target)) {
+			return InteractionResult.PASS;
+		}
+		// Only the server knows whether the block is poisoned. The client predicts success, cooldowns arrive from the server
+		if (!(level instanceof ServerLevel serverLevel)) {
+			return InteractionResult.SUCCESS;
+		}
+		PoisonedBlocks poisonedBlocks = PoisonedBlocks.get(serverLevel);
+		if (!canTransformBlock(poisonedBlocks.poisonAt(pos, block))) {
+			return InteractionResult.PASS;
+		}
+		
+		if (target != Items.AIR) player.getCooldowns().addCooldown(target, TARGET_COOLDOWN_TICKS);
+		player.getCooldowns().addCooldown(this, VIAL_COOLDOWN_TICKS);
+		
+		poisonedBlocks.setPoison(pos, block, transformBlock());
+		playUseSound(level, player);
+		spawnUseParticles(serverLevel, context.getClickLocation(), vial); // read colour before the vial shrinks
+		ItemStack result = consumeVial(player, vial);
+		if (result != vial) player.setItemInHand(context.getHand(), result);
+		return InteractionResult.CONSUME;
 	}
 	
 	private void playUseSound(Level level, Player player)
@@ -155,13 +207,12 @@ public abstract class AbstractVialItem extends Item implements ColoredVial
 				useSoundPitch());
 	}
 	
-	private void spawnUseParticles(ServerLevel level, Player player, ItemStack vial)
+	private void spawnUseParticles(ServerLevel level, Vec3 pos, ItemStack vial)
 	{
 		int count = useParticleCount();
 		if (count <= 0) {
 			return;
 		}
-		Vec3 pos = offHandPos(player);
 		
 		if (recolorParticles()) {
 			int color = particleColor(vial);

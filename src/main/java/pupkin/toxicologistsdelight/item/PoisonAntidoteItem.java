@@ -14,6 +14,8 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import pupkin.toxicologistsdelight.utils.Poison;
 import pupkin.toxicologistsdelight.utils.PoisonUtils;
 
 public class PoisonAntidoteItem extends AbstractVialItem
@@ -48,6 +50,18 @@ public class PoisonAntidoteItem extends AbstractVialItem
 	protected ItemStack transform(ItemStack base)
 	{
 		return PoisonUtils.cleanseItem(base);
+	}
+	
+	@Override
+	protected boolean canTransformBlock(@Nullable Poison poison)
+	{
+		return poison != null;
+	}
+	
+	@Override
+	protected @Nullable Poison transformBlock()
+	{
+		return null;
 	}
 	
 	@Override

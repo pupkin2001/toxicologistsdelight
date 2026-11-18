@@ -30,6 +30,7 @@
     "compat.farmersdelight.CuttingBoardRecipeMixin",
     "compat.farmersdelight.DogFoodEventMixin",
     "compat.farmersdelight.FeastBlockMixin",
+    "compat.farmersdelight.HorseFeedEventMixin",
     "compat.farmersdelight.PastrySlicingModifierMixin",
     "compat.farmersdelight.PieBlockMixin",
     "compat.farmersdelight.SkilletItemMixin",

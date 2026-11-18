@@ -18,6 +18,6 @@ public abstract class AbstractHorseMixin
 	        at = @At("HEAD"))
 	private void toxicologistsdelight$poisonOnFeed(Player player, ItemStack stack, CallbackInfoReturnable<InteractionResult> cir)
 	{
-		if (PoisonUtils.isConsumable(stack)) PoisonUtils.applyPoison((AbstractHorse) (Object) this, stack);
+		PoisonUtils.applyPoison((AbstractHorse) (Object) this, stack);
 	}
 }

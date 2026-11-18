@@ -19,7 +19,6 @@ public abstract class WolfMixin
 	        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/Wolf;heal(F)V"))
 	private void toxicologistsdelight$poisonOnHeal(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir)
 	{
-		ItemStack stack = player.getItemInHand(hand);
-		if (PoisonUtils.isConsumable(stack)) PoisonUtils.applyPoison((Wolf) (Object) this, stack);
+		PoisonUtils.applyPoison((Wolf) (Object) this, player.getItemInHand(hand));
 	}
 }
